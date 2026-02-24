@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import Math from "@/components/Math";
+import { paramToTex } from "@/lib/paramToTex";
 
 interface Template {
     id: string;
@@ -98,7 +100,9 @@ export default function ModelPage() {
                                             </span>
                                         </div>
                                         <div style={{ fontSize: 11, color: "#71717a", marginBottom: 4 }}>{t.description}</div>
-                                        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#3b82f6" }}>{t.equation}</div>
+                                        <div style={{ padding: "4px 8px", borderRadius: 4, overflowX: "auto" }}>
+                                            <Math tex={t.equation} />
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -114,7 +118,9 @@ export default function ModelPage() {
                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
                                     <div>
                                         <div style={{ fontSize: 13, fontWeight: 500 }}>{selected.name}</div>
-                                        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#3b82f6", marginTop: 2 }}>{selected.equation}</div>
+                                        <div style={{ marginTop: 4, padding: "4px 8px", borderRadius: 4, overflowX: "auto" }}>
+                                            <Math tex={selected.equation} />
+                                        </div>
                                     </div>
                                     <div style={{ display: "flex", gap: 6 }}>
                                         {selected.states.map((s) => (
@@ -137,7 +143,7 @@ export default function ModelPage() {
                                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                                     {Object.entries(params).map(([key, val]) => (
                                         <div key={key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                            <label style={{ fontSize: 11, fontFamily: "var(--font-mono)", width: 80, flexShrink: 0 }}>{key}</label>
+                                            <label style={{ width: 80, flexShrink: 0 }}><Math tex={paramToTex(key)} /></label>
                                             <input
                                                 type="number"
                                                 step="any"
@@ -156,7 +162,7 @@ export default function ModelPage() {
                                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                                     {Object.entries(initVals).map(([key, val]) => (
                                         <div key={key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                            <label style={{ fontSize: 11, fontFamily: "var(--font-mono)", width: 80, flexShrink: 0 }}>{key}</label>
+                                            <label style={{ width: 80, flexShrink: 0 }}><Math tex={paramToTex(key)} /></label>
                                             <input
                                                 type="number"
                                                 step="any"

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import MathTex from "@/components/Math";
+import { paramToTex } from "@/lib/paramToTex";
 
 const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#f97316"];
 
@@ -118,7 +120,7 @@ export default function SimulationPage() {
                     <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                         {Object.entries(allParams).map(([key, defaultVal]) => (
                             <div key={key} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                                <label style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "#a1a1aa" }}>{key}</label>
+                                <label style={{ fontSize: 10, color: "#a1a1aa" }}><MathTex tex={paramToTex(key)} /></label>
                                 <input
                                     type="number"
                                     step="any"

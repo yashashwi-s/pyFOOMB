@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const NAV = [
+const WORKFLOW = [
     { href: "/", label: "Dashboard", icon: "◎" },
     { href: "/model", label: "Model", icon: "⬡" },
     { href: "/simulation", label: "Simulation", icon: "▸" },
@@ -13,8 +13,49 @@ const NAV = [
     { href: "/replicates", label: "Replicates", icon: "⧉" },
 ];
 
+const EXTRA = [
+    { href: "/examples", label: "Examples", icon: "◈" },
+];
+
 export default function Sidebar() {
     const pathname = usePathname();
+
+    function renderLink(item: { href: string; label: string; icon: string }, stepNum?: number) {
+        const active = pathname === item.href;
+        return (
+            <Link
+                key={item.href}
+                href={item.href}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "7px 16px",
+                    fontSize: 12,
+                    color: active ? "#fafafa" : "#a1a1aa",
+                    background: active ? "#27272a" : "transparent",
+                    textDecoration: "none",
+                    borderLeft: active ? "2px solid #3b82f6" : "2px solid transparent",
+                    transition: "all 0.1s",
+                }}
+            >
+                <span style={{ fontSize: 13, width: 18, textAlign: "center", opacity: active ? 1 : 0.5 }}>
+                    {item.icon}
+                </span>
+                <span>{item.label}</span>
+                {stepNum !== undefined && (
+                    <span style={{
+                        marginLeft: "auto",
+                        fontSize: 9,
+                        color: "#52525b",
+                        fontFamily: "var(--font-mono)",
+                    }}>
+                        {stepNum}
+                    </span>
+                )}
+            </Link>
+        );
+    }
 
     return (
         <nav
@@ -44,42 +85,17 @@ export default function Sidebar() {
                 <div style={{ padding: "0 16px 8px", fontSize: 9, color: "#52525b", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600 }}>
                     Workflow
                 </div>
-                {NAV.map((item, i) => {
-                    const active = pathname === item.href;
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 10,
-                                padding: "7px 16px",
-                                fontSize: 12,
-                                color: active ? "#fafafa" : "#a1a1aa",
-                                background: active ? "#27272a" : "transparent",
-                                textDecoration: "none",
-                                borderLeft: active ? "2px solid #3b82f6" : "2px solid transparent",
-                                transition: "all 0.1s",
-                            }}
-                        >
-                            <span style={{ fontSize: 13, width: 18, textAlign: "center", opacity: active ? 1 : 0.5 }}>
-                                {item.icon}
-                            </span>
-                            <span>{item.label}</span>
-                            {i > 0 && (
-                                <span style={{
-                                    marginLeft: "auto",
-                                    fontSize: 9,
-                                    color: "#52525b",
-                                    fontFamily: "var(--font-mono)",
-                                }}>
-                                    {i}
-                                </span>
-                            )}
-                        </Link>
-                    );
-                })}
+                {WORKFLOW.map((item, i) =>
+                    renderLink(item, i === 0 ? undefined : i)
+                )}
+
+                {/* Separator */}
+                <div style={{ margin: "10px 16px", borderTop: "1px solid #27272a" }} />
+
+                <div style={{ padding: "0 16px 8px", fontSize: 9, color: "#52525b", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600 }}>
+                    Resources
+                </div>
+                {EXTRA.map((item) => renderLink(item))}
             </div>
 
             {/* Footer */}

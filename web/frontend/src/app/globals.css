@@ -41,10 +41,23 @@ body {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #52525b; }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
 
 /* Input base */
 input[type="number"],
@@ -59,6 +72,15 @@ select {
   font-family: var(--font-mono);
   outline: none;
   transition: border-color 0.15s;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Kill spinner arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"]:focus,
@@ -87,20 +109,33 @@ button {
   background: #3b82f6;
   color: white;
 }
-.btn-primary:hover { background: #2563eb; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .btn-secondary {
   background: #27272a;
   color: #fafafa;
 }
-.btn-secondary:hover { background: #3f3f46; }
+
+.btn-secondary:hover {
+  background: #3f3f46;
+}
 
 .btn-danger {
   background: #dc2626;
   color: white;
 }
-.btn-danger:hover { background: #b91c1c; }
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
 
 /* Card */
 .card {
@@ -162,10 +197,22 @@ tr:hover td {
   border-radius: 50%;
   margin-right: 6px;
 }
-.dot-green { background: #22c55e; }
-.dot-yellow { background: #f59e0b; }
-.dot-red { background: #ef4444; }
-.dot-gray { background: #52525b; }
+
+.dot-green {
+  background: #22c55e;
+}
+
+.dot-yellow {
+  background: #f59e0b;
+}
+
+.dot-red {
+  background: #ef4444;
+}
+
+.dot-gray {
+  background: #52525b;
+}
 
 /* Loading spinner */
 .spinner {
@@ -179,7 +226,9 @@ tr:hover td {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Recharts overrides */
@@ -191,4 +240,18 @@ tr:hover td {
 .recharts-text {
   font-size: 10px;
   fill: #a1a1aa;
+}
+
+/* KaTeX overrides — match dark theme */
+.katex {
+  color: #e4e4e7 !important;
+  font-size: 0.95em !important;
+}
+
+.katex-display {
+  margin: 0 !important;
+}
+
+.katex-html {
+  color: #e4e4e7 !important;
 }

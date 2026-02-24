@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import MathTex from "@/components/Math";
+import { paramToTex } from "@/lib/paramToTex";
 
 interface ModelInfo { id: string; name: string; }
 
@@ -190,7 +192,7 @@ export default function ReplicatesPage() {
                                 <tbody>
                                     {Object.entries(parameters).map(([k, v]) => (
                                         <tr key={k}>
-                                            <td style={{ fontFamily: "var(--font-mono)" }}>{k}</td>
+                                            <td><MathTex tex={paramToTex(k)} /></td>
                                             <td style={{ fontFamily: "var(--font-mono)" }}>{typeof v === 'number' ? v.toFixed(6) : String(v)}</td>
                                         </tr>
                                     ))}
@@ -204,7 +206,7 @@ export default function ReplicatesPage() {
                             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                                 {Object.entries(intKwargs).map(([k, v]) => (
                                     <div key={k} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                        <label style={{ fontSize: 10, fontFamily: "var(--font-mono)", width: 50 }}>{k}</label>
+                                        <label style={{ fontSize: 10, width: 50 }}><MathTex tex={paramToTex(k)} /></label>
                                         <input type="text" value={v} onChange={(e) => setIntKwargs({ ...intKwargs, [k]: e.target.value })} style={{ width: 100 }} />
                                     </div>
                                 ))}

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ScatterChart, Scatter } from "recharts";
+import MathTex from "@/components/Math";
+import { paramToTex } from "@/lib/paramToTex";
 
 const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"];
 
@@ -135,7 +137,7 @@ export default function EstimationPage() {
                                                 onChange={() => toggleUnknown(key)}
                                                 style={{ accentColor: "#3b82f6" }}
                                             />
-                                            <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", width: 70, flexShrink: 0 }}>{key}</span>
+                                            <span style={{ width: 70, flexShrink: 0 }}><MathTex tex={paramToTex(key)} /></span>
                                             <span style={{ fontSize: 10, color: "#52525b", width: 50 }}>= {typeof val === 'number' ? val.toFixed(3) : String(val)}</span>
                                             {isSelected && (
                                                 <>
@@ -240,7 +242,7 @@ export default function EstimationPage() {
                                 <tbody>
                                     {Object.entries(result.estimates).map(([k, v]) => (
                                         <tr key={k}>
-                                            <td style={{ fontFamily: "var(--font-mono)" }}>{k}</td>
+                                            <td><MathTex tex={paramToTex(k)} /></td>
                                             <td style={{ fontFamily: "var(--font-mono)" }}>{v.toFixed(6)}</td>
                                         </tr>
                                     ))}
@@ -274,8 +276,8 @@ export default function EstimationPage() {
 
                                 return (
                                     <div key={k} style={{ marginBottom: 12 }}>
-                                        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", marginBottom: 4 }}>
-                                            {k}: <span style={{ color: "#71717a" }}>&mu;={mean.toFixed(4)}, &sigma;={std.toFixed(4)}</span>
+                                        <div style={{ fontSize: 11, marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
+                                            <MathTex tex={paramToTex(k)} /> <span style={{ color: "#71717a" }}>&mu;={mean.toFixed(4)}, &sigma;={std.toFixed(4)}</span>
                                         </div>
                                         <ResponsiveContainer width="100%" height={80}>
                                             <ScatterChart margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>

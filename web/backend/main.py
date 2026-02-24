@@ -3,6 +3,24 @@ pyFOOMB Web GUI — Backend API
 FastAPI server wrapping pyFOOMB as REST endpoints.
 """
 
+# Suppress assimulo warnings about optional solvers (dopri5, rodas, etc.)
+# pyFOOMB only uses CVode which is always available.
+import warnings
+import os
+os.environ["ASSIMULO_SUPPRESS_WARNINGS"] = "1"
+warnings.filterwarnings("ignore", message=".*cannot import name.*from 'assimulo.*")
+warnings.filterwarnings("ignore", message=".*Could not find.*")
+
+import sys
+import io
+_stderr = sys.stderr
+sys.stderr = io.StringIO()
+try:
+    import assimulo  # noqa: F401
+except Exception:
+    pass
+sys.stderr = _stderr
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
