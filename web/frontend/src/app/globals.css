@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-card: #18181b;
+  --color-card-hover: #27272a;
+  --color-border: #27272a;
+  --color-border-light: #3f3f46;
+  --color-muted: #a1a1aa;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 13px;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+/* Input base */
+input[type="number"],
+input[type="text"],
+select {
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 6px;
+  color: #fafafa;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: #3b82f6;
+}
+
+input[type="number"] {
+  width: 100px;
+}
+
+/* Button base */
+button {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+.btn-primary:hover { background: #2563eb; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-secondary {
+  background: #27272a;
+  color: #fafafa;
+}
+.btn-secondary:hover { background: #3f3f46; }
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+}
+.btn-danger:hover { background: #b91c1c; }
+
+/* Card */
+.card {
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.card:hover {
+  border-color: #3f3f46;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #27272a;
+  color: #a1a1aa;
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #18181b;
+  font-family: var(--font-mono);
+}
+
+tr:hover td {
+  background: #18181b;
+}
+
+/* Hint bar */
+.hint-bar {
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #a1a1aa;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+/* Status dot */
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.dot-green { background: #22c55e; }
+.dot-yellow { background: #f59e0b; }
+.dot-red { background: #ef4444; }
+.dot-gray { background: #52525b; }
+
+/* Loading spinner */
+.spinner {
+  border: 2px solid #27272a;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Recharts overrides */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #27272a;
+}
+
+.recharts-text {
+  font-size: 10px;
+  fill: #a1a1aa;
+}
