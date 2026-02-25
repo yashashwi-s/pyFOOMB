@@ -127,9 +127,19 @@ def get_parameter_mapping(model_id: str):
         mapping = session.caretaker.parameter_mapping
         # Convert to serializable format
         if hasattr(mapping, 'to_dict'):
-            return {"mapping": mapping.to_dict()}
+            result = {}
+            d = mapping.to_dict()
+            for k, v in d.items():
+                if isinstance(v, dict):
+                    result[k] = {str(kk): str(vv) for kk, vv in v.items()}
+                else:
+                    result[k] = str(v)
+            return {"mapping": result}
+        elif hasattr(mapping, 'to_json'):
+            import json
+            return {"mapping": json.loads(mapping.to_json())}
         elif isinstance(mapping, dict):
-            return {"mapping": mapping}
+            return {"mapping": {str(k): str(v) for k, v in mapping.items()}}
         else:
             return {"mapping": str(mapping)}
     except Exception:
@@ -148,3 +158,49 @@ def set_integrator(model_id: str, req: IntegratorRequest):
         return {"message": "Integrator settings updated"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error setting integrator: {str(e)}")
+
+
+@router.post("/models/{model_id}/reset")
+def reset_model(model_id: str):
+    """Reset the Caretaker to its initial state (preserves replicates)."""
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    try:
+        session.caretaker.reset()
+        return {"message": "Model reset to initial state"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error resetting model: {str(e)}")
+
+
+@router.get("/models/{model_id}/optimizer-kwargs")
+def get_optimizer_kwargs(model_id: str):
+    """Get current optimizer kwargs."""
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    kwargs = session.caretaker.optimizer_kwargs
+    if kwargs is None:
+        return {"optimizer_kwargs": {}}
+    return {"optimizer_kwargs": dict(kwargs) if kwargs else {}}
+
+
+class OptimizerKwargsRequest(BaseModel):
+    optimizer_kwargs: Dict[str, float]
+
+
+@router.put("/models/{model_id}/optimizer-kwargs")
+def set_optimizer_kwargs(model_id: str, req: OptimizerKwargsRequest):
+    """Set optimizer kwargs (e.g., scipy.optimize.minimize options)."""
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    try:
+        session.caretaker.optimizer_kwargs = req.optimizer_kwargs
+        return {"message": "Optimizer kwargs updated"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error setting optimizer kwargs: {str(e)}")
+

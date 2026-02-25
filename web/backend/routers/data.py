@@ -21,6 +21,8 @@ class MeasurementInput(BaseModel):
     values: List[float]
     errors: Optional[List[float]] = None
     replicate_id: Optional[str] = None
+    error_model_type: Optional[str] = None  # "constant", "relative", "combined"
+    error_model_parameters: Optional[Dict[str, float]] = None
 
 
 class MeasurementBatchInput(BaseModel):
@@ -46,6 +48,12 @@ def add_measurements(model_id: str, req: MeasurementBatchInput):
                 errors=numpy.array(m.errors) if m.errors else None,
                 replicate_id=m.replicate_id,
             )
+
+            # Apply error model if specified
+            if m.error_model_type and m.error_model_parameters:
+                error_model = _get_error_model(m.error_model_type)
+                measurement.update_error_model(error_model, m.error_model_parameters)
+
             session.measurements.append(measurement)
             added.append(m.name)
         except Exception as e:
@@ -55,6 +63,33 @@ def add_measurements(model_id: str, req: MeasurementBatchInput):
             )
 
     return {"message": f"Added {len(added)} measurements", "names": added}
+
+
+def _get_error_model(model_type: str):
+    """Return error model callable by type name.
+    pyFOOMB calls: error_model(values, error_model_parameters_dict)
+    """
+    def constant_error(values, params):
+        abs_error = params.get("abs_error", 0.1)
+        return numpy.full_like(values, abs_error, dtype=float)
+
+    def relative_error(values, params):
+        rel_error = params.get("rel_error", 0.05)
+        return numpy.abs(values) * rel_error
+
+    def combined_error(values, params):
+        abs_error = params.get("abs_error", 0.1)
+        rel_error = params.get("rel_error", 0.05)
+        return abs_error + numpy.abs(values) * rel_error
+
+    models = {
+        "constant": constant_error,
+        "relative": relative_error,
+        "combined": combined_error,
+    }
+    if model_type not in models:
+        raise ValueError(f"Unknown error model: {model_type}. Available: {list(models.keys())}")
+    return models[model_type]
 
 
 @router.post("/models/{model_id}/measurements/upload")
@@ -142,3 +177,28 @@ def clear_measurements(model_id: str):
         raise HTTPException(status_code=404, detail="Model not found")
     session.measurements = []
     return {"message": "All measurements cleared"}
+
+
+class ErrorModelUpdate(BaseModel):
+    error_model_type: str  # "constant", "relative", "combined"
+    error_model_parameters: Dict[str, float]
+
+
+@router.put("/models/{model_id}/measurements/{measurement_name}/error-model")
+def update_measurement_error_model(model_id: str, measurement_name: str, req: ErrorModelUpdate):
+    """Update the error model on an existing measurement."""
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    matches = [m for m in session.measurements if m.name == measurement_name]
+    if not matches:
+        raise HTTPException(status_code=404, detail=f"Measurement '{measurement_name}' not found")
+
+    try:
+        error_model = _get_error_model(req.error_model_type)
+        for m in matches:
+            m.update_error_model(error_model, req.error_model_parameters)
+        return {"message": f"Error model updated for '{measurement_name}'", "count": len(matches)}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error updating error model: {str(e)}")

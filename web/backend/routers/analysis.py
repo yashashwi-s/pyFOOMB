@@ -41,10 +41,15 @@ def get_sensitivities(model_id: str, req: SensitivityRequest):
     if not session:
         raise HTTPException(status_code=404, detail="Model not found")
 
-    t = numpy.linspace(0, req.t_end, req.n_points)
-
     try:
-        kwargs = {"t": t, "rel_h": req.rel_h}
+        kwargs = {"rel_h": req.rel_h}
+
+        # Use measurements if available, otherwise use tfinal
+        if session.measurements:
+            kwargs["measurements"] = session.measurements
+        else:
+            kwargs["tfinal"] = req.t_end
+
         if req.parameters:
             kwargs["parameters"] = req.parameters
         if req.responses:

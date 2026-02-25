@@ -19,6 +19,7 @@ class ModelSession:
         self.sensitivities: Optional[list] = None
         self.last_simulation: Optional[list] = None
         self.observation_functions_code: list = []
+        self.parallel_info: Any = None  # ParallelEstimationInfo for continued estimation
 
 
 class ModelStore:

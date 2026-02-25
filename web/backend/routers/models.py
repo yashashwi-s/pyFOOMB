@@ -170,9 +170,10 @@ def add_observation_function(model_id: str, req: AddObservationRequest):
         all_obs_params = []
         for oi in session.observation_functions_code:
             ot = OBSERVATION_TEMPLATES[oi["template_id"]]
-            all_obs_params.append(
-                (ot["class"], oi["observed_state"], oi["observation_parameters"])
-            )
+            # pyFOOMB expects: (ObsClass, {observed_state: state, ...params})
+            obs_dict = {"observed_state": oi["observed_state"]}
+            obs_dict.update(oi["observation_parameters"])
+            all_obs_params.append((ot["class"], obs_dict))
 
         meta = session.metadata
         tmpl = MODEL_TEMPLATES[meta["template_id"]]
