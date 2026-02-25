@@ -1,8 +1,17 @@
 """
 Measurement data management endpoints.
+
+Supports:
+- JSON measurement input
+- CSV/XLSX file upload (wide or long format, flexible column names)
+- Raw text paste parsing (tab/comma separated)
+- Google Sheets public URL import
+- Error model configuration
+- Synthetic data generation
 """
 
 import io
+import re
 import numpy
 import pandas
 from fastapi import APIRouter, HTTPException, UploadFile, File
@@ -15,13 +24,118 @@ from services.serializers import serialize_measurement
 router = APIRouter(tags=["data"])
 
 
+# ──────────────────────────────────────────────────────────
+# Column name parsing — extract state names from headers
+# ──────────────────────────────────────────────────────────
+
+# Known time column aliases (case-insensitive)
+_TIME_ALIASES = {"time", "time (h)", "time(h)", "t", "t (h)", "t(h)", "hours", "hour", "h"}
+
+# Known state name patterns: "Biomass (X) [g/L]" → "X", "Substrate (S)" → "S"
+_STATE_PATTERN = re.compile(r"\(([A-Za-z]\w*)\)")
+
+
+def _normalize_column(col: str) -> Optional[str]:
+    """Parse a column header and return the state name, or None if it's a time column."""
+    col_clean = col.strip()
+    col_lower = col_clean.lower()
+
+    # Check if it's a time column
+    if col_lower in _TIME_ALIASES:
+        return None
+
+    # Try to extract state from parentheses: "Biomass (X) [g/L]" → "X"
+    m = _STATE_PATTERN.search(col_clean)
+    if m:
+        return m.group(1)
+
+    # If no parentheses, use the column name directly (strip units)
+    # "X [g/L]" → "X", "Product [g/L]" → "Product"
+    name = re.split(r"\s*[\[\(]", col_clean)[0].strip()
+    return name if name else col_clean
+
+
+def _find_time_column(df: pandas.DataFrame) -> Optional[str]:
+    """Find the time column in a dataframe, case-insensitive."""
+    for col in df.columns:
+        if col.strip().lower() in _TIME_ALIASES:
+            return col
+    # Fall back: first column if it looks numeric and ascending
+    first = df.columns[0]
+    try:
+        vals = pandas.to_numeric(df[first], errors="coerce")
+        if vals.is_monotonic_increasing and not vals.isna().all():
+            return first
+    except Exception:
+        pass
+    return None
+
+
+def _parse_dataframe(df: pandas.DataFrame) -> List[dict]:
+    """Parse a wide-format DataFrame into measurement dicts.
+
+    Handles:
+    - Flexible column names: "Time (h)", "Biomass (X) [g/L]", etc.
+    - Annotations in values like "2.1 (Feed starts)" → strips text
+    - Columns in any order
+    """
+    time_col = _find_time_column(df)
+    if time_col is None:
+        raise ValueError(
+            'Could not find a time column. Expected "Time", "Time (h)", "t", "hours", etc.'
+        )
+
+    # Parse time values (strip annotations like "(Feed starts)")
+    time_vals = df[time_col].apply(lambda v: _extract_number(v)).values.astype(float)
+
+    results = []
+    for col in df.columns:
+        if col == time_col:
+            continue
+        state_name = _normalize_column(col)
+        if not state_name:
+            continue
+        values = df[col].apply(lambda v: _extract_number(v)).values.astype(float)
+        # Skip columns that are all NaN
+        if numpy.all(numpy.isnan(values)):
+            continue
+        # Drop NaN rows (mismatched lengths)
+        mask = ~numpy.isnan(values) & ~numpy.isnan(time_vals)
+        results.append({
+            "name": state_name,
+            "timepoints": time_vals[mask].tolist(),
+            "values": values[mask].tolist(),
+        })
+
+    return results
+
+
+def _extract_number(val) -> float:
+    """Extract numeric value from a cell that might have annotations.
+    E.g. "2.1 (Feed starts)" → 2.1, "0.5" → 0.5
+    """
+    if isinstance(val, (int, float)):
+        return float(val)
+    if isinstance(val, str):
+        val = val.strip()
+        # Try to extract leading number
+        m = re.match(r"^([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)", val)
+        if m:
+            return float(m.group(1))
+    return float("nan")
+
+
+# ──────────────────────────────────────────────────────────
+# JSON measurement input
+# ──────────────────────────────────────────────────────────
+
 class MeasurementInput(BaseModel):
     name: str
     timepoints: List[float]
     values: List[float]
     errors: Optional[List[float]] = None
     replicate_id: Optional[str] = None
-    error_model_type: Optional[str] = None  # "constant", "relative", "combined"
+    error_model_type: Optional[str] = None
     error_model_parameters: Optional[Dict[str, float]] = None
 
 
@@ -49,7 +163,6 @@ def add_measurements(model_id: str, req: MeasurementBatchInput):
                 replicate_id=m.replicate_id,
             )
 
-            # Apply error model if specified
             if m.error_model_type and m.error_model_parameters:
                 error_model = _get_error_model(m.error_model_type)
                 measurement.update_error_model(error_model, m.error_model_parameters)
@@ -65,10 +178,192 @@ def add_measurements(model_id: str, req: MeasurementBatchInput):
     return {"message": f"Added {len(added)} measurements", "names": added}
 
 
-def _get_error_model(model_type: str):
-    """Return error model callable by type name.
-    pyFOOMB calls: error_model(values, error_model_parameters_dict)
+# ──────────────────────────────────────────────────────────
+# File upload (CSV / XLSX)
+# ──────────────────────────────────────────────────────────
+
+@router.post("/models/{model_id}/measurements/upload")
+async def upload_measurements(model_id: str, file: UploadFile = File(...)):
+    """Upload measurement data from CSV or XLSX file.
+
+    Supports:
+    - Wide format: Time (h), Biomass (X) [g/L], Substrate (S) [g/L], ...
+    - Flexible column names with automatic state extraction
+    - Annotated values like "2.1 (Feed starts)"
     """
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    content = await file.read()
+    try:
+        if file.filename and (file.filename.endswith(".xlsx") or file.filename.endswith(".xls")):
+            df = pandas.read_excel(io.BytesIO(content))
+        elif file.filename and file.filename.endswith(".csv"):
+            df = pandas.read_csv(io.BytesIO(content))
+        else:
+            # Try CSV first, then Excel
+            try:
+                df = pandas.read_csv(io.BytesIO(content))
+            except Exception:
+                df = pandas.read_excel(io.BytesIO(content))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error reading file: {str(e)}")
+
+    try:
+        parsed = _parse_dataframe(df)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    from pyfoomb import Measurement
+
+    added = []
+    for p in parsed:
+        m = Measurement(
+            name=p["name"],
+            timepoints=numpy.array(p["timepoints"]),
+            values=numpy.array(p["values"]),
+        )
+        session.measurements.append(m)
+        added.append(p["name"])
+
+    return {
+        "message": f"Uploaded {len(added)} measurements",
+        "names": added,
+        "parsed": parsed,
+    }
+
+
+# ──────────────────────────────────────────────────────────
+# Paste raw text (tab/comma separated)
+# ──────────────────────────────────────────────────────────
+
+class PasteInput(BaseModel):
+    text: str
+
+
+@router.post("/models/{model_id}/measurements/paste")
+def paste_measurements(model_id: str, req: PasteInput):
+    """Parse pasted tabular text (CSV or TSV) and add as measurements.
+
+    Accepts wide format with flexible headers:
+        Time (h), Biomass (X) [g/L], Substrate (S) [g/L], Product (P) [g/L]
+        0, 0.5, 10.0, 0.0
+        4, 2.8, 1.2, 0.1
+    """
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    text = req.text.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Empty text")
+
+    # Detect delimiter
+    first_line = text.split("\n")[0]
+    if "\t" in first_line:
+        sep = "\t"
+    else:
+        sep = ","
+
+    try:
+        df = pandas.read_csv(io.StringIO(text), sep=sep, skipinitialspace=True)
+        parsed = _parse_dataframe(df)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error parsing pasted data: {str(e)}")
+
+    from pyfoomb import Measurement
+
+    added = []
+    for p in parsed:
+        m = Measurement(
+            name=p["name"],
+            timepoints=numpy.array(p["timepoints"]),
+            values=numpy.array(p["values"]),
+        )
+        session.measurements.append(m)
+        added.append(p["name"])
+
+    return {
+        "message": f"Parsed {len(added)} measurement series from pasted data",
+        "names": added,
+        "parsed": parsed,
+    }
+
+
+# ──────────────────────────────────────────────────────────
+# Google Sheets import
+# ──────────────────────────────────────────────────────────
+
+class SheetsImportInput(BaseModel):
+    url: str
+
+
+@router.post("/models/{model_id}/measurements/sheets")
+def import_google_sheets(model_id: str, req: SheetsImportInput):
+    """Import data from a public Google Sheets URL.
+
+    Accepts:
+    - https://docs.google.com/spreadsheets/d/{SHEET_ID}/...
+    - Converts to CSV export URL and fetches
+    """
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    url = req.url.strip()
+
+    # Extract sheet ID
+    m = re.search(r"/spreadsheets/d/([a-zA-Z0-9_-]+)", url)
+    if not m:
+        raise HTTPException(status_code=400, detail="Invalid Google Sheets URL. Expected: https://docs.google.com/spreadsheets/d/{ID}/...")
+
+    sheet_id = m.group(1)
+
+    # Extract gid (sheet tab) if present
+    gid_match = re.search(r"[?&]gid=(\d+)", url)
+    gid = gid_match.group(1) if gid_match else "0"
+
+    csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
+
+    import urllib.request
+    try:
+        with urllib.request.urlopen(csv_url, timeout=15) as response:
+            csv_text = response.read().decode("utf-8")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to fetch Google Sheet. Make sure the sheet is publicly accessible (Share → Anyone with the link). Error: {str(e)}")
+
+    try:
+        df = pandas.read_csv(io.StringIO(csv_text))
+        parsed = _parse_dataframe(df)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error parsing sheet data: {str(e)}")
+
+    from pyfoomb import Measurement
+
+    added = []
+    for p in parsed:
+        m_obj = Measurement(
+            name=p["name"],
+            timepoints=numpy.array(p["timepoints"]),
+            values=numpy.array(p["values"]),
+        )
+        session.measurements.append(m_obj)
+        added.append(p["name"])
+
+    return {
+        "message": f"Imported {len(added)} measurement series from Google Sheets",
+        "names": added,
+        "parsed": parsed,
+    }
+
+
+# ──────────────────────────────────────────────────────────
+# Error models
+# ──────────────────────────────────────────────────────────
+
+def _get_error_model(model_type: str):
+    """Return error model callable by type name."""
     def constant_error(values, params):
         abs_error = params.get("abs_error", 0.1)
         return numpy.full_like(values, abs_error, dtype=float)
@@ -92,70 +387,9 @@ def _get_error_model(model_type: str):
     return models[model_type]
 
 
-@router.post("/models/{model_id}/measurements/upload")
-async def upload_measurements(model_id: str, file: UploadFile = File(...)):
-    """Upload measurement data from CSV or XLSX file."""
-    session = store.get(model_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Model not found")
-
-    content = await file.read()
-    try:
-        if file.filename.endswith(".xlsx") or file.filename.endswith(".xls"):
-            df = pandas.read_excel(io.BytesIO(content))
-        elif file.filename.endswith(".csv"):
-            df = pandas.read_csv(io.BytesIO(content))
-        else:
-            raise HTTPException(
-                status_code=400, detail="Unsupported file format. Use CSV or XLSX."
-            )
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error reading file: {str(e)}")
-
-    # Expect columns: name, time, value, error (optional)
-    # Or: time column + one column per measurement
-    from pyfoomb import Measurement
-
-    added = []
-
-    if "time" in df.columns and "name" in df.columns:
-        # Long format: name, time, value, error
-        for name, group in df.groupby("name"):
-            timepoints = group["time"].values.astype(float)
-            values = group["value"].values.astype(float)
-            errors = (
-                group["error"].values.astype(float) if "error" in group.columns else None
-            )
-            m = Measurement(
-                name=str(name),
-                timepoints=timepoints,
-                values=values,
-                errors=errors,
-            )
-            session.measurements.append(m)
-            added.append(str(name))
-    elif "time" in df.columns:
-        # Wide format: time column + value columns
-        time_col = df["time"].values.astype(float)
-        for col in df.columns:
-            if col == "time":
-                continue
-            values = df[col].values.astype(float)
-            m = Measurement(
-                name=str(col),
-                timepoints=time_col,
-                values=values,
-            )
-            session.measurements.append(m)
-            added.append(str(col))
-    else:
-        raise HTTPException(
-            status_code=400,
-            detail='File must have a "time" column. Use long format (name, time, value, error) or wide format (time, col1, col2, ...).',
-        )
-
-    return {"message": f"Uploaded {len(added)} measurements", "names": added}
-
+# ──────────────────────────────────────────────────────────
+# CRUD
+# ──────────────────────────────────────────────────────────
 
 @router.get("/models/{model_id}/measurements")
 def get_measurements(model_id: str):
@@ -163,7 +397,6 @@ def get_measurements(model_id: str):
     session = store.get(model_id)
     if not session:
         raise HTTPException(status_code=404, detail="Model not found")
-
     return {
         "measurements": [serialize_measurement(m) for m in session.measurements]
     }
@@ -180,7 +413,7 @@ def clear_measurements(model_id: str):
 
 
 class ErrorModelUpdate(BaseModel):
-    error_model_type: str  # "constant", "relative", "combined"
+    error_model_type: str
     error_model_parameters: Dict[str, float]
 
 
@@ -204,13 +437,17 @@ def update_measurement_error_model(model_id: str, measurement_name: str, req: Er
         raise HTTPException(status_code=400, detail=f"Error updating error model: {str(e)}")
 
 
+# ──────────────────────────────────────────────────────────
+# Synthetic data generation
+# ──────────────────────────────────────────────────────────
+
 class GenerateDataRequest(BaseModel):
     t_end: float = 10.0
     n_points: int = 15
-    noise_percent: float = 5.0  # percentage Gaussian noise (std = noise_percent/100 * |value|)
-    abs_noise: float = 0.01  # minimum absolute noise floor
-    states: Optional[List[str]] = None  # which states to generate data for (None = all)
-    seed: Optional[int] = None  # reproducibility
+    noise_percent: float = 5.0
+    abs_noise: float = 0.01
+    states: Optional[List[str]] = None
+    seed: Optional[int] = None
 
 
 @router.post("/models/{model_id}/generate-data")
@@ -230,16 +467,12 @@ def generate_synthetic_data(model_id: str, req: GenerateDataRequest):
         added = []
 
         for sim in simulations:
-            # Filter states if specified
             if req.states and sim.name not in req.states:
                 continue
 
             clean = sim.values.copy()
-            # Noise: std = noise_percent/100 * |value| + abs_noise
             noise_std = (req.noise_percent / 100.0) * numpy.abs(clean) + req.abs_noise
             noisy = clean + rng.normal(0, noise_std)
-
-            # Compute errors as the noise std (for WSS/negLL metrics)
             errors = noise_std
 
             m = Measurement(
