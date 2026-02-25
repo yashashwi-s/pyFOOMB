@@ -202,3 +202,64 @@ def update_measurement_error_model(model_id: str, measurement_name: str, req: Er
         return {"message": f"Error model updated for '{measurement_name}'", "count": len(matches)}
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error updating error model: {str(e)}")
+
+
+class GenerateDataRequest(BaseModel):
+    t_end: float = 10.0
+    n_points: int = 15
+    noise_percent: float = 5.0  # percentage Gaussian noise (std = noise_percent/100 * |value|)
+    abs_noise: float = 0.01  # minimum absolute noise floor
+    states: Optional[List[str]] = None  # which states to generate data for (None = all)
+    seed: Optional[int] = None  # reproducibility
+
+
+@router.post("/models/{model_id}/generate-data")
+def generate_synthetic_data(model_id: str, req: GenerateDataRequest):
+    """Simulate the model and add Gaussian noise to generate fake measurement data."""
+    session = store.get(model_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    from pyfoomb import Measurement
+
+    try:
+        t = numpy.linspace(0, req.t_end, req.n_points)
+        simulations = session.caretaker.simulate(t=t, suppress_stdout=True)
+
+        rng = numpy.random.default_rng(req.seed)
+        added = []
+
+        for sim in simulations:
+            # Filter states if specified
+            if req.states and sim.name not in req.states:
+                continue
+
+            clean = sim.values.copy()
+            # Noise: std = noise_percent/100 * |value| + abs_noise
+            noise_std = (req.noise_percent / 100.0) * numpy.abs(clean) + req.abs_noise
+            noisy = clean + rng.normal(0, noise_std)
+
+            # Compute errors as the noise std (for WSS/negLL metrics)
+            errors = noise_std
+
+            m = Measurement(
+                name=sim.name,
+                timepoints=sim.timepoints.copy(),
+                values=noisy,
+                errors=errors,
+            )
+            session.measurements.append(m)
+            added.append({
+                "name": sim.name,
+                "timepoints": [float(x) for x in sim.timepoints],
+                "values": [float(x) for x in noisy],
+                "errors": [float(x) for x in errors],
+            })
+
+        return {
+            "message": f"Generated {len(added)} synthetic measurement series",
+            "names": [a["name"] for a in added],
+            "measurements": added,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error generating data: {str(e)}")

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { ComposedChart, Line, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import MathTex from "@/components/Math";
 import { paramToTex } from "@/lib/paramToTex";
 
@@ -11,6 +11,7 @@ const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"
 interface ModelInfo { id: string; name: string; }
 
 interface TimeSeriesData { name: string; timepoints: number[]; values: number[]; }
+interface MeasData { name: string; timepoints: number[]; values: number[]; errors?: number[] | null; }
 
 export default function SimulationPage() {
     const [models, setModels] = useState<ModelInfo[]>([]);
@@ -23,6 +24,7 @@ export default function SimulationPage() {
     const [results, setResults] = useState<TimeSeriesData[]>([]);
     const [running, setRunning] = useState(false);
     const [error, setError] = useState("");
+    const [measurements, setMeasurements] = useState<MeasData[]>([]);
 
     useEffect(() => {
         api.getModels().then((r) => setModels(r.models)).catch(console.error);
@@ -37,6 +39,11 @@ export default function SimulationPage() {
             setModelMeta(r.metadata);
             setParamOverrides({});
             if (r.metadata?.default_t_end) setTEnd(r.metadata.default_t_end as number);
+            // Fetch stored measurements
+            try {
+                const meas = await api.getMeasurements(id);
+                setMeasurements(meas.measurements || []);
+            } catch { setMeasurements([]); }
         } catch (e: unknown) {
             setError(e instanceof Error ? e.message : "Failed");
         }
@@ -60,7 +67,7 @@ export default function SimulationPage() {
         setRunning(false);
     }
 
-    // Transform data for Recharts
+    // Transform simulation data for Recharts
     const chartData = results.length > 0
         ? results[0].timepoints.map((t, i) => {
             const point: Record<string, number> = { time: t };
@@ -68,6 +75,17 @@ export default function SimulationPage() {
             return point;
         })
         : [];
+
+    // Merge measurement scatter points into chart data
+    const measPoints: Record<string, Array<Record<string, number>>> = {};
+    measurements.forEach((m) => {
+        if (!measPoints[m.name]) measPoints[m.name] = [];
+        m.timepoints.forEach((t, i) => {
+            measPoints[m.name].push({ time: t, [`${m.name}_meas`]: m.values[i] });
+        });
+    });
+    // All unique measurement state names
+    const measNames = [...new Set(measurements.map((m) => m.name))];
 
     const allParams = modelMeta ? { ...((modelMeta.model_parameters as Record<string, number>) || {}), ...((modelMeta.initial_values as Record<string, number>) || {}) } : {};
 
@@ -144,19 +162,41 @@ export default function SimulationPage() {
             )}
 
             {/* Chart */}
-            {chartData.length > 0 && (
+            {(chartData.length > 0 || measurements.length > 0) && (
                 <div className="card" style={{ marginBottom: 16 }}>
+                    {measurements.length > 0 && chartData.length === 0 && (
+                        <div style={{ fontSize: 11, color: "#71717a", marginBottom: 8 }}>
+                            {measurements.length} measurement series loaded — run simulation to overlay model fit
+                        </div>
+                    )}
                     <ResponsiveContainer width="100%" height={360}>
-                        <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
+                        <ComposedChart margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                            <XAxis dataKey="time" tick={{ fontSize: 10, fill: "#71717a" }} label={{ value: "Time [h]", position: "insideBottom", offset: -4, style: { fontSize: 10, fill: "#71717a" } }} />
+                            <XAxis dataKey="time" type="number" tick={{ fontSize: 10, fill: "#71717a" }} label={{ value: "Time [h]", position: "insideBottom", offset: -4, style: { fontSize: 10, fill: "#71717a" } }} domain={["auto", "auto"]} />
                             <YAxis tick={{ fontSize: 10, fill: "#71717a" }} />
                             <Tooltip contentStyle={{ background: "#18181b", border: "1px solid #27272a", borderRadius: 6, fontSize: 11 }} />
                             <Legend wrapperStyle={{ fontSize: 11 }} />
+                            {/* Simulation lines */}
                             {results.map((r, i) => (
-                                <Line key={r.name} type="monotone" dataKey={r.name} stroke={COLORS[i % COLORS.length]} dot={false} strokeWidth={1.5} />
+                                <Line key={r.name} type="monotone" data={chartData} dataKey={r.name} stroke={COLORS[i % COLORS.length]} dot={false} strokeWidth={1.5} name={r.name} />
                             ))}
-                        </LineChart>
+                            {/* Measurement scatter points */}
+                            {measNames.map((name, i) => {
+                                const colorIdx = results.findIndex((r) => r.name === name);
+                                const color = COLORS[(colorIdx >= 0 ? colorIdx : i) % COLORS.length];
+                                return (
+                                    <Scatter
+                                        key={`${name}_meas`}
+                                        data={measPoints[name]}
+                                        dataKey={`${name}_meas`}
+                                        fill={color}
+                                        name={`${name} (data)`}
+                                        shape="circle"
+                                        legendType="circle"
+                                    />
+                                );
+                            })}
+                        </ComposedChart>
                     </ResponsiveContainer>
                 </div>
             )}

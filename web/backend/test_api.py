@@ -458,6 +458,40 @@ class TestNewFeatures:
         r = client.post(f"/api/models/{mid}/reset")
         assert r.status_code == 200
 
+    def test_generate_data(self):
+        """Generate synthetic noisy data from simulation."""
+        mid = create_monod_model()
+        r = client.post(f"/api/models/{mid}/generate-data", json={
+            "t_end": 10,
+            "n_points": 15,
+            "noise_percent": 5.0,
+            "seed": 42,
+        })
+        assert r.status_code == 200, f"Generate data failed: {r.text}"
+        data = r.json()
+        assert len(data["names"]) == 3  # P, S, X
+        assert len(data["measurements"]) == 3
+        for m in data["measurements"]:
+            assert len(m["timepoints"]) == 15
+            assert len(m["values"]) == 15
+            assert len(m["errors"]) == 15
+
+        # Verify measurements are stored in session
+        r = client.get(f"/api/models/{mid}/measurements")
+        assert len(r.json()["measurements"]) == 3
+
+    def test_generate_data_specific_states(self):
+        """Generate data for specific states only."""
+        mid = create_monod_model()
+        r = client.post(f"/api/models/{mid}/generate-data", json={
+            "t_end": 10,
+            "n_points": 10,
+            "noise_percent": 3.0,
+            "states": ["X", "S"],
+        })
+        assert r.status_code == 200
+        assert set(r.json()["names"]) == {"X", "S"}
+
 
 # ──────────────────────────────────────────────────────────
 # 9. End-to-End Workflow
