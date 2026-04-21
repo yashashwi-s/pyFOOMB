@@ -385,4 +385,4 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-venv_temp/
+venv_tmp/
