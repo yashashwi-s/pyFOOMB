@@ -1,415 +1,325 @@
-# Detailed Study Notes — Fed-Batch Optimisation with pyFOOMB
+# Study Notes — Fed-Batch Optimisation with pyFOOMB
 
-> **Student:** Yashashwi Singhania (23014019)  
-> **Guide:** Dr. Sharon Mano Pappu J.  
+> **Student:** Yashashwi Singhania (23014019)
+> **Guide:** Dr. Sharon Mano Pappu J.
 > **Lab:** BPDD, Dept. of Biochemical Engineering, IIT (BHU) Varanasi
 
 ---
 
-## 1. What is pyFOOMB?
+## Slide 1: Title Page
 
-**pyFOOMB** = **Py**thon **F**ramework for **O**bject-**O**riented **M**odelling of **B**ioprocesses
-
-- **Paper:** Hemmerich, Tenhaef, Wiechert & Noack (2021). *Engineering in Life Sciences*, 21(3-4):242–257. DOI: [10.1002/elsc.202000088](https://doi.org/10.1002/elsc.202000088)
-- **License:** MIT (open-source)
-- **Language:** Python (3.7–3.9)
-
-### 1.1 Core Purpose
-
-pyFOOMB provides a structured way to:
-
-1. **Define** bioprocess models as ODE systems (user writes `rhs()` method)
-2. **Simulate** forward dynamics using CVode (SUNDIALS) via assimulo
-3. **Estimate** parameters from experimental data (local via scipy, global via pygmo)
-4. **Analyse** parameter identifiability (sensitivity, FIM, covariance, OED)
-
-### 1.2 Key Difference from Other Tools
-
-Unlike COPASI, Berkeley Madonna, or gPROMS, pyFOOMB **does not hardcode any kinetic models**. Users implement *any* kinetic relationship in Python code inside the `rhs()` method. The framework only handles:
-- ODE integration (with event handling for fed-batch)
-- Parameter estimation infrastructure
-- Statistical analysis
-
-This makes it extremely flexible — you can implement Monod, Luedeking-Piret, bell-shaped, or any custom kinetics.
-
-### 1.3 Architecture
-
-```
-User Layer:
-  BioprocessModel (abstract) → user subclass with rhs()
-  ObservationFunction → maps states to measurements
-  Measurement data → experimental values
-
-Core Layer:
-  Simulator → wraps CVode, runs forward simulation
-  ExtendedSimulator → adds loss calculation
-  Caretaker → main API (simulate + estimate)
-
-Solver Layer:
-  assimulo/CVode (SUNDIALS) → ODE integration
-  pygmo (pagmo2) → global optimization via island model
-  scipy.optimize → local optimization
-```
-
-### 1.4 Key Classes
-
-| Class | File | Purpose |
-|-------|------|---------|
-| `BioprocessModel` | `modelling.py` | Abstract base; user implements `rhs()`, `state_events()`, `change_states()` |
-| `ObservationFunction` | `modelling.py` | Maps model states to observable quantities |
-| `Simulator` | `simulation.py` | Forward simulation wrapper for CVode |
-| `ExtendedSimulator` | `simulation.py` | Adds loss function calculation |
-| `Caretaker` | `caretaker.py` | Main entry point — simulate, estimate, analyse |
-| `LossCalculator` | `generalized_islands.py` | pygmo problem wrapper for parallel estimation |
+- **Fed-Batch**: Fermentation where nutrients are added during the process (not all at start like batch). Lets you control growth rate.
+- **Bioprocess**: Any process using living organisms to make a product.
+- **pyFOOMB**: Python Framework for Object-Oriented Modelling of Bioprocesses.
+- **BPDD**: __________ (fill in full form).
 
 ---
 
-## 2. Fed-Batch Modelling in pyFOOMB
+## Slide 2: Project Overview
 
-### 2.1 What is Fed-Batch?
-
-In **batch** fermentation, all nutrients are added at the start. In **fed-batch**, additional substrate is fed during the process — either continuously or as pulses. This allows:
-- Avoiding substrate inhibition
-- Maintaining growth rate at a desired level
-- Maximising product formation
-
-### 2.2 ODE Mass Balances
-
-For a fed-batch with volume change:
-
-| Variable | ODE | Description |
-|----------|-----|-------------|
-| Biomass (X) | dX/dt = μ·X − (F/V)·X | Growth minus dilution |
-| Substrate (S) | dS/dt = (F/V)·(S_in − S) − q_s·X | Feed input minus consumption |
-| Product (P) | dP/dt = q_p·X − (F/V)·P | Formation minus dilution |
-| Volume (V) | dV/dt = F | Feed flow rate |
-
-Where:
-- **μ** = specific growth rate (h⁻¹)
-- **F** = feed flow rate (L/h)
-- **V** = culture volume (L)
-- **S_in** = feed substrate concentration (g/L)
-- **q_s** = specific substrate consumption rate (g/(g·h))
-- **q_p** = specific product formation rate (units/(g·h))
-
-### 2.3 Event Handling
-
-pyFOOMB handles feed events via assimulo's event system:
-
-1. **`state_events(t, y, sw)`** — defines zero-crossing conditions (e.g., `S - 0.1` triggers when substrate drops below 0.1 g/L)
-2. **`change_states(t, y, sw)`** — modifies state variables when event fires (e.g., add substrate bolus)
-3. **`handle_event(solver, event_info)`** — orchestrates the response (toggle switches, restart solver)
-
-### 2.4 Fed-Batch Implementation Example
-
-```python
-class FedBatchModel(BioprocessModel):
-    def __init__(self):
-        super().__init__(
-            model_parameters=['mu_max', 'K_S', 'Y_XS', 'alpha', 'beta', 'F', 'S_in'],
-            states=['P', 'S', 'V', 'X'],
-            initial_switches=[False],  # Feed starts when event triggers
-        )
-
-    def rhs(self, t, y, sw):
-        P, S, V, X = y
-        p = self.model_parameters
-        mu = p['mu_max'] * S / (p['K_S'] + S)
-        qp = p['alpha'] * mu + p['beta']  # Luedeking-Piret
-        qs = mu / p['Y_XS']
-        F = p['F'] if sw[0] else 0.0
-        
-        dP = qp * X - (F/V) * P
-        dS = (F/V) * (p['S_in'] - S) - qs * X
-        dV = F
-        dX = mu * X - (F/V) * X
-        return [dP, dS, dV, dX]  # alphabetical order!
-
-    def state_events(self, t, y, sw):
-        P, S, V, X = y
-        return [S - 0.1]  # feed starts when S < 0.1 g/L
-```
+- **Feeding strategy**: How you add substrate over time in fed-batch (constant, exponential, or pulse).
+- **Recombinant protein**: Protein made by inserting foreign DNA into a host organism.
+- **μ (mu)**: Specific growth rate (h⁻¹). How fast cells grow. μ = 0.1 means biomass increases 10% per hour.
+- **qp**: Specific product formation rate. How fast each gram of cells produces product.
+- **X, S, P**: Biomass, Substrate, Product concentrations.
+- **GUI**: Graphical User Interface — a visual browser app instead of writing code.
+- **Parameter estimation**: Finding best values of model constants so the model matches data.
+- **Feed optimisation**: Finding the best feeding schedule to maximise product.
+- **Scale-up analysis**: Checking if lab-scale results hold at industrial volumes.
 
 ---
 
-## 3. The μ–qp Relationship
+## Slide 3: What is pyFOOMB?
 
-### 3.1 Why It Matters
+**Full form**: **Py**thon **F**ramework for **O**bject-**O**riented **M**odelling of **B**ioprocesses
 
-The specific product formation rate (qp) depends on the specific growth rate (μ). This relationship **dictates the optimal feeding strategy**:
+**Paper**: Hemmerich et al. (2021), *Eng. Life Sci.* 21(3-4):242–257
 
-- If qp increases linearly with μ → **maximise growth rate** (exponential feed)
-- If qp peaks at intermediate μ → **maintain μ at the optimum** (constant or feedback-controlled feed)
-- If qp saturates → **any μ above the saturation point works** (flexible feeding)
-
-### 3.2 Three Model Types
-
-#### 3.2.1 Linear (Luedeking-Piret)
-
-$$q_p = \alpha \cdot \mu + \beta$$
-
-- **α** = growth-associated coefficient
-- **β** = non-growth-associated coefficient (usually ≈ 0 for growth-coupled)
-- **Implication:** Feed to maximise μ → exponential feeding
-- **Examples:** Resveratrol (Vos 2015), Heterologous protein (Liu 2013), Crl1 lipase SCC (Nieto-Taype 2020)
-
-#### 3.2.2 Bell-Shaped (Gaussian)
-
-$$q_p = q_p^{max} \cdot \exp\left(-\frac{(\mu - \mu_{opt})^2}{2\sigma^2}\right)$$
-
-- **qp_max** = maximum specific product formation rate
-- **μ_opt** = optimal growth rate for production
-- **σ** = width of the bell
-- **Implication:** Must maintain μ at μ_opt → **constant feed rate** that gives μ = μ_opt
-- **Examples:** EPG (Glauche 2017), Fab 3H6 (Maurer 2006 / Garcia-Ortega 2019), ROL (Garcia-Ortega 2016)
-
-#### 3.2.3 Hyperbolic (Monod-like Saturation)
-
-$$q_p = \frac{q_p^{max} \cdot \mu}{K_q + \mu}$$
-
-- **qp_max** = maximum (saturated) product formation rate
-- **Kq** = half-saturation constant for production
-- **Implication:** Just need μ >> Kq → **any reasonable feed rate** works
-- **Examples:** Crl1 MCC (Nieto-Taype 2020), α-Galactosidase (Giuseppin 1993), HSA (Rebnegger 2014)
+- **ODE**: Ordinary Differential Equation. Describes how something changes over time. Example: dX/dt = μ·X.
+- **rhs()**: "Right-Hand Side" method. Where you write your ODEs in Python.
+- **Event handling**: Detects when something happens (e.g. substrate drops to zero) and responds (e.g. start feeding).
+- **Bolus**: A sudden one-time addition of substrate.
+- **CVode**: A numerical ODE solver from the SUNDIALS library. Very fast and stable.
+- **SUNDIALS**: Suite of Nonlinear and Differential/Algebraic equation Solvers. C library from Lawrence Livermore.
+- **assimulo**: Python wrapper around SUNDIALS that pyFOOMB uses.
+- **scipy**: Python library for scientific computing (optimisers, integrators, statistics).
+- **scipy.optimize**: Part of scipy for finding best-fit parameters.
+- **pygmo**: Python wrapper for pagmo2. Global optimisation using island model with 17 algorithms.
+- **Sensitivity analysis**: How much each output changes when you tweak a parameter. Tells which parameters matter most.
+- **FIM**: Fisher Information Matrix. How much information your data contains about each parameter.
+- **OED**: Optimal Experimental Design. Uses FIM to figure out the best next experiment.
+- **Kinetic model**: Math description of reaction rates.
+- **Hardcoded**: Built into software permanently. pyFOOMB does NOT hardcode kinetics — you write your own.
 
 ---
 
-## 4. Literature Data — What We Studied
+## Slide 4: pyFOOMB Architecture
 
-### 4.1 Data Sources
+| Class | What it does |
+|-------|-------------|
+| **BioprocessModel** | Abstract base class. You subclass it, write `rhs()` with your ODEs, optionally `state_events()` and `change_states()` for fed-batch. |
+| **ObservationFunction** | Maps model states to measurements. E.g. X → optical density. |
+| **Measurements** | Your experimental data (time + values). |
+| **Simulator** | Runs model forward in time using CVode. Gives X(t), S(t), P(t). |
+| **ExtendedSimulator** | Simulator + calculates error between simulation and data ("loss"). |
+| **Caretaker** | Main class. Manages everything: model → simulate → data → estimate → analyse. |
 
-We extracted μ–qp data from **9 published chemostat studies** across two organisms:
-
-| # | Product | Organism | Model | Reference | DOI |
-|---|---------|----------|-------|-----------|-----|
-| 1 | Resveratrol | *S. cerevisiae* | Linear | Vos et al. (2015) | 10.1186/s12934-015-0321-6 |
-| 2 | Heterologous Protein (HIP) | *S. cerevisiae* | Linear | Liu et al. (2013) | 10.1007/s00253-013-5100-y |
-| 3 | Crl1 Lipase (SCC, PGAP) | *P. pastoris* | Linear | Nieto-Taype et al. (2020) | 10.1111/1751-7915.13498 |
-| 4 | EPG (Polygalacturonase) | *S. cerevisiae* | Bell | Glauche et al. (2017) | PMC6999230 |
-| 5 | Fab 3H6 (PGAP) | *P. pastoris* | Bell | Maurer (2006) / Garcia-Ortega (2019) | 10.1016/j.nbt.2019.06.002 |
-| 6 | ROL Lipase (PAOX1) | *P. pastoris* | Bell | Garcia-Ortega et al. (2016) | 10.1016/j.nbt.2016.04.002 |
-| 7 | Crl1 Lipase (MCC, PGAP) | *P. pastoris* | Hyperbolic | Nieto-Taype et al. (2020) | 10.1111/1751-7915.13498 |
-| 8 | α-Galactosidase | *S. cerevisiae* | Hyperbolic | Giuseppin (1993) / Hensing (1995) | 10.1007/BF00872189 |
-| 9 | HSA | *P. pastoris* | Hyperbolic | Rebnegger et al. (2014) | 10.1002/biot.201300334 |
-
-### 4.2 How We Fitted the Models
-
-**Tool:** `scipy.optimize.curve_fit` (non-linear least squares)
-
-**Process:**
-1. Extracted μ and qp data points from published figures/tables
-2. For each product, chose the appropriate model (linear / bell / hyperbolic)
-3. Set initial guesses:
-   - Linear: `p0 = [max(qp)/max(mu), 0.0]`
-   - Bell: `p0 = [max(qp), mu_at_max_qp, 0.04]`
-   - Hyperbolic: `p0 = [max(qp)*1.1, 0.03]`
-4. Fitted parameters using `curve_fit` with appropriate bounds
-5. Calculated R² = 1 − SS_res / SS_tot
-
-**Results:** All fits achieved R² > 0.84, with most > 0.95.
-
-### 4.3 Key Equations Used
-
-**R² (Coefficient of Determination):**
-$$R^2 = 1 - \frac{\sum_i (y_i - \hat{y}_i)^2}{\sum_i (y_i - \bar{y})^2}$$
-
-**Monod growth kinetics (for batch simulation):**
-$$\mu = \mu_{max} \cdot \frac{S}{K_S + S}$$
+Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers (CVode, pygmo, scipy).
 
 ---
 
-## 5. XPS Profile Simulation
+## Slide 5: Our Contribution
 
-### 5.1 What Are XPS Profiles?
+**What existed** (pyFOOMB library): ODE framework, CVode, estimation, FIM — all code-only via Jupyter.
 
-XPS = **X** (biomass), **P** (product), **S** (substrate) concentration profiles over time in a batch culture. They show:
-- Exponential biomass growth → stationary phase
-- Substrate depletion
-- Product accumulation
-
-### 5.2 How We Generated Them
-
-**Step-by-step:**
-
-1. **Fitted qp(μ) parameters** from literature data (Section 4.2)
-2. **Used organism-specific Monod parameters:**
-
-   | Parameter | *S. cerevisiae* | *P. pastoris* |
-   |-----------|----------------|---------------|
-   | μ_max (h⁻¹) | 0.40 | 0.20 |
-   | K_S (g/L) | 0.10 | 0.05 |
-   | Y_X/S (g/g) | 0.50 | 0.45 |
-
-3. **Set initial conditions:** X₀ = 0.1 g/L, S₀ = 20 g/L, P₀ = 0
-4. **Defined the ODE system:**
-   ```
-   dX/dt = μ · X
-   dS/dt = -(μ / Y_XS) · X
-   dP/dt = qp(μ) · X
-   ```
-   where μ = μ_max · S/(K_S + S) and qp(μ) uses the fitted model
-5. **Integrated** using `scipy.integrate.solve_ivp` with RK45 method
-6. **Time horizon:** estimated from substrate exhaustion time + 8h stationary tail
-
-### 5.3 What the Plots Show
-
-- **3×3 grid**: 3 model types × 3 products each = 9 panels
-- Each panel has:
-  - Green line: Biomass X (g/L) — exponential growth then plateau
-  - Red dashed: Substrate S (g/L) — depletion curve
-  - Coloured line: Product P (product-specific units/L) — accumulation
-- Different organisms show different growth dynamics (S. cerevisiae faster than P. pastoris)
+**What we built**:
+- **Next.js**: React-based framework for web apps. React = JavaScript library for building UIs.
+- **FastAPI**: Modern Python web framework for REST APIs. Auto-generates documentation.
+- **REST API**: Frontend talks to backend via HTTP requests (GET, POST, DELETE) with JSON data.
+- **Endpoints**: Individual URLs the API responds to (e.g. `POST /api/models`). We have 30+.
+- **Model templates**: 8 pre-built kinetic models so users don't write code.
+- **Recharts**: React charting library for interactive plots.
+- **KaTeX**: Library for rendering math equations in the browser.
+- **CSV**: Comma-Separated Values — simple text format for data.
+- **39 automated API tests**: Using pytest to verify every endpoint.
 
 ---
 
-## 6. The Web GUI We Built
+## Slide 6: System Architecture
 
-### 6.1 Why?
+### Layer by layer
 
-pyFOOMB is a Python library used through Jupyter notebooks and scripts. This means:
-- Requires programming knowledge
-- No visual interface for model selection
-- Manual plotting and data handling
+**Browser** (Next.js, React, Recharts, KaTeX): 6 pages in the frontend.
 
-We built a **full-stack web application** to make pyFOOMB accessible through a browser.
+**FastAPI** (30+ endpoints): Python backend server.
 
-### 6.2 Tech Stack
+**Routers** (actual API routes):
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Frontend | Next.js 16, React 19 | UI framework |
-| Styling | Tailwind CSS v4 | Responsive design |
-| Charts | Recharts | Interactive plots |
-| Math | KaTeX | Equation rendering |
-| Backend | FastAPI (Python) | REST API |
-| Server | uvicorn | ASGI server |
+| Router | Handles |
+|--------|---------|
+| `/api/models` | Create, list, delete models. Select templates. |
+| `/api/simulation` | Run forward simulation. |
+| `/api/data` | Import measurements (paste, upload CSV, Google Sheets). |
+| `/api/estimation` | Run parameter estimation (5 methods). |
+| `/api/analysis` | Sensitivity, FIM, covariance, confidence intervals. |
 
-### 6.3 Features (6 Pages)
+**Services**:
 
-1. **Model Page** — Select from 8 pre-built templates (Monod, Exponential, Logistic, Contois, Double Monod, Substrate Inhibition, Exponential Decay, Fed-Batch Monod). Set parameters with sliders.
+| Service | What it does |
+|---------|-------------|
+| **ModelStore** | Stores active model sessions in memory. |
+| **ModelTemplates** | 8 pre-built kinetic models with defaults. |
+| **CodeExecutor** | Dynamically creates Python classes using `exec()`. For advanced custom models. |
+| **Serializers** | Converts numpy arrays etc. to JSON for the frontend. |
 
-2. **Simulation Page** — Run forward simulation, see interactive X/S/P plots. Overlay experimental data if loaded.
+**pyFOOMB** (Caretaker, Simulator, BioprocessModel, ObservationFunction): The existing library.
 
-3. **Data Page** — Import measurements via:
-   - Paste CSV/tab text (smart column parsing)
-   - Upload .csv/.xlsx files
-   - Public Google Sheets URL
-
-4. **Estimation Page** — 5 methods:
-   - Local (scipy L-BFGS-B, Nelder-Mead)
-   - Parallel global (pygmo, 17 algorithms via island model)
-   - Repeated local from random starting points
-   - Monte Carlo sampling
-   - Parallelised Monte Carlo
-
-5. **Analysis Page** — Parameter identifiability:
-   - Sensitivity analysis (which parameters affect which states)
-   - Fisher Information Matrix
-   - Covariance and correlation matrices
-   - Confidence intervals
-   - Optimal Experimental Design (A/D/E criteria)
-
-6. **Replicates Page** — Multi-reactor parameter mapping: share kinetic parameters across experiments with different initial conditions
-
-### 6.4 API Coverage
-
-We implemented **100% of the core pyFOOMB API** as REST endpoints:
-- 30+ API endpoints
-- 39 automated tests (pytest)
-- Full CRUD for models, measurements, estimation, analysis
+**Solvers**:
+- **CVode (SUNDIALS)**: Integrates ODEs.
+- **pygmo (17 algorithms)**: Global optimisation. Algorithms: DE, PSO, SADE, Bee Colony, CMA-ES, etc.
+- **scipy.optimize**: Local optimisation. L-BFGS-B, Nelder-Mead.
 
 ---
 
-## 7. Parameter Estimation in pyFOOMB
+## Slide 7: GUI Workflow
 
-### 7.1 Local Estimation (scipy)
+### 6 pages
+1. **Model**: Pick template, set parameters.
+2. **Simulate**: Run forward ODE, see plots.
+3. **Data**: Import measurements.
+4. **Estimate**: Fit parameters (5 methods).
+5. **Analyse**: Sensitivity, FIM, confidence intervals.
+6. **Replicates**: Share parameters across multiple experiments.
 
-Uses `scipy.optimize.minimize` with methods like L-BFGS-B or Nelder-Mead. Fast but may get stuck in local minima.
+### 8 Model Templates
 
-### 7.2 Global Estimation (pygmo)
+| Template | μ equation | When to use |
+|----------|-----------|-------------|
+| **Monod** | μ_max·S/(K_S+S) | Standard, one substrate limits growth |
+| **Logistic** | μ_max·(1-X/X_max) | Carrying capacity limits growth |
+| **Exponential** | μ_max (constant) | Unlimited growth (early batch) |
+| **Andrews** | μ_max·S/(K_S+S+S²/K_I) | High substrate inhibits growth |
+| **Contois** | μ_max·S/(K_S·X+S) | K_S depends on biomass |
+| **Double Monod** | μ_max·S₁/(K₁+S₁)·S₂/(K₂+S₂) | Two substrates needed |
+| **Exp. Decay** | dX/dt = -k·X | Cell death |
+| **Fed-Batch Monod** | Monod + feed events | Fed-batch with volume change |
 
-Uses the **Generalized Island Model**:
-- Multiple "islands" each run a different optimizer
-- Islands exchange best solutions via migration
-- 17 available algorithms (DE, PSO, Bee Colony, SADE, etc.)
-- Runs in parallel — robust against local minima
+### 5 Estimation Methods
 
-**Stopping criteria:**
-- std(losses) < atol + rtol × mean (convergence)
-- Max runtime exceeded
-- Memory > 95%
+| Method | How it works |
+|--------|-------------|
+| **Local (scipy)** | Starts from one point, moves downhill. L-BFGS-B (gradient-based, respects bounds) or Nelder-Mead (simplex, no gradients). Fast but local minima risk. |
+| **Global (pygmo)** | Multiple "islands" each run different algorithm. Exchange best solutions ("migration"). Robust, slower. |
+| **Repeated local** | Local optimisation many times from random starts. Keeps best. |
+| **Monte Carlo** | Randomly sample parameter space, evaluate each. |
+| **Parallel MC** | Monte Carlo on multiple CPU cores. |
 
-### 7.3 Loss Metrics
-
-| Metric | Formula | When to Use |
-|--------|---------|-------------|
-| SS | Σ(y_measured − y_predicted)² | No error bars |
-| WSS | Σ[(y_measured − y_predicted)/σ]² | With error bars |
-| negLL | -Σ log P(y_measured | y_predicted, σ) | Maximum likelihood |
-
----
-
-## 8. Organisms Studied
-
-### 8.1 *Saccharomyces cerevisiae*
-
-- Baker's yeast, model eukaryote
-- μ_max ≈ 0.40 h⁻¹ on glucose (aerobic)
-- Well-characterised; Crabtree effect at high glucose
-- Products studied: Resveratrol, HIP, EPG, α-Galactosidase
-
-### 8.2 *Pichia pastoris* (*Komagataella phaffii*)
-
-- Methylotrophic yeast, major recombinant protein host
-- μ_max ≈ 0.20 h⁻¹ on glucose (aerobic)
-- Two promoter systems: PGAP (constitutive) and PAOX1 (methanol-induced)
-- Products studied: Crl1 SCC/MCC, Fab 3H6, ROL, HSA
+- **L-BFGS-B**: Limited-memory Broyden-Fletcher-Goldfarb-Shanno with Bounds. Gradient-based optimiser.
+- **Nelder-Mead**: Simplex method. No gradients. Geometric shape shrinks toward minimum.
+- **Island model**: Multiple populations evolving in parallel, exchanging best solutions.
 
 ---
 
-## 9. Future Work — What's Next
+## Slide 9: μ–qp Relationship Models
 
-### Phase 1: Fed-Batch Implementation
-- Implement fed-batch ODE models in pyFOOMB with event handling
-- Test constant, exponential, and pulse feed profiles
-- Add volume tracking (dilution effects)
+### Why it matters
+μ–qp tells you: at a given growth rate, how fast does the cell make product? This dictates the optimal feeding strategy because feed rate controls μ.
 
-### Phase 2: Parameter Estimation from Real Data
-- Obtain experimental fed-batch data (from lab or literature)
-- Estimate kinetic parameters using the GUI (parallel pygmo)
-- Compare local vs global estimation performance
+### Three types
 
-### Phase 3: Feed Optimisation
-- For each μ–qp model type, determine the optimal feed strategy:
-  - **Linear qp(μ):** exponential feed to maximise μ
-  - **Bell-shaped qp(μ):** constant feed to maintain μ at μ_opt
-  - **Hyperbolic qp(μ):** any feed that keeps μ above K_q
-- Implement feed profile optimisation as an outer loop around pyFOOMB simulation
+**1. Linear (Luedeking-Piret)**: qp = α·μ + β
+- α = growth-associated coefficient, β = non-growth-associated
+- If β ≈ 0: purely growth-coupled → maximise μ → exponential feeding
+- Luedeking-Piret: scientists who proposed it (1959)
 
-### Phase 4: Validation
-- Compare optimised feed profiles with literature results
-- Validate with experimental fed-batch data
-- Scale-up considerations
+**2. Bell-Shaped (Gaussian)**: qp = qp_max · exp(-(μ-μ_opt)²/(2σ²))
+- qp_max = peak height, μ_opt = peak position, σ = peak width
+- Must maintain μ at μ_opt → constant feed rate or feedback control
+
+**3. Hyperbolic (Monod-like)**: qp = qp_max · μ/(K_q + μ)
+- qp_max = plateau value, K_q = half-saturation constant
+- Saturates: above certain μ, more growth doesn't help
+- Just need μ >> K_q → flexible feeding
+
+**scipy.optimize.curve_fit**: Non-linear least squares fitting.
 
 ---
 
-## 10. Key Concepts to Know for Viva
+## Slide 10: Literature Survey
 
-1. **What is pyFOOMB and how is it different from other tools?** → It doesn't hardcode models. Users write rhs() in Python.
+- **Chemostat / CSTR**: Continuous Stirred-Tank Reactor. Fresh medium flows in, culture flows out at same rate. At steady state D = μ.
+- **Dilution rate (D)**: D = F/V. In chemostat at steady state, D = μ.
+- **Steady state**: All concentrations constant. dX/dt = dS/dt = dP/dt = 0.
+- **n**: Number of data points from each paper.
 
-2. **What are the three μ–qp models?** → Linear (Luedeking-Piret), Bell-shaped (Gaussian), Hyperbolic (Monod-like). Each implies a different optimal feed.
+### The 9 products
 
-3. **How did you fit the models?** → scipy.optimize.curve_fit (non-linear least squares) on literature chemostat data. Initial guesses from data, bounds on parameters.
+| Product | What it is |
+|---------|-----------|
+| **Resveratrol** | Plant polyphenol (antioxidant, in red wine) |
+| **VHH Antibody** | Small antibody fragments from camelids (nanobodies) |
+| **Crl1 Lipase SCC** | Fat-breaking enzyme, single gene copy |
+| **EPG** | Endopolygalacturonase, breaks down pectin |
+| **Fab Fragment** | Antigen-binding part of antibody |
+| **ROL Lipase** | *Rhizopus oryzae* lipase |
+| **Crl1 Lipase MCC** | Same enzyme, multiple gene copies |
+| **α-Galactosidase** | Breaks down galactose sugars |
+| **GFP** | Green Fluorescent Protein (reporter) |
 
-4. **How did you simulate XPS profiles?** → Monod batch ODE with organism-specific parameters + fitted qp(μ) → scipy.integrate.solve_ivp.
+### Organisms
+- ***S. cerevisiae***: Baker's yeast, μ_max ≈ 0.40 h⁻¹, GRAS, Crabtree effect
+- ***P. pastoris***: μ_max ≈ 0.20 h⁻¹, two promoters: PGAP (constitutive) and PAOX1 (methanol-induced)
+- **PGAP**: Always active. **PAOX1**: Only active with methanol.
+- **SCC vs MCC**: Single vs Multi Copy Clone. More copies = more protein but different kinetics.
 
-5. **What does the GUI do?** → Wraps pyFOOMB API in a web interface: Model → Simulate → Data → Estimate → Analyse → Replicates.
+---
 
-6. **Why fed-batch?** → Control growth rate to exploit μ–qp relationship. Can't do this in batch (μ determined by substrate). Fed-batch feed rate controls μ.
+## Slide 11: Extracted Data
 
-7. **What is the island model?** → pygmo's parallel optimization. Multiple islands (each with different algorithm) evolve populations and exchange best solutions via migration.
+- **R²**: Coefficient of determination. 1 = perfect fit, 0 = useless model.
+- **D = μ at steady state**: Why chemostat gives clean μ–qp data.
 
-8. **What is OED?** → Optimal Experimental Design. Uses FIM to determine which experiments give the most information about parameters (A/D/E criteria).
+### Units
+| Unit | Meaning |
+|------|---------|
+| h⁻¹ | Per hour (for μ) |
+| mmol/(g·h) | Millimoles per gram biomass per hour |
+| mg/(g·h) | Milligrams per gram biomass per hour |
+| AU/(g·h) | Arbitrary Units per gram biomass per hour |
+| U/(g·h) | Enzyme Units per gram biomass per hour |
+| RFU/(g·h) | Relative Fluorescence Units per gram biomass per hour |
+
+### Fitted parameters
+- Linear: α, β
+- Bell: qp_max, μ_opt, σ
+- Hyperbolic: qp_max, K_q
+
+---
+
+## Slide 13: Batch XPS Simulation
+
+### ODE System
+- dX/dt = μ·X (growth)
+- dS/dt = -(μ/Y_X/S)·X (substrate consumption)
+- dP/dt = qp(μ)·X (product formation)
+- μ = μ_max·S/(K_S+S) (Monod kinetics)
+
+### Parameters
+| Symbol | Name | S.c. | P.p. |
+|--------|------|------|------|
+| μ_max | Max growth rate | 0.40 h⁻¹ | 0.20 h⁻¹ |
+| K_S | Half-saturation constant | 0.10 g/L | 0.05 g/L |
+| Y_X/S | Yield (biomass/substrate) | 0.50 g/g | 0.45 g/g |
+
+- **K_S**: Substrate at which μ = μ_max/2. Lower = better at scavenging.
+- **Y_X/S**: Efficiency of substrate→biomass conversion.
+- **solve_ivp (RK45)**: Numerically integrates ODEs. RK45 = Runge-Kutta 4th/5th order, adaptive step size.
+
+### Why CSTR data works for batch
+μ–qp is a cell property, not reactor property. Measured in CSTR (clean data), applies to any reactor mode.
+
+---
+
+## Slide 15: Project Roadmap
+
+**Done**: Study pyFOOMB → Build Web GUI → Literature Survey → μ–qp Fitting → Batch Simulation
+
+**Next**: Fed-Batch Models → Param. Estimation & Optimisation → Experimental Validation → Deploy GUI → Scale-Up Analysis
+
+---
+
+## Viva Q&A
+
+1. **What is pyFOOMB?** Python framework for bioprocess modelling. Doesn't hardcode kinetics. Users write rhs().
+2. **Three μ–qp models?** Linear → max μ. Bell → maintain μ_opt. Hyperbolic → flexible.
+3. **How did you fit?** scipy.optimize.curve_fit on chemostat data. All R² > 0.84.
+4. **How did you simulate XPS?** Fitted qp(μ) + Monod parameters → batch ODEs → solve_ivp (RK45).
+5. **What does GUI do?** Wraps 100% of pyFOOMB API. 6 pages. Next.js + FastAPI.
+6. **Why fed-batch?** Control μ via feed rate → control qp → maximise product.
+7. **Why CSTR data for batch?** μ–qp is a cell property. Works in any reactor.
+8. **Island model?** pygmo's parallel optimisation. Multiple algorithms, migration of best solutions.
+9. **FIM?** Fisher Information Matrix. High = well-identifiable parameter.
+10. **OED?** Optimal Experimental Design. A/D/E criteria using FIM.
+
+---
+
+## Abbreviation Glossary
+
+| Abbr | Full form |
+|------|-----------|
+| ODE | Ordinary Differential Equation |
+| CSTR | Continuous Stirred-Tank Reactor |
+| CVode | C-language Variable-coefficient ODE solver |
+| SUNDIALS | Suite of Nonlinear and Differential/Algebraic equation Solvers |
+| FIM | Fisher Information Matrix |
+| OED | Optimal Experimental Design |
+| GUI | Graphical User Interface |
+| REST | Representational State Transfer |
+| API | Application Programming Interface |
+| JSON | JavaScript Object Notation |
+| CSV | Comma-Separated Values |
+| RK45 | Runge-Kutta 4th/5th order |
+| L-BFGS-B | Limited-memory BFGS with Bounds |
+| DE | Differential Evolution |
+| PSO | Particle Swarm Optimisation |
+| SADE | Self-Adaptive DE |
+| CMA-ES | Covariance Matrix Adaptation Evolution Strategy |
+| PGAP | GAP promoter (constitutive) |
+| PAOX1 | Alcohol Oxidase 1 promoter (methanol-induced) |
+| SCC | Single Copy Clone |
+| MCC | Multi Copy Clone |
+| GFP | Green Fluorescent Protein |
+| EPG | Endopolygalacturonase |
+| ROL | Rhizopus oryzae Lipase |
+| VHH | Variable Heavy-Heavy chain antibody domain |
+| HSA | Human Serum Albumin |
+| GRAS | Generally Recognised As Safe |
+| SS | Sum of Squares |
+| WSS | Weighted Sum of Squares |
+| negLL | Negative Log-Likelihood |
+| R² | Coefficient of Determination |
+| XPS | X (biomass), P (product), S (substrate) profiles |
+| BPDD | __________ (fill in) |
 
 ---
 

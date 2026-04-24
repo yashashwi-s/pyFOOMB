@@ -94,9 +94,10 @@
       \textbf{Next Steps:}
       \begin{itemize}
         \item[\textcolor{pendinggray}{$\circ$}] Implement fed-batch models in pyFOOMB
-        \item[\textcolor{pendinggray}{$\circ$}] Parameter estimation from real data
-        \item[\textcolor{pendinggray}{$\circ$}] Feed profile optimisation
+        \item[\textcolor{pendinggray}{$\circ$}] Parameter estimation \& feed optimisation
         \item[\textcolor{pendinggray}{$\circ$}] Validate with experimental data
+        \item[\textcolor{pendinggray}{$\circ$}] Deploy GUI
+        \item[\textcolor{pendinggray}{$\circ$}] Scale-up analysis
       \end{itemize}
     \end{column}
   \end{columns}
@@ -118,7 +119,7 @@
         \item User-defined kinetics in \texttt{rhs()} method
         \item Event handling for fed-batch (feed start/stop, bolus)
         \item Forward simulation via CVode (SUNDIALS)
-        \item Parameter estimation --- local (scipy) \& global (pygmo)
+        \item Parameter estimation: local (scipy) \& global (pygmo)
         \item Sensitivity analysis, FIM, OED
       \end{itemize}
     \end{column}
@@ -179,97 +180,135 @@
 
 
 
-% ── Slide 5: Web GUI We Built ──────────────────────────────
-\begin{frame}{Web GUI --- What We Built}
+% ── Slide 5: Our Contribution ─────────────────────────────
+\begin{frame}{Our Contribution: pyFOOMB Web Platform}
   \begin{columns}[T]
-    \begin{column}{0.45\textwidth}
-      \textbf{Problem:} pyFOOMB is code-only (Jupyter notebooks).
-      No accessible interface for non-programmers.
+    \begin{column}{0.48\textwidth}
+      \textbf{What already existed} {\small(pyFOOMB library):}
+      \begin{itemize}
+        \item[\textcolor{accentblue}{$\bullet$}] ODE modelling framework
+        \item[\textcolor{accentblue}{$\bullet$}] CVode integration (SUNDIALS)
+        \item[\textcolor{accentblue}{$\bullet$}] Parameter estimation engine
+        \item[\textcolor{accentblue}{$\bullet$}] Sensitivity \& FIM analysis
+        \item[\textcolor{accentblue}{$\bullet$}] \textit{Code-only} (Jupyter notebooks)
+      \end{itemize}
 
-      \vspace{0.3cm}
-      \textbf{Our Solution:} Full-stack web GUI wrapping the
-      entire pyFOOMB API.
-
-      \vspace{0.3cm}
-      \begin{tabular}{ll}
-        \toprule
-        \textbf{Layer} & \textbf{Tech} \\
-        \midrule
-        Frontend & Next.js, React, Recharts \\
-        Backend  & FastAPI, Python \\
-        Solver   & assimulo, pygmo, scipy \\
-        \bottomrule
-      \end{tabular}
+      \vspace{0.2cm}
+      \textbf{Problem:} No visual interface. Requires
+      Python programming to use any feature.
     \end{column}
-    \begin{column}{0.52\textwidth}
-      \textbf{Features implemented:}
-      \begin{enumerate}
-        \item 8 pre-built model templates
-        \item Interactive simulation with live plots
-        \item Data import (paste / upload / Google Sheets)
-        \item 5 parameter estimation methods
-        \item Sensitivity, FIM, covariance analysis
-        \item Multi-replicate parameter mapping
-        \item 39 automated API tests
-      \end{enumerate}
+    \begin{column}{0.48\textwidth}
+      \textbf{What we built} {\small(new this semester):}
+      \begin{itemize}
+        \item[\textcolor{donegreen}{\checkmark}] Next.js web frontend (6 pages)
+        \item[\textcolor{donegreen}{\checkmark}] FastAPI REST backend (30+ endpoints)
+        \item[\textcolor{donegreen}{\checkmark}] 8 pre-built model templates
+        \item[\textcolor{donegreen}{\checkmark}] Interactive plots \& math rendering
+        \item[\textcolor{donegreen}{\checkmark}] Data import (CSV, paste, Google Sheets)
+        \item[\textcolor{donegreen}{\checkmark}] 39 automated API tests
+      \end{itemize}
+
+      \vspace{0.2cm}
+      \textbf{Result:} Complete browser-based GUI
+      wrapping 100\% of the pyFOOMB API.
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── Slide 6: Web Architecture Diagram ──────────────────────
-\begin{frame}{Web Architecture}
+% ── Slide 6: System Architecture ──────────────────────────
+\begin{frame}{System Architecture}
   \begin{center}
-  \begin{tikzpicture}[node distance=0.5cm and 0.8cm, scale=0.78, every node/.style={scale=0.78}]
-    % Frontend box
-    \node[block, minimum width=3cm, minimum height=0.8cm, fill=donegreen!10, draw=donegreen]
-      (fe) {\textbf{Next.js Frontend}};
-    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below left=0.6cm and -0.8cm of fe, font=\footnotesize]
-      (rc) {Recharts (plots)};
-    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below right=0.6cm and -0.8cm of fe, font=\footnotesize]
-      (kt) {KaTeX (math)};
+  \begin{tikzpicture}[scale=0.68, every node/.style={scale=0.68, align=center},
+    fe/.style={rectangle, rounded corners=3pt, minimum height=0.65cm,
+      draw=donegreen!80, fill=donegreen!8, font=\footnotesize},
+    be/.style={rectangle, rounded corners=3pt, minimum height=0.65cm,
+      draw=donegreen!80!black, fill=donegreen!15, font=\footnotesize},
+    svc/.style={rectangle, rounded corners=3pt, minimum height=0.65cm,
+      draw=donegreen!60!black, fill=donegreen!6, font=\scriptsize},
+    pf/.style={rectangle, rounded corners=3pt, minimum height=0.65cm,
+      draw=accentblue, fill=accentblue!8, font=\footnotesize},
+    sol/.style={rectangle, rounded corners=3pt, minimum height=0.55cm,
+      draw=accentblue!60, fill=accentblue!5, font=\scriptsize},
+    lbl/.style={font=\scriptsize\itshape, color=darkcharcoal!50},
+    arr/.style={-{Stealth[length=1.8mm]}, color=darkcharcoal!40, semithick}
+  ]
+    % ── Browser
+    \node[fe, minimum width=13cm, minimum height=0.7cm] (browser) at (0,0)
+      {\textbf{Browser} $\vert$ React / Next.js $\vert$ Recharts $\vert$ KaTeX};
 
-    % Backend box
-    \node[block, minimum width=3cm, minimum height=0.8cm, fill=donegreen!10, draw=donegreen, right=3.5cm of fe]
-      (be) {\textbf{FastAPI Backend}};
-    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below left=0.6cm and -0.8cm of be, font=\footnotesize]
-      (tmpl) {Model Templates};
-    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below right=0.6cm and -0.8cm of be, font=\footnotesize]
-      (exec) {Code Executor};
+    % ── Frontend pages (evenly spaced)
+    \node[fe, minimum width=1.8cm] (p1) at (-5.2,-1.2) {Model};
+    \node[fe, minimum width=1.8cm] (p2) at (-3.1,-1.2) {Simulate};
+    \node[fe, minimum width=1.8cm] (p3) at (-1,-1.2) {Data};
+    \node[fe, minimum width=1.8cm] (p4) at (1.1,-1.2) {Estimate};
+    \node[fe, minimum width=1.8cm] (p5) at (3.2,-1.2) {Analyse};
+    \node[fe, minimum width=1.8cm] (p6) at (5.3,-1.2) {Replicates};
 
-    % pyFOOMB box
-    \node[block, minimum width=3cm, minimum height=0.8cm, fill=accentblue!10, draw=accentblue, below=2.5cm of be]
-      (pf) {\textbf{pyFOOMB Library}};
-    \node[block, minimum width=2cm, fill=accentblue!10, draw=accentblue, below left=0.6cm and -0.6cm of pf, font=\footnotesize]
-      (ct) {Caretaker};
-    \node[block, minimum width=2cm, fill=accentblue!10, draw=accentblue, below right=0.6cm and -0.6cm of pf, font=\footnotesize]
-      (sm) {Simulator};
+    % ── FastAPI
+    \node[be, minimum width=13cm, minimum height=0.7cm] (api) at (0,-2.8)
+      {\textbf{FastAPI} $\vert$ REST API $\vert$ 30+ endpoints};
 
-    % Arrows
-    \draw[arrow, thick, accentblue] (fe) -- node[above, font=\footnotesize] {REST API} (be);
-    \draw[arrow, thick, accentblue] (be) -- node[right, font=\footnotesize] {Python calls} (pf);
+    % ── Routers (evenly spaced)
+    \node[be, minimum width=2cm] (r1) at (-5,-4) {/api/models};
+    \node[be, minimum width=2cm] (r2) at (-2.5,-4) {/api/simulation};
+    \node[be, minimum width=2cm] (r3) at (0,-4) {/api/data};
+    \node[be, minimum width=2cm] (r4) at (2.5,-4) {/api/estimation};
+    \node[be, minimum width=2cm] (r5) at (5,-4) {/api/analysis};
+
+    % ── Services (4 services, evenly spaced)
+    \node[svc, minimum width=2.5cm] (s1) at (-4.5,-5.4) {ModelStore\\{\tiny session management}};
+    \node[svc, minimum width=2.5cm] (s2) at (-1.5,-5.4) {ModelTemplates\\{\tiny 8 kinetic models}};
+    \node[svc, minimum width=2.5cm] (s3) at (1.5,-5.4) {CodeExecutor\\{\tiny dynamic class gen}};
+    \node[svc, minimum width=2.5cm] (s4) at (4.5,-5.4) {Serializers\\{\tiny data conversion}};
+
+    % ── pyFOOMB core
+    \node[pf, minimum width=13cm, minimum height=0.7cm] (pfcore) at (0,-6.9)
+      {\textbf{pyFOOMB} $\vert$ Caretaker $\vert$ Simulator $\vert$ BioprocessModel $\vert$ ObservationFunction};
+
+    % ── Solvers
+    \node[sol, minimum width=3cm] (cv) at (-3.5,-8) {CVode (SUNDIALS)};
+    \node[sol, minimum width=3cm] (pg) at (0,-8) {pygmo (17 algorithms)};
+    \node[sol, minimum width=3cm] (sp) at (3.5,-8) {scipy.optimize};
+
+    % ── Arrows (clean vertical flow)
+    \draw[arr] (browser) -- (api);
+    \draw[arr] (api) -- (r1);
+    \draw[arr] (api) -- (r2);
+    \draw[arr] (api) -- (r3);
+    \draw[arr] (api) -- (r4);
+    \draw[arr] (api) -- (r5);
+    \draw[arr] (r1) -- (s1);
+    \draw[arr] (r1.south) -- ++(0,-0.25) -| (s2.north);
+    \draw[arr] (r2) -- (s1);
+    \draw[arr] (r4.south) -- ++(0,-0.2) -| (s3.north);
+    \draw[arr] (r3.south) -- ++(0,-0.3) -| (s4.north);
+    \draw[arr] (s1) -- (pfcore);
+    \draw[arr] (s2) -- (pfcore);
+    \draw[arr] (s3) -- (pfcore);
+    \draw[arr] (s4) -- (pfcore);
+    \draw[arr] (pfcore) -- (cv);
+    \draw[arr] (pfcore) -- (pg);
+    \draw[arr] (pfcore) -- (sp);
   \end{tikzpicture}
   \end{center}
 \end{frame}
 
-% ── Slide 7: GUI Pages ────────────────────────────────────
-\begin{frame}{GUI --- Six-Page Workflow}
-  {\small The GUI guides the user through the complete bioprocess modelling pipeline:}
+% ── Slide 7: GUI Workflow ─────────────────────────────────
+\begin{frame}{GUI: Modelling Workflow}
+  {\small The GUI provides a step-by-step pipeline from model definition to analysis:}
 
-  \vspace{0.2cm}
+  \vspace{0.3cm}
   \begin{center}
-  \begin{tikzpicture}[node distance=0.15cm and 0.2cm, scale=0.75, every node/.style={scale=0.75, align=center}]
-    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue]
-      (m) {\textbf{1. Model}\\{\tiny Pick a template}\\{\tiny Set parameters}};
-    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of m]
-      (s) {\textbf{2. Simulate}\\{\tiny Run forward ODE}\\{\tiny View plots}};
-    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of s]
-      (d) {\textbf{3. Data}\\{\tiny Import experimental}\\{\tiny measurements}};
-    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of d]
-      (e) {\textbf{4. Estimate}\\{\tiny Fit model params}\\{\tiny to data}};
-    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of e]
-      (a) {\textbf{5. Analyse}\\{\tiny Sensitivity, FIM}\\{\tiny Intervals}};
-    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of a]
-      (r) {\textbf{6. Replicates}\\{\tiny Share params across}\\{\tiny experiments}};
+  \begin{tikzpicture}[node distance=0.5cm, scale=0.78, every node/.style={scale=0.78, align=center},
+    wfstep/.style={rectangle, rounded corners=4pt, minimum width=2cm, minimum height=1cm,
+      draw=accentblue, fill=accentblue!8, font=\small}
+  ]
+    \node[wfstep] (m) {\textbf{Model}\\{\tiny Select \& configure}};
+    \node[wfstep, right=of m] (s) {\textbf{Simulate}\\{\tiny Forward ODE}};
+    \node[wfstep, right=of s] (d) {\textbf{Data}\\{\tiny Import / upload}};
+    \node[wfstep, right=of d] (e) {\textbf{Estimate}\\{\tiny Fit parameters}};
+    \node[wfstep, right=of e] (a) {\textbf{Analyse}\\{\tiny FIM, sensitivity}};
+    \node[wfstep, right=of a] (r) {\textbf{Replicates}\\{\tiny Multi-experiment}};
 
     \draw[arrow] (m) -- (s);
     \draw[arrow] (s) -- (d);
@@ -279,38 +318,42 @@
   \end{tikzpicture}
   \end{center}
 
-  \vspace{0.15cm}
+  \vspace{0.2cm}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \textbf{5 Estimation Methods:}
+      \textbf{Model Templates (8):}
+      {\small
       \begin{itemize}
-        \item Local optimisation (scipy)
-        \item Parallel global search (pygmo)
-        \item Repeated local
-        \item Monte Carlo parameter sampling
-        \item Parallelised Monte Carlo
+        \item Monod, Logistic, Exponential Growth
+        \item Substrate Inhibition (Andrews)
+        \item Contois, Double Monod
+        \item Exponential Decay
+        \item Fed-Batch Monod (with events)
       \end{itemize}
+      }
     \end{column}
     \begin{column}{0.48\textwidth}
-      \textbf{Analysis Outputs:}
+      \textbf{Estimation Methods (5):}
+      {\small
       \begin{itemize}
-        \item Sensitivity of each state
-        \item Fisher Information Matrix
-        \item Covariance \& correlation
-        \item Parameter confidence intervals
-        \item Optimal Experimental Design
+        \item Local (scipy L-BFGS-B, Nelder-Mead)
+        \item Global parallel (pygmo, 17 algorithms)
+        \item Repeated local from random starts
+        \item Monte Carlo sampling
+        \item Parallelised Monte Carlo
       \end{itemize}
+      }
     \end{column}
   \end{columns}
 \end{frame}
 
 % ── Slide 8: GUI Screenshot ───────────────────────────────
-\begin{frame}{GUI --- Screenshot}
+\begin{frame}{GUI: Interface}
   \begin{center}
     % Replace with your screenshot:
     % \includegraphics[width=0.85\textwidth]{gui_screenshot.png}
     {\large\textcolor{pendinggray}{[Place your GUI screenshot here]}}\\[0.3cm]
-    {\small\textcolor{pendinggray}{Save as \texttt{gui\_screenshot.png} in the same directory and uncomment the includegraphics line above.}}
+    {\small\textcolor{pendinggray}{Save as \texttt{gui\_screenshot.png} and uncomment the line above.}}
   \end{center}
 \end{frame}
 
@@ -356,43 +399,79 @@
   and fitted each to one of these three models using \texttt{scipy.optimize.curve\_fit}.}
 \end{frame}
 
-% ── Slide 10: μ–qp Plot ──────────────────────────────────
-\begin{frame}{$\mu$--$q_p$ Fitting Results}
-  \begin{center}
-    \includegraphics[width=0.82\textwidth]{mu_qp_relationships.png}
-  \end{center}
+% ── Slide 10: Literature Survey ───────────────────────────
+\begin{frame}{Literature Survey: 9 Products, 2 Organisms}
   \vspace{-0.1cm}
-  {\small Scatter: digitised literature data. Lines: fitted models. All fits $R^2 > 0.84$.}
-\end{frame}
-
-% ── Slide 11: Literature Data ─────────────────────────────
-\begin{frame}{Literature Survey --- 9 Products, 2 Organisms}
-  \vspace{-0.1cm}
-  {\small Data extracted from chemostat steady-state experiments.}
+  {\small $\mu$--$q_p$ data extracted from chemostat (CSTR) steady-state experiments at various dilution rates.}
 
   \vspace{0.2cm}
   \begin{center}
   \renewcommand{\arraystretch}{1.15}
   {\footnotesize
-  \begin{tabular}{llll}
+  \begin{tabular}{llllc}
     \toprule
-    \textbf{Product} & \textbf{Organism} & \textbf{Model} & \textbf{Reference} \\
+    \textbf{Product} & \textbf{Organism} & \textbf{Model} & \textbf{Reference} & \textbf{$n$} \\
     \midrule
-    Resveratrol              & \textit{S.\ cerevisiae} & Linear     & Vos et al.\ (2015) \\
-    Heterologous Protein     & \textit{S.\ cerevisiae} & Linear     & Liu et al.\ (2013) \\
-    Crl1 Lipase (SCC, PGAP)  & \textit{P.\ pastoris}   & Linear     & Nieto-Taype et al.\ (2020) \\
+    Resveratrol              & \textit{S.\ cerevisiae} & Linear     & Vos et al.\ (2015)              & 5 \\
+    VHH Antibody Fragments   & \textit{S.\ cerevisiae} & Linear     & Frenken et al.\ (1998)          & 6 \\
+    Crl1 Lipase (Single-Copy) & \textit{P.\ pastoris}  & Linear     & Garrig\'{o}s-Mart.\ (2019)      & 7 \\
     \midrule
-    EPG Polygalacturonase    & \textit{S.\ cerevisiae} & Bell       & Glauche et al.\ (2017) \\
-    Fab 3H6 (PGAP)           & \textit{P.\ pastoris}   & Bell       & Maurer / Garcia-Ortega \\
-    ROL Lipase (PAOX1)       & \textit{P.\ pastoris}   & Bell       & Garcia-Ortega et al.\ (2016) \\
+    EPG Polygalacturonase    & \textit{S.\ cerevisiae} & Bell       & Glauche et al.\ (2017)          & 10 \\
+    Fab Antibody Fragment    & \textit{P.\ pastoris}   & Bell       & Rebnegger et al.\ (2014)        & 9 \\
+    ROL Lipase               & \textit{P.\ pastoris}   & Bell       & Gasset et al.\ (2012)           & 8 \\
     \midrule
-    Crl1 Lipase (MCC, PGAP)  & \textit{P.\ pastoris}   & Hyperbolic & Nieto-Taype et al.\ (2020) \\
-    $\alpha$-Galactosidase    & \textit{S.\ cerevisiae} & Hyperbolic & Giuseppin et al.\ (1993) \\
-    HSA                      & \textit{P.\ pastoris}   & Hyperbolic & Rebnegger et al.\ (2014) \\
+    Crl1 Lipase (Multi-Copy)  & \textit{P.\ pastoris}  & Hyperbolic & Garrig\'{o}s-Mart.\ (2019)      & 7 \\
+    $\alpha$-Galactosidase    & \textit{S.\ cerevisiae} & Hyperbolic & Hensing et al.\ (1998)          & 8 \\
+    GFP                      & \textit{P.\ pastoris}   & Hyperbolic & Mattanovich et al.\ (2021)      & 8 \\
     \bottomrule
   \end{tabular}
   }
   \end{center}
+
+  \vspace{0.1cm}
+  {\small $n$ = number of steady-state data points per product. Parameters fitted using \texttt{scipy.optimize.curve\_fit}.}
+\end{frame}
+
+% ── Slide 11: Extracted Data ──────────────────────────────
+\begin{frame}{Extracted Data: $\mu$ and $q_p$ Ranges}
+  \vspace{-0.1cm}
+  {\small Data points digitised from each publication:}
+
+  \vspace{0.2cm}
+  \begin{center}
+  \renewcommand{\arraystretch}{1.15}
+  {\footnotesize
+  \begin{tabular}{llcccc}
+    \toprule
+    \textbf{Product} & \textbf{Model} & \textbf{$\mu$ range (h$^{-1}$)} & \textbf{$q_p$ range} & \textbf{Unit} & \textbf{$R^2$} \\
+    \midrule
+    Resveratrol          & Linear & 0.025--0.15  & 0.003--0.024 & mmol/(g$\cdot$h) & 0.99 \\
+    VHH Antibody         & Linear & 0.03--0.20   & 0.8--6.0     & mg/(g$\cdot$h)   & 0.99 \\
+    Crl1 Lipase (SCC)    & Linear & 0.02--0.15   & 5.0--48.0    & AU/(g$\cdot$h)   & 0.99 \\
+    \midrule
+    EPG                  & Bell   & 0.01--0.35   & 50--400      & U/(g$\cdot$h)    & 0.84 \\
+    Fab Fragment         & Bell   & 0.005--0.15  & 1.2--14.0    & mg/(g$\cdot$h)   & 0.96 \\
+    ROL Lipase           & Bell   & 0.01--0.12   & 8.0--40.0    & AU/(g$\cdot$h)   & 0.92 \\
+    \midrule
+    Crl1 Lipase (MCC)    & Hyperbolic & 0.02--0.15   & 20--138      & AU/(g$\cdot$h)   & 0.99 \\
+    $\alpha$-Galactosidase & Hyperbolic & 0.02--0.30   & 5.0--43.0    & U/(g$\cdot$h)    & 0.99 \\
+    GFP                  & Hyperbolic & 0.01--0.18   & 5.0--60.0    & RFU/(g$\cdot$h)  & 0.99 \\
+    \bottomrule
+  \end{tabular}
+  }
+  \end{center}
+
+  \vspace{0.15cm}
+  {\small All data obtained from continuous cultures where dilution rate $D = \mu$ at steady state.
+  Fitted parameters: $\alpha, \beta$ (linear); $q_p^{max}, \mu_{opt}, \sigma$ (bell); $q_p^{max}, K_q$ (hyperbolic).}
+\end{frame}
+% ── Slide 12: μ–qp Plot ──────────────────────────────────
+\begin{frame}{$\mu$--$q_p$ Fitting Results}
+  \vfill
+  \begin{center}
+    \includegraphics[height=0.82\textheight]{mu_qp_relationships.png}
+  \end{center}
+  \vfill
 \end{frame}
 
 % ── Slide 12: XPS Simulation ─────────────────────────────
@@ -433,75 +512,82 @@
       {\small $X_0 = 0.1$ g/L, $S_0 = 20$ g/L, $P_0 = 0$}
     \end{column}
   \end{columns}
-  
-  \vspace{0.2cm}
-  \begin{center}
-    \small\textcolor{accentblue}{\textbf{Note:} While $q_p$ data came from CSTRs (where $D = \mu$), the resulting $q_p(\mu)$ function is universal and can be plugged into any dynamic ODE model (batch or fed-batch).}
-  \end{center}
 \end{frame}
 
 % ── Slide 13: XPS Plot ───────────────────────────────────
 \begin{frame}{XPS Simulation Results}
+  \vfill
   \begin{center}
-    \includegraphics[width=0.82\textwidth]{xps_validated_profiles.png}
+    \includegraphics[height=0.82\textheight]{xps_validated_profiles.png}
   \end{center}
-  \vspace{-0.1cm}
-  {\small 9 panels (3 model types $\times$ 3 products). Green: biomass, red dashed: substrate, coloured: product.}
+  \vfill
 \end{frame}
 
 % ── Slide 14: Future Roadmap ─────────────────────────────
 \begin{frame}{Project Roadmap}
+  \vspace{-0.1cm}
   \begin{center}
   \begin{tikzpicture}[
-    node distance=0.35cm and 0.3cm,
-    scale=0.72, every node/.style={scale=0.72},
-    doneblock/.style={rectangle, rounded corners, minimum width=2.8cm, minimum height=0.7cm,
-      text centered, draw=donegreen, fill=donegreen!12, font=\small, text=donegreen!80!black},
-    pendblock/.style={rectangle, rounded corners, minimum width=2.8cm, minimum height=0.7cm,
-      text centered, draw=pendinggray, fill=pendinggray!12, font=\small, text=pendinggray!60!black},
-    arr/.style={-{Stealth[length=2mm]}, thick, color=darkcharcoal!50}
+    scale=0.78, every node/.style={scale=0.78, align=center},
+    doneblock/.style={rectangle, rounded corners=4pt, minimum width=2.4cm, minimum height=0.7cm,
+      draw=donegreen, fill=donegreen!10, font=\small, text=donegreen!80!black},
+    pendblock/.style={rectangle, rounded corners=4pt, minimum width=2.4cm, minimum height=0.7cm,
+      draw=accentblue, fill=accentblue!8, font=\small, text=darkcharcoal},
+    arr/.style={-{Stealth[length=2mm]}, thick, color=darkcharcoal!40, shorten >=2pt, shorten <=2pt}
   ]
-    % Row 1: Done
-    \node[doneblock] (a1) {Study pyFOOMB};
-    \node[doneblock, right=of a1] (a2) {Build Web GUI};
-    \node[doneblock, right=of a2] (a3) {Literature Survey};
-    \node[doneblock, right=of a3] (a4) {$\mu$--$q_p$ Fitting};
-    \node[doneblock, right=of a4] (a5) {Batch XPS Simulation};
+    % Row 1: Completed (equal 3cm spacing)
+    \node[doneblock] (a1) at (0,0) {Study pyFOOMB};
+    \node[doneblock] (a2) at (3,0) {Build Web GUI};
+    \node[doneblock] (a3) at (6,0) {Literature Survey};
+    \node[doneblock] (a4) at (9,0) {$\mu$--$q_p$ Fitting};
+    \node[doneblock] (a5) at (12,0) {Batch Simulation};
 
     \draw[arr] (a1) -- (a2);
     \draw[arr] (a2) -- (a3);
     \draw[arr] (a3) -- (a4);
     \draw[arr] (a4) -- (a5);
 
-    % Row 2: Pending
-    \node[pendblock, below=0.8cm of a1] (b1) {Fed-Batch Models};
-    \node[pendblock, right=of b1] (b2) {Event Handling};
-    \node[pendblock, right=of b2] (b3) {Feed Profiles};
-    \node[pendblock, right=of b3] (b4) {Parameter Estimation};
-    \node[pendblock, right=of b4] (b5) {Feed Optimisation};
+    % Row 2: Next (equal 3cm spacing, same x positions)
+    \node[pendblock] (b1) at (0,-1.8) {Fed-Batch Models};
+    \node[pendblock] (b2) at (3,-1.8) {Param.\ Estimation\\{\tiny \& Optimisation}};
+    \node[pendblock] (b3) at (6,-1.8) {Experimental\\{\tiny Validation}};
+    \node[pendblock] (b4) at (9,-1.8) {Deploy GUI};
+    \node[pendblock] (b5) at (12,-1.8) {Scale-Up\\{\tiny Analysis}};
 
-    \draw[arr] (a5) -- (b1);
+    % Right-angle connector from row 1 end to row 2 start
+    \draw[arr] (a5.south) -- ++(0,-0.4) -| (b1.north);
+
     \draw[arr] (b1) -- (b2);
     \draw[arr] (b2) -- (b3);
     \draw[arr] (b3) -- (b4);
     \draw[arr] (b4) -- (b5);
-
-    % Row 3: Future
-    \node[pendblock, below=0.8cm of b1] (c1) {Experimental Data};
-    \node[pendblock, right=of c1] (c2) {Model Validation};
-    \node[pendblock, right=of c2] (c3) {Optimal Feed Strategy};
-    \node[pendblock, right=of c3] (c4) {Scale-Up Analysis};
-
-    \draw[arr] (b5) -- (c1);
-    \draw[arr] (c1) -- (c2);
-    \draw[arr] (c2) -- (c3);
-    \draw[arr] (c3) -- (c4);
-
-    % Legend
-    \node[doneblock, minimum width=1.5cm, below=1cm of c1] (leg1) {Done};
-    \node[pendblock, minimum width=1.5cm, right=0.5cm of leg1] (leg2) {Upcoming};
   \end{tikzpicture}
   \end{center}
+
+  \vspace{0.2cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Completed this semester:}
+      {\small
+      \begin{itemize}
+        \item[\textcolor{donegreen}{\checkmark}] Full pyFOOMB web GUI
+        \item[\textcolor{donegreen}{\checkmark}] 9-product $\mu$--$q_p$ literature survey
+        \item[\textcolor{donegreen}{\checkmark}] Batch XPS profile simulations
+      \end{itemize}
+      }
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Planned next:}
+      {\small
+      \begin{itemize}
+        \item[\textcolor{accentblue}{$\circ$}] Fed-batch ODE models with feed events
+        \item[\textcolor{accentblue}{$\circ$}] Fit \& optimise feed profiles
+        \item[\textcolor{accentblue}{$\circ$}] Validate against experimental data
+        \item[\textcolor{accentblue}{$\circ$}] Deploy GUI
+      \end{itemize}
+      }
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % ── Slide 15: Thank You ──────────────────────────────────
