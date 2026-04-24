@@ -1,0 +1,524 @@
+\documentclass[aspectratio=169, 11pt]{beamer}
+
+% ── Theme & Colors ──────────────────────────────────────────
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\definecolor{darkcharcoal}{HTML}{2C3E50}
+\definecolor{accentblue}{HTML}{2980B9}
+\definecolor{donegreen}{HTML}{27AE60}
+\definecolor{pendinggray}{HTML}{BDC3C7}
+\definecolor{lightbg}{HTML}{F8F9FA}
+\definecolor{darktext}{HTML}{1A1A2E}
+
+\setbeamercolor{structure}{fg=darkcharcoal}
+\setbeamercolor{palette primary}{bg=darkcharcoal, fg=white}
+\setbeamercolor{palette secondary}{bg=accentblue, fg=white}
+\setbeamercolor{frametitle}{bg=darkcharcoal, fg=white}
+\setbeamercolor{title}{fg=darkcharcoal}
+\setbeamercolor{subtitle}{fg=accentblue}
+\setbeamercolor{block title}{bg=darkcharcoal, fg=white}
+\setbeamercolor{block body}{bg=lightbg, fg=darktext}
+\setbeamercolor{item}{fg=accentblue}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{title}{size=\Large, series=\bfseries}
+
+% ── Packages ────────────────────────────────────────────────
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{array}
+
+% ── TikZ Styles ─────────────────────────────────────────────
+\tikzstyle{block} = [rectangle, rounded corners, minimum width=2.2cm, minimum height=0.8cm, text centered, draw=darkcharcoal, fill=lightbg, font=\small]
+\tikzstyle{done} = [block, draw=donegreen, fill=donegreen!10, text=donegreen!80!black]
+\tikzstyle{pending} = [block, draw=pendinggray, fill=pendinggray!15, text=pendinggray!60!black]
+\tikzstyle{arrow} = [-{Stealth[length=2.5mm]}, thick, color=darkcharcoal!70]
+
+% ── Meta ────────────────────────────────────────────────────
+\title{Optimising Fed-Batch Bioprocesses using pyFOOMB}
+\subtitle{UG Project Progress Report}
+\author{Yashashwi Singhania }
+% \institute{Department of Biochemical Engineering\\Indian Institute of Technology (BHU), Varanasi}
+\date{April 2026}
+
+% ═══════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Slide 1: Title ──────────────────────────────────────────
+\begin{frame}[plain]
+  \vfill
+  \begin{center}
+    \includegraphics[height=2.2cm]{iit_bhu_logo.png}\\[0.5cm]
+    {\Large\bfseries\color{darkcharcoal} Indian Institute of Technology (BHU), Varanasi}\\[0.6cm]
+    {\LARGE\bfseries\color{darkcharcoal} Optimising Fed-Batch Bioprocesses}\\[0.15cm]
+    {\LARGE\bfseries\color{darkcharcoal} using pyFOOMB}\\[0.4cm]
+    {\large\color{accentblue} UG Project Progress Report}\\[0.8cm]
+    \begin{tabular}{rl}
+      \textbf{Student:} & Yashashwi Singhania (23014019) \\
+      \textbf{Guide:} & Dr.\ Sharon Mano Pappu J. \\
+      \textbf{Department:} & Biochemical Engineering \\
+      \textbf{Lab:} & BPDD (\_\_\_\_\_\_\_\_) \\
+    \end{tabular}\\[0.5cm]
+    {\small April 2026}
+  \end{center}
+  \vfill
+\end{frame}
+
+% ── Slide 2: Project Overview ───────────────────────────────
+\begin{frame}{Project Overview}
+  \begin{block}{Objective}
+    Optimise the \textbf{fed-batch feeding strategy} for recombinant protein production
+    by exploiting the relationship between specific growth rate ($\mu$) and
+    specific product formation rate ($q_p$).
+  \end{block}
+
+  \vspace{0.3cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{This Semester — Completed:}
+      \begin{itemize}
+        \item[\textcolor{donegreen}{\checkmark}] Studied the pyFOOMB framework
+        \item[\textcolor{donegreen}{\checkmark}] Built a full web-based GUI
+        \item[\textcolor{donegreen}{\checkmark}] Surveyed $\mu$--$q_p$ models from literature
+        \item[\textcolor{donegreen}{\checkmark}] Simulated batch X, S, P profiles
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Next Steps:}
+      \begin{itemize}
+        \item[\textcolor{pendinggray}{$\circ$}] Implement fed-batch models in pyFOOMB
+        \item[\textcolor{pendinggray}{$\circ$}] Parameter estimation from real data
+        \item[\textcolor{pendinggray}{$\circ$}] Feed profile optimisation
+        \item[\textcolor{pendinggray}{$\circ$}] Validate with experimental data
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── Slide 3: What is pyFOOMB? ──────────────────────────────
+\begin{frame}{What is pyFOOMB?}
+  \textbf{Py}thon \textbf{F}ramework for \textbf{O}bject-\textbf{O}riented \textbf{M}odelling of \textbf{B}ioprocesses
+
+  \vspace{0.2cm}
+  {\small Hemmerich et al.\ (2021), \textit{Eng.\ Life Sci.}\ 21(3-4):242--257}
+
+  \vspace{0.3cm}
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \textbf{Core Capabilities:}
+      \begin{itemize}
+        \item ODE-based bioprocess modelling
+        \item User-defined kinetics in \texttt{rhs()} method
+        \item Event handling for fed-batch (feed start/stop, bolus)
+        \item Forward simulation via CVode (SUNDIALS)
+        \item Parameter estimation --- local (scipy) \& global (pygmo)
+        \item Sensitivity analysis, FIM, OED
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \textbf{Key Difference:}
+      \begin{block}{}
+        pyFOOMB does \textbf{not} hardcode kinetic models.
+        Users implement \textit{any} $\mu$--$q_p$ relationship
+        in their model's \texttt{rhs()} method. The framework handles
+        simulation, events, and estimation.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── Slide 4: pyFOOMB Architecture ──────────────────────────
+\begin{frame}{pyFOOMB Architecture}
+  \begin{center}
+  \begin{tikzpicture}[node distance=0.6cm and 1.2cm, scale=0.85, every node/.style={scale=0.85}]
+    % User layer
+    \node[block, fill=accentblue!10, draw=accentblue] (model) {BioprocessModel};
+    \node[block, fill=accentblue!10, draw=accentblue, right=of model] (obs) {ObservationFunction};
+    \node[block, fill=accentblue!10, draw=accentblue, right=of obs] (data) {Measurements};
+
+    % Core layer
+    \node[block, below=1cm of model] (sim) {Simulator};
+    \node[block, below=of sim] (esim) {ExtendedSimulator};
+    \node[block, right=of esim] (care) {Caretaker};
+
+    % Engine layer
+    \node[block, fill=donegreen!10, draw=donegreen, below=1cm of esim] (cvode) {CVode / SUNDIALS};
+    \node[block, fill=donegreen!10, draw=donegreen, right=of cvode] (pygmo) {pygmo Islands};
+    \node[block, fill=donegreen!10, draw=donegreen, right=of pygmo] (scipy) {scipy.optimize};
+
+    % Arrows
+    \draw[arrow] (model) -- (sim);
+    \draw[arrow] (obs) -- (sim);
+    \draw[arrow] (sim) -- (esim);
+    \draw[arrow] (esim) -- (care);
+    \draw[arrow] (data) -- (care);
+    \draw[arrow] (care) -- (cvode);
+    \draw[arrow] (care) -- (pygmo);
+    \draw[arrow] (care) -- (scipy);
+
+    % Layer labels
+    \node[left=0.3cm of model, font=\footnotesize\bfseries, color=accentblue] {User};
+    \node[left=0.3cm of sim, font=\footnotesize\bfseries, color=darkcharcoal] {Core};
+    \node[left=0.3cm of cvode, font=\footnotesize\bfseries, color=donegreen] {Solvers};
+  \end{tikzpicture}
+  \end{center}
+
+  \vspace{0.2cm}
+  \begin{center}
+    \small Users define ODE models $\to$ pyFOOMB handles integration, estimation \& analysis
+  \end{center}
+\end{frame}
+
+
+
+
+% ── Slide 5: Web GUI We Built ──────────────────────────────
+\begin{frame}{Web GUI --- What We Built}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \textbf{Problem:} pyFOOMB is code-only (Jupyter notebooks).
+      No accessible interface for non-programmers.
+
+      \vspace{0.3cm}
+      \textbf{Our Solution:} Full-stack web GUI wrapping the
+      entire pyFOOMB API.
+
+      \vspace{0.3cm}
+      \begin{tabular}{ll}
+        \toprule
+        \textbf{Layer} & \textbf{Tech} \\
+        \midrule
+        Frontend & Next.js, React, Recharts \\
+        Backend  & FastAPI, Python \\
+        Solver   & assimulo, pygmo, scipy \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \textbf{Features implemented:}
+      \begin{enumerate}
+        \item 8 pre-built model templates
+        \item Interactive simulation with live plots
+        \item Data import (paste / upload / Google Sheets)
+        \item 5 parameter estimation methods
+        \item Sensitivity, FIM, covariance analysis
+        \item Multi-replicate parameter mapping
+        \item 39 automated API tests
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── Slide 6: Web Architecture Diagram ──────────────────────
+\begin{frame}{Web Architecture}
+  \begin{center}
+  \begin{tikzpicture}[node distance=0.5cm and 0.8cm, scale=0.78, every node/.style={scale=0.78}]
+    % Frontend box
+    \node[block, minimum width=3cm, minimum height=0.8cm, fill=donegreen!10, draw=donegreen]
+      (fe) {\textbf{Next.js Frontend}};
+    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below left=0.6cm and -0.8cm of fe, font=\footnotesize]
+      (rc) {Recharts (plots)};
+    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below right=0.6cm and -0.8cm of fe, font=\footnotesize]
+      (kt) {KaTeX (math)};
+
+    % Backend box
+    \node[block, minimum width=3cm, minimum height=0.8cm, fill=donegreen!10, draw=donegreen, right=3.5cm of fe]
+      (be) {\textbf{FastAPI Backend}};
+    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below left=0.6cm and -0.8cm of be, font=\footnotesize]
+      (tmpl) {Model Templates};
+    \node[block, minimum width=2.2cm, fill=donegreen!10, draw=donegreen, below right=0.6cm and -0.8cm of be, font=\footnotesize]
+      (exec) {Code Executor};
+
+    % pyFOOMB box
+    \node[block, minimum width=3cm, minimum height=0.8cm, fill=accentblue!10, draw=accentblue, below=2.5cm of be]
+      (pf) {\textbf{pyFOOMB Library}};
+    \node[block, minimum width=2cm, fill=accentblue!10, draw=accentblue, below left=0.6cm and -0.6cm of pf, font=\footnotesize]
+      (ct) {Caretaker};
+    \node[block, minimum width=2cm, fill=accentblue!10, draw=accentblue, below right=0.6cm and -0.6cm of pf, font=\footnotesize]
+      (sm) {Simulator};
+
+    % Arrows
+    \draw[arrow, thick, accentblue] (fe) -- node[above, font=\footnotesize] {REST API} (be);
+    \draw[arrow, thick, accentblue] (be) -- node[right, font=\footnotesize] {Python calls} (pf);
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ── Slide 7: GUI Pages ────────────────────────────────────
+\begin{frame}{GUI --- Six-Page Workflow}
+  {\small The GUI guides the user through the complete bioprocess modelling pipeline:}
+
+  \vspace{0.2cm}
+  \begin{center}
+  \begin{tikzpicture}[node distance=0.15cm and 0.2cm, scale=0.75, every node/.style={scale=0.75, align=center}]
+    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue]
+      (m) {\textbf{1. Model}\\{\tiny Pick a template}\\{\tiny Set parameters}};
+    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of m]
+      (s) {\textbf{2. Simulate}\\{\tiny Run forward ODE}\\{\tiny View plots}};
+    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of s]
+      (d) {\textbf{3. Data}\\{\tiny Import experimental}\\{\tiny measurements}};
+    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of d]
+      (e) {\textbf{4. Estimate}\\{\tiny Fit model params}\\{\tiny to data}};
+    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of e]
+      (a) {\textbf{5. Analyse}\\{\tiny Sensitivity, FIM}\\{\tiny Intervals}};
+    \node[block, minimum width=2.4cm, minimum height=1.2cm, fill=accentblue!10, draw=accentblue, right=of a]
+      (r) {\textbf{6. Replicates}\\{\tiny Share params across}\\{\tiny experiments}};
+
+    \draw[arrow] (m) -- (s);
+    \draw[arrow] (s) -- (d);
+    \draw[arrow] (d) -- (e);
+    \draw[arrow] (e) -- (a);
+    \draw[arrow] (a) -- (r);
+  \end{tikzpicture}
+  \end{center}
+
+  \vspace{0.15cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{5 Estimation Methods:}
+      \begin{itemize}
+        \item Local optimisation (scipy)
+        \item Parallel global search (pygmo)
+        \item Repeated local
+        \item Monte Carlo parameter sampling
+        \item Parallelised Monte Carlo
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Analysis Outputs:}
+      \begin{itemize}
+        \item Sensitivity of each state
+        \item Fisher Information Matrix
+        \item Covariance \& correlation
+        \item Parameter confidence intervals
+        \item Optimal Experimental Design
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── Slide 8: GUI Screenshot ───────────────────────────────
+\begin{frame}{GUI --- Screenshot}
+  \begin{center}
+    % Replace with your screenshot:
+    % \includegraphics[width=0.85\textwidth]{gui_screenshot.png}
+    {\large\textcolor{pendinggray}{[Place your GUI screenshot here]}}\\[0.3cm]
+    {\small\textcolor{pendinggray}{Save as \texttt{gui\_screenshot.png} in the same directory and uncomment the includegraphics line above.}}
+  \end{center}
+\end{frame}
+
+
+% ── Slide 9: μ–qp Relationship Models ─────────────────────
+\begin{frame}{$\mu$--$q_p$ Relationship Models}
+  The $\mu$--$q_p$ relationship governs how fast a cell produces product at a given growth rate.
+  It determines the \textbf{optimal feeding strategy} in fed-batch.
+
+  \vspace{0.2cm}
+  \begin{columns}[T]
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Linear}
+        \begin{center}
+          $q_p = \alpha \mu + \beta$
+        \end{center}
+        \vspace{0.1cm}
+        {\small Growth-associated.\\Feed to maximise $\mu$.}
+      \end{block}
+    \end{column}
+    \begin{column}{0.34\textwidth}
+      \begin{block}{Bell-Shaped}
+        \begin{center}
+          $q_p = q_p^{max} e^{-\frac{(\mu - \mu_{opt})^2}{2\sigma^2}}$
+        \end{center}
+        \vspace{0.1cm}
+        {\small Peak at $\mu_{opt}$.\\Maintain $\mu = \mu_{opt}$.}
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Hyperbolic}
+        \begin{center}
+          $q_p = \frac{q_p^{max} \mu}{K_q + \mu}$
+        \end{center}
+        \vspace{0.1cm}
+        {\small Saturates at high $\mu$.\\Flexible feeding.}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  {\small We surveyed 9 products from literature across \textit{S.\ cerevisiae} and \textit{P.\ pastoris},
+  and fitted each to one of these three models using \texttt{scipy.optimize.curve\_fit}.}
+\end{frame}
+
+% ── Slide 10: μ–qp Plot ──────────────────────────────────
+\begin{frame}{$\mu$--$q_p$ Fitting Results}
+  \begin{center}
+    \includegraphics[width=0.82\textwidth]{mu_qp_relationships.png}
+  \end{center}
+  \vspace{-0.1cm}
+  {\small Scatter: digitised literature data. Lines: fitted models. All fits $R^2 > 0.84$.}
+\end{frame}
+
+% ── Slide 11: Literature Data ─────────────────────────────
+\begin{frame}{Literature Survey --- 9 Products, 2 Organisms}
+  \vspace{-0.1cm}
+  {\small Data extracted from chemostat steady-state experiments.}
+
+  \vspace{0.2cm}
+  \begin{center}
+  \renewcommand{\arraystretch}{1.15}
+  {\footnotesize
+  \begin{tabular}{llll}
+    \toprule
+    \textbf{Product} & \textbf{Organism} & \textbf{Model} & \textbf{Reference} \\
+    \midrule
+    Resveratrol              & \textit{S.\ cerevisiae} & Linear     & Vos et al.\ (2015) \\
+    Heterologous Protein     & \textit{S.\ cerevisiae} & Linear     & Liu et al.\ (2013) \\
+    Crl1 Lipase (SCC, PGAP)  & \textit{P.\ pastoris}   & Linear     & Nieto-Taype et al.\ (2020) \\
+    \midrule
+    EPG Polygalacturonase    & \textit{S.\ cerevisiae} & Bell       & Glauche et al.\ (2017) \\
+    Fab 3H6 (PGAP)           & \textit{P.\ pastoris}   & Bell       & Maurer / Garcia-Ortega \\
+    ROL Lipase (PAOX1)       & \textit{P.\ pastoris}   & Bell       & Garcia-Ortega et al.\ (2016) \\
+    \midrule
+    Crl1 Lipase (MCC, PGAP)  & \textit{P.\ pastoris}   & Hyperbolic & Nieto-Taype et al.\ (2020) \\
+    $\alpha$-Galactosidase    & \textit{S.\ cerevisiae} & Hyperbolic & Giuseppin et al.\ (1993) \\
+    HSA                      & \textit{P.\ pastoris}   & Hyperbolic & Rebnegger et al.\ (2014) \\
+    \bottomrule
+  \end{tabular}
+  }
+  \end{center}
+\end{frame}
+
+% ── Slide 12: XPS Simulation ─────────────────────────────
+\begin{frame}{Batch X, S, P Profile Simulation}
+  From the fitted $\mu$--$q_p$ parameters, we simulated full batch dynamics for each product.
+
+  \vspace{0.2cm}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{ODE System (Monod batch):}
+      \begin{align*}
+        \frac{dX}{dt} &= \mu \cdot X \\[3pt]
+        \frac{dS}{dt} &= -\frac{\mu}{Y_{X/S}} \cdot X \\[3pt]
+        \frac{dP}{dt} &= q_p(\mu) \cdot X
+      \end{align*}
+      where $\mu = \mu_{max} \cdot \dfrac{S}{K_S + S}$
+
+      \vspace{0.15cm}
+      {\small Integrated using \texttt{scipy.integrate.solve\_ivp} (RK45).}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \textbf{Organism-Specific Parameters:}
+
+      \vspace{0.15cm}
+      {\small
+      \begin{tabular}{lcc}
+        \toprule
+        & \textit{S.c.} & \textit{P.p.} \\
+        \midrule
+        $\mu_{max}$ (h$^{-1}$) & 0.40 & 0.20 \\
+        $K_S$ (g/L) & 0.10 & 0.05 \\
+        $Y_{X/S}$ (g/g) & 0.50 & 0.45 \\
+        \bottomrule
+      \end{tabular}
+      }
+
+      \vspace{0.15cm}
+      {\small $X_0 = 0.1$ g/L, $S_0 = 20$ g/L, $P_0 = 0$}
+    \end{column}
+  \end{columns}
+  
+  \vspace{0.2cm}
+  \begin{center}
+    \small\textcolor{accentblue}{\textbf{Note:} While $q_p$ data came from CSTRs (where $D = \mu$), the resulting $q_p(\mu)$ function is universal and can be plugged into any dynamic ODE model (batch or fed-batch).}
+  \end{center}
+\end{frame}
+
+% ── Slide 13: XPS Plot ───────────────────────────────────
+\begin{frame}{XPS Simulation Results}
+  \begin{center}
+    \includegraphics[width=0.82\textwidth]{xps_validated_profiles.png}
+  \end{center}
+  \vspace{-0.1cm}
+  {\small 9 panels (3 model types $\times$ 3 products). Green: biomass, red dashed: substrate, coloured: product.}
+\end{frame}
+
+% ── Slide 14: Future Roadmap ─────────────────────────────
+\begin{frame}{Project Roadmap}
+  \begin{center}
+  \begin{tikzpicture}[
+    node distance=0.35cm and 0.3cm,
+    scale=0.72, every node/.style={scale=0.72},
+    doneblock/.style={rectangle, rounded corners, minimum width=2.8cm, minimum height=0.7cm,
+      text centered, draw=donegreen, fill=donegreen!12, font=\small, text=donegreen!80!black},
+    pendblock/.style={rectangle, rounded corners, minimum width=2.8cm, minimum height=0.7cm,
+      text centered, draw=pendinggray, fill=pendinggray!12, font=\small, text=pendinggray!60!black},
+    arr/.style={-{Stealth[length=2mm]}, thick, color=darkcharcoal!50}
+  ]
+    % Row 1: Done
+    \node[doneblock] (a1) {Study pyFOOMB};
+    \node[doneblock, right=of a1] (a2) {Build Web GUI};
+    \node[doneblock, right=of a2] (a3) {Literature Survey};
+    \node[doneblock, right=of a3] (a4) {$\mu$--$q_p$ Fitting};
+    \node[doneblock, right=of a4] (a5) {Batch XPS Simulation};
+
+    \draw[arr] (a1) -- (a2);
+    \draw[arr] (a2) -- (a3);
+    \draw[arr] (a3) -- (a4);
+    \draw[arr] (a4) -- (a5);
+
+    % Row 2: Pending
+    \node[pendblock, below=0.8cm of a1] (b1) {Fed-Batch Models};
+    \node[pendblock, right=of b1] (b2) {Event Handling};
+    \node[pendblock, right=of b2] (b3) {Feed Profiles};
+    \node[pendblock, right=of b3] (b4) {Parameter Estimation};
+    \node[pendblock, right=of b4] (b5) {Feed Optimisation};
+
+    \draw[arr] (a5) -- (b1);
+    \draw[arr] (b1) -- (b2);
+    \draw[arr] (b2) -- (b3);
+    \draw[arr] (b3) -- (b4);
+    \draw[arr] (b4) -- (b5);
+
+    % Row 3: Future
+    \node[pendblock, below=0.8cm of b1] (c1) {Experimental Data};
+    \node[pendblock, right=of c1] (c2) {Model Validation};
+    \node[pendblock, right=of c2] (c3) {Optimal Feed Strategy};
+    \node[pendblock, right=of c3] (c4) {Scale-Up Analysis};
+
+    \draw[arr] (b5) -- (c1);
+    \draw[arr] (c1) -- (c2);
+    \draw[arr] (c2) -- (c3);
+    \draw[arr] (c3) -- (c4);
+
+    % Legend
+    \node[doneblock, minimum width=1.5cm, below=1cm of c1] (leg1) {Done};
+    \node[pendblock, minimum width=1.5cm, right=0.5cm of leg1] (leg2) {Upcoming};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ── Slide 15: Thank You ──────────────────────────────────
+\begin{frame}[plain]
+  \vfill
+  \begin{center}
+    {\LARGE\bfseries\color{darkcharcoal} Thank You}\\[0.6cm]
+    {\large\color{accentblue} Questions?}\\[1cm]
+    \begin{tabular}{rl}
+      \textbf{Student:} & Yashashwi Singhania (23014019) \\
+      \textbf{Guide:} & Dr.\ Sharon Mano Pappu J. \\
+      \textbf{Lab:} & BPDD, Dept.\ of Biochemical Engineering \\
+      \textbf{Institute:} & IIT (BHU) Varanasi \\
+    \end{tabular}\\[0.8cm]
+    {\small\color{darkcharcoal!60} April 2026}
+  \end{center}
+  \vfill
+\end{frame}
+
+\end{document}
