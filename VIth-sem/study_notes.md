@@ -2,7 +2,8 @@
 
 > **Student:** Yashashwi Singhania (23014019)
 > **Guide:** Dr. Sharon Mano Pappu J.
-> **Lab:** BPDD, Dept. of Biochemical Engineering, IIT (BHU) Varanasi
+> **Lab:** BPDD (Bioprocess Development and Digitalization Laboratory)
+> **Department:** School of Biochemical Engineering, IIT (BHU) Varanasi
 
 ---
 
@@ -11,7 +12,8 @@
 - **Fed-Batch**: Fermentation where nutrients are added during the process (not all at start like batch). Lets you control growth rate.
 - **Bioprocess**: Any process using living organisms to make a product.
 - **pyFOOMB**: Python Framework for Object-Oriented Modelling of Bioprocesses.
-- **BPDD**: __________ (fill in full form).
+- **BPDD**: Bioprocess Development and Digitalization Laboratory.
+- **BC-392**: Course code for UG Project - I.
 
 ---
 
@@ -29,7 +31,31 @@
 
 ---
 
-## Slide 3: What is pyFOOMB?
+## Slide 3: Why Optimise Fed-Batch Using qp vs μ?
+
+### Why growth ≠ production in recombinant organisms
+- The **gene for the product is foreign** (inserted via genetic engineering).
+- Cell's own growth machinery and recombinant protein expression **compete** for ribosomes, ATP, amino acids.
+- At very high μ, cells prioritise their own growth → protein expression drops.
+- At very low μ, cells may be starving → also low qp.
+- **Result**: There's usually an **optimal μ** where qp is maximised.
+
+### Why Fed-Batch?
+- In **batch**: no control over μ. Cells grow at whatever μ the substrate allows, then slow down.
+- In **fed-batch**: you **add substrate at a controlled rate F**.
+- At quasi-steady state: **dilution rate D = F/V ≈ μ**.
+- So by choosing F, you **set μ**, and thus **control qp(μ)**.
+- **Control chain**: F → D ≈ μ → qp(μ) → P
+
+### Key terms
+- **Dilution rate (D)**: D = F/V (feed flow rate / volume). Units: h⁻¹.
+- **Quasi-steady state**: Concentrations change slowly enough to be approximately constant.
+- **Overflow metabolism / Crabtree effect**: At high μ in yeast, cells produce ethanol even with oxygen (wastes carbon).
+- **Substrate inhibition**: Very high [S] can poison cells (e.g. methanol toxicity in *P. pastoris*).
+
+---
+
+## Slide 4: What is pyFOOMB?
 
 **Full form**: **Py**thon **F**ramework for **O**bject-**O**riented **M**odelling of **B**ioprocesses
 
@@ -53,7 +79,7 @@
 
 ---
 
-## Slide 4: pyFOOMB Architecture
+## Slide 5: pyFOOMB Architecture
 
 | Class | What it does |
 |-------|-------------|
@@ -68,7 +94,7 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 
 ---
 
-## Slide 5: Our Contribution
+## Slide 6: Our Contribution
 
 **What existed** (pyFOOMB library): ODE framework, CVode, estimation, FIM — all code-only via Jupyter.
 
@@ -85,7 +111,7 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 
 ---
 
-## Slide 6: System Architecture
+## Slide 7: System Architecture
 
 ### Layer by layer
 
@@ -121,7 +147,7 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 
 ---
 
-## Slide 7: GUI Workflow
+## Slide 8: GUI Workflow
 
 ### 6 pages
 1. **Model**: Pick template, set parameters.
@@ -160,10 +186,37 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 
 ---
 
-## Slide 9: μ–qp Relationship Models
+## Slide 9: Substrate Kinetic Model Equations
+
+These are the 8 pre-built templates. They all model **how μ depends on substrate S** (or time/biomass).
+
+| Model | Equation | Key idea |
+|-------|----------|----------|
+| **Monod** | μ = μ_max·S/(K_S+S) | Standard saturation kinetics |
+| **Andrews** | μ = μ_max·S/(K_S+S+S²/K_I) | Substrate inhibition at high S |
+| **Logistic** | μ = μ_max·(1-X/X_max) | Growth limited by carrying capacity |
+| **Contois** | μ = μ_max·S/(K_SX·X+S) | Half-saturation depends on biomass |
+| **Double Monod** | μ = μ_max·S₁/(K₁+S₁)·S₂/(K₂+S₂) | Two substrates limit growth |
+| **Exp. Growth** | μ = μ_max (constant) | Unlimited resources |
+| **Exp. Decay** | μ(t) = μ₀·e^(-k_d·t) | Decaying growth rate |
+| **Fed-Batch Monod** | Monod + dV/dt=F(t), D=F/V | Includes volume change from feeding |
+
+**Important**: These define μ. Then μ drives qp(μ) through one of the 3 qp–μ relationship models (linear/bell/hyperbolic). Two separate layers.
+
+---
+
+## Slide 10: GUI Screenshot
+
+- This is a screenshot of the actual web GUI you built.
+- Shows the interactive interface: model selection, parameter input, plots.
+- **Key point**: Users interact through the browser, not code.
+
+---
+
+## Slide 11: qp–μ Relationship Models
 
 ### Why it matters
-μ–qp tells you: at a given growth rate, how fast does the cell make product? This dictates the optimal feeding strategy because feed rate controls μ.
+qp–μ tells you: at a given growth rate, how fast does the cell make product? This dictates the optimal feeding strategy because feed rate controls μ.
 
 ### Three types
 
@@ -185,7 +238,7 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 
 ---
 
-## Slide 10: Literature Survey
+## Slide 12: Literature Survey
 
 - **Chemostat / CSTR**: Continuous Stirred-Tank Reactor. Fresh medium flows in, culture flows out at same rate. At steady state D = μ.
 - **Dilution rate (D)**: D = F/V. In chemostat at steady state, D = μ.
@@ -214,10 +267,10 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 
 ---
 
-## Slide 11: Extracted Data
+## Slide 13: Extracted Data
 
 - **R²**: Coefficient of determination. 1 = perfect fit, 0 = useless model.
-- **D = μ at steady state**: Why chemostat gives clean μ–qp data.
+- **D = μ at steady state**: Why chemostat gives clean qp–μ data.
 
 ### Units
 | Unit | Meaning |
@@ -236,7 +289,16 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 
 ---
 
-## Slide 13: Batch XPS Simulation
+## Slide 14: qp–μ Fitting Results (Plot)
+
+- This is the 3×3 grid of fitted curves.
+- **Columns**: Linear, Bell-Shaped, Hyperbolic.
+- **Each subplot**: One product, shows experimental data points + fitted curve + R² value.
+- **Key takeaway**: Same organism can have different qp–μ shapes for different products.
+
+---
+
+## Slide 15: Batch XPS Simulation (Equations)
 
 ### ODE System
 - dX/dt = μ·X (growth)
@@ -256,30 +318,51 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 - **solve_ivp (RK45)**: Numerically integrates ODEs. RK45 = Runge-Kutta 4th/5th order, adaptive step size.
 
 ### Why CSTR data works for batch
-μ–qp is a cell property, not reactor property. Measured in CSTR (clean data), applies to any reactor mode.
+qp–μ is a cell property, not reactor property. Measured in CSTR (clean data), applies to any reactor mode.
 
 ---
 
-## Slide 15: Project Roadmap
+## Slide 16: XPS Simulation Results (Plot)
 
-**Done**: Study pyFOOMB → Build Web GUI → Literature Survey → μ–qp Fitting → Batch Simulation
+- 3×3 grid of batch profiles over time.
+- **Green line**: Biomass X (grows exponentially then plateaus).
+- **Red dashed**: Substrate S (consumed to zero).
+- **Blue line**: Product P (accumulates).
+- **Key**: Different qp–μ models produce very different P profiles even with same X/S dynamics.
+
+---
+
+## Slide 17: Project Roadmap
+
+**Done**: Study pyFOOMB → Build Web GUI → Literature Survey → qp–μ Fitting → Batch Simulation
 
 **Next**: Fed-Batch Models → Param. Estimation & Optimisation → Experimental Validation → Deploy GUI → Scale-Up Analysis
+
+---
+
+## Slide 18: Thank You
+
+- Summary of contributions + open for Q&A.
 
 ---
 
 ## Viva Q&A
 
 1. **What is pyFOOMB?** Python framework for bioprocess modelling. Doesn't hardcode kinetics. Users write rhs().
-2. **Three μ–qp models?** Linear → max μ. Bell → maintain μ_opt. Hyperbolic → flexible.
+2. **Three qp–μ models?** Linear → max μ. Bell → maintain μ_opt. Hyperbolic → flexible.
 3. **How did you fit?** scipy.optimize.curve_fit on chemostat data. All R² > 0.84.
 4. **How did you simulate XPS?** Fitted qp(μ) + Monod parameters → batch ODEs → solve_ivp (RK45).
 5. **What does GUI do?** Wraps 100% of pyFOOMB API. 6 pages. Next.js + FastAPI.
 6. **Why fed-batch?** Control μ via feed rate → control qp → maximise product.
-7. **Why CSTR data for batch?** μ–qp is a cell property. Works in any reactor.
+7. **Why CSTR data for batch?** qp–μ is a cell property. Works in any reactor.
 8. **Island model?** pygmo's parallel optimisation. Multiple algorithms, migration of best solutions.
 9. **FIM?** Fisher Information Matrix. High = well-identifiable parameter.
 10. **OED?** Optimal Experimental Design. A/D/E criteria using FIM.
+11. **Why not just maximise μ?** Doesn't work for bell-shaped — qp drops after μ_opt. Must balance.
+12. **Difference between substrate kinetic models and qp–μ models?** Substrate kinetics (Monod etc.) model how μ depends on S. qp–μ models how product rate depends on μ. Two separate layers.
+13. **What are the 8 templates?** Monod, Andrews, Logistic, Contois, Double Monod, Exp. Growth, Exp. Decay, Fed-Batch Monod.
+14. **SCC vs MCC?** Single Copy Clone has 1 gene copy → linear qp–μ. Multi Copy Clone has many copies → hyperbolic (saturates).
+15. **What is GRAS?** Generally Recognised As Safe. *S. cerevisiae* is GRAS, can be used in food/pharma.
 
 ---
 
@@ -319,8 +402,8 @@ Three layers: User (your model/data) → Core (Simulator, Caretaker) → Solvers
 | negLL | Negative Log-Likelihood |
 | R² | Coefficient of Determination |
 | XPS | X (biomass), P (product), S (substrate) profiles |
-| BPDD | __________ (fill in) |
+| BPDD | Bioprocess Development and Digitalization Laboratory |
 
 ---
 
-*Last updated: April 2026*
+*Last updated: May 2026*

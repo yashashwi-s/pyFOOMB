@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-μ-qp Relationship Visualization for S. cerevisiae and P. pastoris
+qp vs mu Relationship Visualization for S. cerevisiae and P. pastoris
 
-Extracts and visualizes specific growth rate (μ) vs specific product formation rate (qp) 
-data from published literature. Categorized by model type: Linear, Bell-shaped, Hyperbolic.
+Extracts and visualizes specific product formation rate (qp) vs specific growth
+rate (mu) data from published literature.
+Categorized by model type: Linear, Bell-shaped, Hyperbolic.
 
 References:
  1. Vos et al. (2015) - Resveratrol, S. cerevisiae [PMC4570684]
@@ -163,13 +164,13 @@ data = {
 # ============================================================================
 
 def create_figure():
-    """Create a 3x3 figure with all mu-qp relationships."""
-    
+    """Create a 3x3 figure with all qp vs mu relationships."""
+
     fig, axes = plt.subplots(3, 3, figsize=(20, 18))
     fig.suptitle(
-        'Specific Growth Rate (μ) vs Specific Product Formation Rate (qₚ)\n'
-        'S. cerevisiae and P. pastoris — Literature Data',
-        fontsize=18, fontweight='bold', y=0.98
+        'Specific Product Formation Rate ($q_p$) vs Specific Growth Rate ($\\mu$)\n'
+        '$\\it{S.\\ cerevisiae}$ and $\\it{P.\\ pastoris}$ — Literature Data',
+        fontsize=18, fontweight='bold', y=1.01
     )
 
     model_types = ['linear', 'bell_shaped', 'hyperbolic']
@@ -192,44 +193,44 @@ def create_figure():
 
             # Scatter plot of raw data
             ax.scatter(
-                mu_data, qp_data, 
-                color=color, s=100, zorder=5, 
+                mu_data, qp_data,
+                color=color, s=100, zorder=5,
                 edgecolors='white', linewidths=1.5,
                 label='Experimental data'
             )
 
             # Fit model and plot curve
             mu_fine = np.linspace(
-                max(0.001, mu_data.min() * 0.5), 
-                mu_data.max() * 1.15, 
+                max(0.001, mu_data.min() * 0.5),
+                mu_data.max() * 1.15,
                 200
             )
             try:
                 if mtype == 'linear':
                     popt, _ = curve_fit(mfn, mu_data, qp_data)
                     qp_fit = mfn(mu_fine, *popt)
-                    eq_text = f'qₚ = {popt[0]:.1f}·μ + {popt[1]:.2f}'
+                    eq_text = f'$q_p$ = {popt[0]:.1f}$\\mu$ + {popt[1]:.2f}'
                     r2 = 1 - np.sum((qp_data - mfn(mu_data, *popt))**2) / np.sum((qp_data - np.mean(qp_data))**2)
 
                 elif mtype == 'bell_shaped':
                     p0 = [max(qp_data), mu_data[np.argmax(qp_data)], 0.05]
                     popt, _ = curve_fit(mfn, mu_data, qp_data, p0=p0, maxfev=10000)
                     qp_fit = mfn(mu_fine, *popt)
-                    eq_text = f'qₚ_max={popt[0]:.1f}, μ_opt={popt[1]:.3f}'
+                    eq_text = f'$q_p^{{max}}$={popt[0]:.1f}, $\\mu_{{opt}}$={popt[1]:.3f}'
                     r2 = 1 - np.sum((qp_data - mfn(mu_data, *popt))**2) / np.sum((qp_data - np.mean(qp_data))**2)
 
                 elif mtype == 'hyperbolic':
                     p0 = [max(qp_data) * 1.2, 0.05]
                     popt, _ = curve_fit(mfn, mu_data, qp_data, p0=p0, maxfev=10000)
                     qp_fit = mfn(mu_fine, *popt)
-                    eq_text = f'qₚ_max={popt[0]:.1f}, Kμ={popt[1]:.4f}'
+                    eq_text = f'$q_p^{{max}}$={popt[0]:.1f}, $K_\\mu$={popt[1]:.4f}'
                     r2 = 1 - np.sum((qp_data - mfn(mu_data, *popt))**2) / np.sum((qp_data - np.mean(qp_data))**2)
 
                 ax.plot(mu_fine, qp_fit, color=color, linewidth=2.5, alpha=0.7, linestyle='--', label='Model fit')
-                
+
                 # Add equation and R² text
                 ax.text(
-                    0.05, 0.92, f'{eq_text}\nR² = {r2:.4f}',
+                    0.05, 0.92, f'{eq_text}\n$R^2$ = {r2:.4f}',
                     transform=ax.transAxes, fontsize=8,
                     verticalalignment='top',
                     bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.85, edgecolor='gray')
@@ -242,14 +243,13 @@ def create_figure():
                 )
 
             # Title with product name
-            organism_short = 'S.c.' if 'cerevisiae' in ds['organism'] else 'P.p.'
             ax.set_title(
                 f"{ds['product']}\n({ds['organism']})",
                 fontsize=11, fontweight='bold', pad=8
             )
 
-            ax.set_xlabel('Specific Growth Rate μ (h⁻¹)', fontsize=10)
-            ax.set_ylabel(f'qₚ ({ds["qp_unit"]})', fontsize=10)
+            ax.set_xlabel('Specific Growth Rate $\\mu$ (h$^{-1}$)', fontsize=10)
+            ax.set_ylabel(f'$q_p$ ({ds["qp_unit"]})', fontsize=10)
             ax.legend(fontsize=8, loc='lower right')
             ax.grid(True, alpha=0.3, linestyle='-')
             ax.tick_params(labelsize=9)
@@ -265,7 +265,7 @@ def create_figure():
         # Add model type label at top
         axes[0, col].annotate(
             mlabel,
-            xy=(0.5, 1.35), xycoords='axes fraction',
+            xy=(0.5, 1.55), xycoords='axes fraction',
             fontsize=14, fontweight='bold', ha='center',
             color=['#1565C0', '#E65100', '#2E7D32'][col],
             bbox=dict(
@@ -275,27 +275,27 @@ def create_figure():
             )
         )
 
-    plt.tight_layout(rect=[0, 0, 1, 0.93])
-    plt.subplots_adjust(hspace=0.45, wspace=0.35, top=0.88)
-    
+    plt.tight_layout(rect=[0, 0, 1, 0.88])
+    plt.subplots_adjust(hspace=0.45, wspace=0.35, top=0.82)
+
     return fig
 
 
 def main():
     """Generate and save the visualization."""
-    print("Generating μ-qp relationship plots...")
-    
+    print("Generating qp vs mu relationship plots...")
+
     fig = create_figure()
-    
+
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mu_qp_relationships.png')
     fig.savefig(output_path, dpi=200, bbox_inches='tight', facecolor='white')
     print(f"Saved figure to: {output_path}")
-    
+
     plt.close(fig)
-    
+
     # Print summary table
     print("\n" + "="*80)
-    print("SUMMARY OF μ-qp RELATIONSHIPS")
+    print("SUMMARY OF qp vs mu RELATIONSHIPS")
     print("="*80)
     print(f"{'Model Type':<15} {'Product':<30} {'Organism':<20} {'Reference'}")
     print("-"*80)
@@ -303,6 +303,6 @@ def main():
         for ds in data[mtype]:
             print(f"{mtype:<15} {ds['product']:<30} {ds['organism']:<20} {ds['reference']}")
     print("="*80)
- 
+
 if __name__ == '__main__':
     main()

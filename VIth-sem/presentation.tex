@@ -59,12 +59,12 @@
     {\Large\bfseries\color{darkcharcoal} Indian Institute of Technology (BHU), Varanasi}\\[0.6cm]
     {\LARGE\bfseries\color{darkcharcoal} Optimising Fed-Batch Bioprocesses}\\[0.15cm]
     {\LARGE\bfseries\color{darkcharcoal} using pyFOOMB}\\[0.4cm]
-    {\large\color{accentblue} UG Project Progress Report}\\[0.8cm]
+    {\large\color{accentblue} BC-392 : UG Project - 1 Semester Report}\\[0.8cm]
     \begin{tabular}{rl}
       \textbf{Student:} & Yashashwi Singhania (23014019) \\
       \textbf{Guide:} & Dr.\ Sharon Mano Pappu J. \\
       \textbf{Department:} & Biochemical Engineering \\
-      \textbf{Lab:} & BPDD (\_\_\_\_\_\_\_\_) \\
+      \textbf{Lab:} & Bioprocess Development and Digitalization Laboratory \\
     \end{tabular}\\[0.5cm]
     {\small April 2026}
   \end{center}
@@ -75,8 +75,8 @@
 \begin{frame}{Project Overview}
   \begin{block}{Objective}
     Optimise the \textbf{fed-batch feeding strategy} for recombinant protein production
-    by exploiting the relationship between specific growth rate ($\mu$) and
-    specific product formation rate ($q_p$).
+    by exploiting the relationship between specific product formation rate ($q_p$)
+    and specific growth rate ($\mu$).
   \end{block}
 
   \vspace{0.3cm}
@@ -86,7 +86,7 @@
       \begin{itemize}
         \item[\textcolor{donegreen}{\checkmark}] Studied the pyFOOMB framework
         \item[\textcolor{donegreen}{\checkmark}] Built a full web-based GUI
-        \item[\textcolor{donegreen}{\checkmark}] Surveyed $\mu$--$q_p$ models from literature
+        \item[\textcolor{donegreen}{\checkmark}] Surveyed $q_p$--$\mu$ models from literature
         \item[\textcolor{donegreen}{\checkmark}] Simulated batch X, S, P profiles
       \end{itemize}
     \end{column}
@@ -103,7 +103,44 @@
   \end{columns}
 \end{frame}
 
-% ── Slide 3: What is pyFOOMB? ──────────────────────────────
+% ── Slide 3: Why Fed-Batch? Why qp vs mu? ─────────────────
+\begin{frame}{Why Optimise Fed-Batch Using $q_p$ vs $\mu$?}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{Recombinant Protein Production:}
+      \begin{itemize}
+        \item In recombinant organisms, \textbf{growth} and \textbf{product formation}
+              are governed by different cellular mechanisms.
+        \item Faster growth ($\uparrow\mu$) does not always mean more product ($\uparrow q_p$).
+        \item Overexpression of foreign proteins competes with cell maintenance,
+              causing stress at high $\mu$.
+        \item The $q_p$--$\mu$ relationship is product- and organism-specific.
+      \end{itemize}
+
+      \vspace{0.15cm}
+      \textbf{Goal:} Find the $\mu$ that maximises $q_p$
+      $\Rightarrow$ maximise volumetric productivity.
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \textbf{Why Fed-Batch?}
+      \begin{itemize}
+        \item In fed-batch, substrate is added at a controlled rate.
+        \item At quasi-steady state the \textbf{dilution rate} $D \approx \mu$.
+        \item By controlling the feed rate $F$, we directly control $\mu$
+              and therefore $q_p(\mu)$.
+      \end{itemize}
+
+      \vspace{0.15cm}
+      \begin{block}{Control Strategy}
+        \centering
+        $F \;\rightarrow\; D \approx \mu \;\rightarrow\; q_p(\mu) \;\rightarrow\; P$
+      \end{block}
+
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── Slide 4: What is pyFOOMB? ──────────────────────────────
 \begin{frame}{What is pyFOOMB?}
   \textbf{Py}thon \textbf{F}ramework for \textbf{O}bject-\textbf{O}riented \textbf{M}odelling of \textbf{B}ioprocesses
 
@@ -127,7 +164,7 @@
       \textbf{Key Difference:}
       \begin{block}{}
         pyFOOMB does \textbf{not} hardcode kinetic models.
-        Users implement \textit{any} $\mu$--$q_p$ relationship
+        Users implement \textit{any} $q_p$--$\mu$ relationship
         in their model's \texttt{rhs()} method. The framework handles
         simulation, events, and estimation.
       \end{block}
@@ -202,7 +239,7 @@
       \begin{itemize}
         \item[\textcolor{donegreen}{\checkmark}] Next.js web frontend (6 pages)
         \item[\textcolor{donegreen}{\checkmark}] FastAPI REST backend (30+ endpoints)
-        \item[\textcolor{donegreen}{\checkmark}] 8 pre-built model templates
+        \item[\textcolor{donegreen}{\checkmark}] 8 pre-built substrate kinetic templates
         \item[\textcolor{donegreen}{\checkmark}] Interactive plots \& math rendering
         \item[\textcolor{donegreen}{\checkmark}] Data import (CSV, paste, Google Sheets)
         \item[\textcolor{donegreen}{\checkmark}] 39 automated API tests
@@ -321,7 +358,7 @@
   \vspace{0.2cm}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \textbf{Model Templates (8):}
+      \textbf{Substrate Kinetic Templates (8):}
       {\small
       \begin{itemize}
         \item Monod, Logistic, Exponential Growth
@@ -347,20 +384,46 @@
   \end{columns}
 \end{frame}
 
-% ── Slide 8: GUI Screenshot ───────────────────────────────
+% ── Slide 8: Substrate Kinetic Model Equations ─────────────
+\begin{frame}{Substrate Kinetic Model Equations}
+  {\small All 8 pre-built templates model growth rate $\mu$ as a function of substrate $S$:}
+
+  \vspace{0.1cm}
+  \begin{center}
+  \renewcommand{\arraystretch}{1.3}
+  {\footnotesize
+  \begin{tabular}{l>{$\displaystyle}l<{$}}
+    \toprule
+    \textbf{Model} & \textbf{Equation} \\
+    \midrule
+    Monod & \mu = \mu_{max} \frac{S}{K_S + S} \\
+    Andrews & \mu = \mu_{max} \frac{S}{K_S + S + S^2/K_I} \\
+    Logistic & \mu = \mu_{max} \left(1 - \frac{X}{X_{max}}\right) \\
+    Contois & \mu = \mu_{max} \frac{S}{K_{SX} X + S} \\
+    Double Monod & \mu = \mu_{max} \frac{S_1}{K_{S1}+S_1} \cdot \frac{S_2}{K_{S2}+S_2} \\
+    Exp.\ Growth & \mu = \mu_{max} \quad \text{(unlimited)} \\
+    Exp.\ Decay & \mu(t) = \mu_0 \, e^{-k_d t} \\
+    Fed-Batch Monod & \text{Monod} + \frac{dV}{dt}=F(t),\; D=F/V \\
+    \bottomrule
+  \end{tabular}
+  }
+  \end{center}
+
+  \vspace{0.05cm}
+  {\small These substrate kinetics define $\mu$, which then drives $q_p(\mu)$ for product formation.}
+\end{frame}
+
+% ── Slide 9: GUI Screenshot ───────────────────────────────
 \begin{frame}{GUI: Interface}
   \begin{center}
-    % Replace with your screenshot:
     \includegraphics[width=0.85\textwidth]{image.png}
-    % {\large\textcolor{pendinggray}{[Place your GUI screenshot here]}}\\[0.3cm]
-    % {\small\textcolor{pendinggray}{Save as \texttt{gui\_screenshot.png} and uncomment the line above.}}
   \end{center}
 \end{frame}
 
 
-% ── Slide 9: μ–qp Relationship Models ─────────────────────
-\begin{frame}{$\mu$--$q_p$ Relationship Models}
-  The $\mu$--$q_p$ relationship governs how fast a cell produces product at a given growth rate.
+% ── Slide 9: qp–μ Relationship Models ─────────────────────
+\begin{frame}{$q_p$--$\mu$ Relationship Models}
+  The $q_p$--$\mu$ relationship governs how fast a cell produces product at a given growth rate.
   It determines the \textbf{optimal feeding strategy} in fed-batch.
 
   \vspace{0.2cm}
@@ -399,10 +462,12 @@
   and fitted each to one of these three models using \texttt{scipy.optimize.curve\_fit}.}
 \end{frame}
 
+
+
 % ── Slide 10: Literature Survey ───────────────────────────
 \begin{frame}{Literature Survey: 9 Products, 2 Organisms}
   \vspace{-0.1cm}
-  {\small $\mu$--$q_p$ data extracted from chemostat (CSTR) steady-state experiments at various dilution rates.}
+  {\small $q_p$--$\mu$ data extracted from chemostat (CSTR) steady-state experiments at various dilution rates.}
 
   \vspace{0.2cm}
   \begin{center}
@@ -433,7 +498,7 @@
 \end{frame}
 
 % ── Slide 11: Extracted Data ──────────────────────────────
-\begin{frame}{Extracted Data: $\mu$ and $q_p$ Ranges}
+\begin{frame}{Extracted Data: $q_p$ and $\mu$ Ranges}
   \vspace{-0.1cm}
   {\small Data points digitised from each publication:}
 
@@ -465,8 +530,8 @@
   {\small All data obtained from continuous cultures where dilution rate $D = \mu$ at steady state.
   Fitted parameters: $\alpha, \beta$ (linear); $q_p^{max}, \mu_{opt}, \sigma$ (bell); $q_p^{max}, K_q$ (hyperbolic).}
 \end{frame}
-% ── Slide 12: μ–qp Plot ──────────────────────────────────
-\begin{frame}{$\mu$--$q_p$ Fitting Results}
+% ── Slide 12: qp–μ Plot ──────────────────────────────────
+\begin{frame}{$q_p$--$\mu$ Fitting Results}
   \vfill
   \begin{center}
     \includegraphics[height=0.82\textheight]{mu_qp_relationships.png}
@@ -476,7 +541,7 @@
 
 % ── Slide 12: XPS Simulation ─────────────────────────────
 \begin{frame}{Batch X, S, P Profile Simulation}
-  From the fitted $\mu$--$q_p$ parameters, we simulated full batch dynamics for each product.
+  From the fitted $q_p$--$\mu$ parameters, we simulated full batch dynamics for each product.
 
   \vspace{0.2cm}
   \begin{columns}[T]
@@ -539,7 +604,7 @@
     \node[doneblock] (a1) at (0,0) {Study pyFOOMB};
     \node[doneblock] (a2) at (3,0) {Build Web GUI};
     \node[doneblock] (a3) at (6,0) {Literature Survey};
-    \node[doneblock] (a4) at (9,0) {$\mu$--$q_p$ Fitting};
+    \node[doneblock] (a4) at (9,0) {$q_p$--$\mu$ Fitting};
     \node[doneblock] (a5) at (12,0) {Batch Simulation};
 
     \draw[arr] (a1) -- (a2);
@@ -571,7 +636,7 @@
       {\small
       \begin{itemize}
         \item[\textcolor{donegreen}{\checkmark}] Full pyFOOMB web GUI
-        \item[\textcolor{donegreen}{\checkmark}] 9-product $\mu$--$q_p$ literature survey
+        \item[\textcolor{donegreen}{\checkmark}] 9-product $q_p$--$\mu$ literature survey
         \item[\textcolor{donegreen}{\checkmark}] Batch XPS profile simulations
       \end{itemize}
       }
