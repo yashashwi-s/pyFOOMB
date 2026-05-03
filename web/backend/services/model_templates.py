@@ -17,7 +17,7 @@ class MonodGrowth(BioprocessModel):
     Parameters: mu_max, K_S, Y_XS, Y_PS
     """
     def rhs(self, t, y, sw=None):
-        X, P, S = y  # alphabetical: P, S, X → sorted as P, S, X? No, pyFOOMB sorts alphabetically
+        P, S, X = y
         mu_max = self.model_parameters['mu_max']
         K_S = self.model_parameters['K_S']
         Y_XS = self.model_parameters['Y_XS']
