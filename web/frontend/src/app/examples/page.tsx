@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/components/Toast";
 import Math from "@/components/Math";
 import { paramToTex } from "@/lib/paramToTex";
+import PageHeader from "@/components/ui/PageHeader";
 
 interface Example {
     id: string;
@@ -163,7 +164,6 @@ export default function ExamplesPage() {
     const router = useRouter();
     const { toast } = useToast();
     const [busy, setBusy] = useState<string | null>(null);
-    const [loadedId, setLoadedId] = useState<string | null>(null);
 
     const categories = [...new Set(EXAMPLES.map((e) => e.category))];
 
@@ -180,8 +180,7 @@ export default function ExamplesPage() {
             if (ex.measurements) {
                 await api.addMeasurements(model.model_id, { measurements: ex.measurements });
             }
-            setLoadedId(model.model_id);
-            toast(`${ex.title} loaded`);
+            toast(`${ex.title} loaded`, "success");
             router.push("/simulation");
         } catch (e: unknown) {
             toast(e instanceof Error ? e.message : "Failed to load", "error");
@@ -207,8 +206,7 @@ export default function ExamplesPage() {
                 abs_noise: dp.abs_noise,
                 seed: 42,
             });
-            setLoadedId(model.model_id);
-            toast(`${ex.title} loaded with ${dp.n_points}-point synthetic data`);
+            toast(`${ex.title} loaded with ${dp.n_points}-point synthetic data`, "success");
             router.push("/simulation");
         } catch (e: unknown) {
             toast(e instanceof Error ? e.message : "Failed to generate", "error");
@@ -220,59 +218,56 @@ export default function ExamplesPage() {
 
     return (
         <div>
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Examples</h1>
-                <p style={{ fontSize: 12, color: "#a1a1aa" }}>Pre-configured scenarios from the pyFOOMB example notebooks.</p>
-            </div>
+            <PageHeader title="Examples" description="Pre-configured scenarios from the pyFOOMB example notebooks." />
 
             <div className="hint-bar">
-                Each card has two loading options — <strong style={{ color: "#d4d4d8" }}>Load</strong> uses
-                hardcoded reference data when available, while <strong style={{ color: "#d4d4d8" }}>Load + Data</strong> generates
+                Each card has two loading options — <strong>Load</strong> uses
+                hardcoded reference data when available, while <strong>Load + Data</strong> generates
                 noisy synthetic measurements tuned to the model&apos;s dynamics.
             </div>
 
             {categories.map((cat) => (
-                <div key={cat} style={{ marginBottom: 20 }}>
-                    <div style={{ fontSize: 10, color: "#52525b", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: 8 }}>
+                <div key={cat} className="mb-5">
+                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-subtle">
                         {cat}
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
+                    <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
                         {EXAMPLES.filter((e) => e.category === cat).map((ex) => (
-                            <div key={ex.id} className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                            <div key={ex.id} className="card flex flex-col justify-between">
                                 <div>
-                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
-                                        <span style={{ fontSize: 12, fontWeight: 500 }}>{ex.title}</span>
-                                        <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+                                    <div className="mb-1.5 flex items-start justify-between">
+                                        <span className="text-xs font-medium">{ex.title}</span>
+                                        <div className="flex flex-shrink-0 gap-1">
                                             {ex.measurements && (
-                                                <span style={{ fontSize: 8, padding: "1px 5px", background: "#1a1a2e", color: "#818cf8", borderRadius: 3, letterSpacing: "0.04em" }}>data</span>
+                                                <span className="rounded bg-accent-soft px-1.5 py-0.5 text-[8px] tracking-wide text-[#8ab4e8]">data</span>
                                             )}
-                                            <span style={{ fontSize: 8, padding: "1px 5px", background: "#1a1a2e", color: "#818cf8", borderRadius: 3, letterSpacing: "0.04em" }}>fit</span>
+                                            <span className="rounded bg-accent-soft px-1.5 py-0.5 text-[8px] tracking-wide text-[#8ab4e8]">fit</span>
                                         </div>
                                     </div>
 
-                                    <div style={{ fontSize: 10, color: "#3f3f46", fontFamily: "var(--font-mono)", marginBottom: 6 }}>
+                                    <div className="mb-1.5 font-mono text-[10px] text-faint">
                                         {ex.source}
                                     </div>
 
-                                    <div style={{ marginBottom: 8, padding: "6px 10px", borderRadius: 4, overflowX: "auto" }}>
+                                    <div className="mb-2 overflow-x-auto rounded px-2.5 py-1.5">
                                         <Math tex={ex.equation} display />
                                     </div>
 
-                                    <p style={{ fontSize: 11, color: "#71717a", lineHeight: 1.6, marginBottom: 8 }}>{ex.description}</p>
+                                    <p className="mb-2 text-[11px] leading-relaxed text-muted-2">{ex.description}</p>
 
                                     {/* Parameters */}
-                                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 4 }}>
+                                    <div className="mb-1 flex flex-wrap gap-1">
                                         {Object.entries(ex.model_parameters).map(([k, v]) => (
-                                            <span key={k} style={{ fontSize: 9, padding: "2px 6px", background: "#1c1c1e", borderRadius: 3, color: "#71717a", display: "inline-flex", alignItems: "center", gap: 2 }}>
+                                            <span key={k} className="inline-flex items-center gap-0.5 rounded bg-background px-1.5 py-0.5 text-[9px] text-muted-2">
                                                 <Math tex={`${paramToTex(k)} = ${v}`} />
                                             </span>
                                         ))}
                                     </div>
 
                                     {/* Estimation bounds */}
-                                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 10 }}>
+                                    <div className="mb-2.5 flex flex-wrap gap-1">
                                         {Object.entries(ex.unknowns).map(([k, v]) => (
-                                            <span key={k} style={{ fontSize: 9, padding: "2px 6px", background: "#111827", borderRadius: 3, color: "#6b7280", display: "inline-flex", alignItems: "center" }}>
+                                            <span key={k} className="inline-flex items-center rounded bg-background/60 px-1.5 py-0.5 text-[9px] text-subtle">
                                                 <Math tex={`${paramToTex(k)} \\in [${v[0]},\\, ${v[1]}]`} />
                                             </span>
                                         ))}
@@ -280,40 +275,26 @@ export default function ExamplesPage() {
                                 </div>
 
                                 {/* Footer */}
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #1e1e21", paddingTop: 10 }}>
-                                    <span style={{ fontSize: 10, color: "#3f3f46" }}>
+                                <div className="flex items-center justify-between border-t border-border pt-2.5">
+                                    <span className="text-[10px] text-faint">
                                         t: 0–{ex.t_end}h · {ex.states.join(", ")}
                                     </span>
-                                    <div style={{ display: "flex", gap: 4 }}>
+                                    <div className="flex gap-1">
                                         <button
-                                            className="btn-secondary"
-                                            style={{ fontSize: 10, padding: "4px 12px" }}
+                                            className="btn-secondary px-3 py-1 text-[10px]"
                                             onClick={() => loadWithData(ex)}
                                             disabled={isBusy(ex.id)}
                                             title={`Generate ${ex.dataProfile.n_points} noisy points (σ=${ex.dataProfile.noise_percent}%)`}
                                         >
-                                            {busy === `${ex.id}_gen` ? <span className="spinner" style={{ width: 12, height: 12, borderWidth: 1.5 }} /> : "Load + Data"}
+                                            {busy === `${ex.id}_gen` ? <span className="spinner h-3 w-3 border" /> : "Load + Data"}
                                         </button>
-                                        {ex.measurements && (
-                                            <button
-                                                className="btn-primary"
-                                                style={{ fontSize: 10, padding: "4px 12px" }}
-                                                onClick={() => loadExample(ex)}
-                                                disabled={isBusy(ex.id)}
-                                            >
-                                                {busy === ex.id ? <span className="spinner" style={{ width: 12, height: 12, borderWidth: 1.5 }} /> : "Load"}
-                                            </button>
-                                        )}
-                                        {!ex.measurements && (
-                                            <button
-                                                className="btn-primary"
-                                                style={{ fontSize: 10, padding: "4px 12px" }}
-                                                onClick={() => loadExample(ex)}
-                                                disabled={isBusy(ex.id)}
-                                            >
-                                                {busy === ex.id ? <span className="spinner" style={{ width: 12, height: 12, borderWidth: 1.5 }} /> : "Load"}
-                                            </button>
-                                        )}
+                                        <button
+                                            className="btn-primary px-3 py-1 text-[10px]"
+                                            onClick={() => loadExample(ex)}
+                                            disabled={isBusy(ex.id)}
+                                        >
+                                            {busy === ex.id ? <span className="spinner h-3 w-3 border" /> : "Load"}
+                                        </button>
                                     </div>
                                 </div>
                             </div>

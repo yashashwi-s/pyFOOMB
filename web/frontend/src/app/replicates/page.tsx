@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import MathTex from "@/components/Math";
 import { paramToTex } from "@/lib/paramToTex";
+import { Copy, X } from "lucide-react";
+import PageHeader from "@/components/ui/PageHeader";
+import StatusMessage from "@/components/ui/StatusMessage";
+import EmptyState from "@/components/ui/EmptyState";
 
 interface ModelInfo { id: string; name: string; }
 
@@ -32,6 +36,7 @@ export default function ReplicatesPage() {
         setModelId(id);
         setError("");
         setMessage("");
+        if (!id) { setReplicateIds([]); setParameters({}); return; }
         try {
             const r = await api.getReplicates(id);
             setReplicateIds(r.replicate_ids);
@@ -92,12 +97,14 @@ export default function ReplicatesPage() {
         }
     }
 
+    function addIntegratorKey() {
+        const key = prompt("Key:");
+        if (key) setIntKwargs({ ...intKwargs, [key]: "" });
+    }
+
     return (
         <div>
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Replicates & Settings</h1>
-                <p style={{ fontSize: 12, color: "#a1a1aa" }}>Multi-reactor parameter mapping and integrator configuration.</p>
-            </div>
+            <PageHeader title="Replicates & Settings" description="Multi-reactor parameter mapping and integrator configuration." />
 
             <div className="hint-bar">
                 For experiments with multiple reactors or conditions, use replicates to share model structure
@@ -106,76 +113,86 @@ export default function ReplicatesPage() {
             </div>
 
             {/* Model selector */}
-            <div className="card" style={{ marginBottom: 16 }}>
-                <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>Model</label>
-                <select value={modelId} onChange={(e) => loadModel(e.target.value)} style={{ width: 200 }}>
+            <div className="card mb-4">
+                <label className="mb-1 block text-[10px] text-muted-2">Model</label>
+                <select value={modelId} onChange={(e) => loadModel(e.target.value)} className="w-[200px]">
                     <option value="">Select model...</option>
                     {models.map((m) => <option key={m.id} value={m.id}>{m.name} ({m.id})</option>)}
                 </select>
             </div>
 
             {error && (
-                <div style={{ padding: "8px 12px", background: "#450a0a", border: "1px solid #991b1b", borderRadius: 6, fontSize: 11, marginBottom: 12 }}>
-                    <span className="dot dot-red" />{error}
+                <div className="mb-3">
+                    <StatusMessage type="error">{error}</StatusMessage>
                 </div>
             )}
             {message && (
-                <div style={{ padding: "8px 12px", background: "#052e16", border: "1px solid #166534", borderRadius: 6, fontSize: 11, marginBottom: 12 }}>
-                    <span className="dot dot-green" />{message}
+                <div className="mb-3">
+                    <StatusMessage type="success">{message}</StatusMessage>
+                </div>
+            )}
+
+            {!modelId && (
+                <div className="card">
+                    <EmptyState icon={Copy} title="No model selected" description="Select a model above to manage replicates, parameter mappings, and integrator settings." />
                 </div>
             )}
 
             {modelId && (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                     {/* Left column */}
                     <div>
                         {/* Replicates */}
-                        <div className="card" style={{ marginBottom: 12 }}>
-                            <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>Replicates</div>
-                            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
+                        <div className="card mb-3">
+                            <div className="mb-2 text-[11px] font-medium text-muted">Replicates</div>
+                            <div className="mb-2 flex flex-wrap gap-1.5">
+                                {replicateIds.length === 0 && <span className="text-[11px] text-subtle">No replicates yet</span>}
                                 {replicateIds.map((rid, i) => (
-                                    <span key={i} style={{
-                                        fontSize: 10, padding: "3px 8px", background: "#27272a", borderRadius: 4,
-                                        fontFamily: "var(--font-mono)", color: rid === null ? "#52525b" : "#fafafa",
-                                    }}>
+                                    <span key={i} className={`rounded bg-border px-2 py-0.5 font-mono text-[10px] ${rid === null ? "text-subtle" : "text-foreground"}`}>
                                         {rid === null ? "(single)" : rid}
                                     </span>
                                 ))}
                             </div>
-                            <div style={{ display: "flex", gap: 6 }}>
-                                <input type="text" placeholder="Replicate ID" value={newRepId} onChange={(e) => setNewRepId(e.target.value)} style={{ width: 140 }} />
+                            <div className="flex gap-1.5">
+                                <input type="text" placeholder="Replicate ID" value={newRepId} onChange={(e) => setNewRepId(e.target.value)} className="w-[140px]" />
                                 <button className="btn-secondary" onClick={addReplicate}>Add</button>
                             </div>
                         </div>
 
                         {/* Parameter Mappings */}
-                        <div className="card" style={{ marginBottom: 12 }}>
-                            <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>Parameter Mappings</div>
+                        <div className="card mb-3">
+                            <div className="mb-2 text-[11px] font-medium text-muted">Parameter Mappings</div>
                             {mappings.length > 0 && (
-                                <table style={{ marginBottom: 8 }}>
-                                    <thead>
-                                        <tr>
-                                            <th>Replicate</th>
-                                            <th>Global</th>
-                                            <th>Local</th>
-                                            <th>Value</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {mappings.map((m, i) => (
-                                            <tr key={i}>
-                                                <td><input type="text" value={m.replicate_id} onChange={(e) => { const n = [...mappings]; n[i].replicate_id = e.target.value; setMappings(n); }} style={{ width: 70 }} /></td>
-                                                <td><input type="text" value={m.global_name} onChange={(e) => { const n = [...mappings]; n[i].global_name = e.target.value; setMappings(n); }} style={{ width: 70 }} /></td>
-                                                <td><input type="text" value={m.local_name} onChange={(e) => { const n = [...mappings]; n[i].local_name = e.target.value; setMappings(n); }} style={{ width: 70 }} /></td>
-                                                <td><input type="text" value={m.value} onChange={(e) => { const n = [...mappings]; n[i].value = e.target.value; setMappings(n); }} style={{ width: 60 }} /></td>
-                                                <td><button className="btn-secondary" style={{ padding: "2px 6px", fontSize: 10 }} onClick={() => setMappings(mappings.filter((_, j) => j !== i))}>×</button></td>
+                                <div className="mb-2 overflow-x-auto">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Replicate</th>
+                                                <th>Global</th>
+                                                <th>Local</th>
+                                                <th>Value</th>
+                                                <th></th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {mappings.map((m, i) => (
+                                                <tr key={i}>
+                                                    <td><input type="text" value={m.replicate_id} onChange={(e) => { const n = [...mappings]; n[i].replicate_id = e.target.value; setMappings(n); }} className="w-[70px]" /></td>
+                                                    <td><input type="text" value={m.global_name} onChange={(e) => { const n = [...mappings]; n[i].global_name = e.target.value; setMappings(n); }} className="w-[70px]" /></td>
+                                                    <td><input type="text" value={m.local_name} onChange={(e) => { const n = [...mappings]; n[i].local_name = e.target.value; setMappings(n); }} className="w-[70px]" /></td>
+                                                    <td><input type="text" value={m.value} onChange={(e) => { const n = [...mappings]; n[i].value = e.target.value; setMappings(n); }} className="w-[60px]" /></td>
+                                                    <td>
+                                                        <button className="btn-secondary px-1.5 py-0.5 text-[10px]" onClick={() => setMappings(mappings.filter((_, j) => j !== i))}>
+                                                            <X size={11} />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             )}
-                            <div style={{ display: "flex", gap: 6 }}>
+                            <div className="flex gap-1.5">
                                 <button className="btn-secondary" onClick={addMappingRow}>+ Add Mapping</button>
                                 {mappings.length > 0 && <button className="btn-primary" onClick={submitMappings}>Apply</button>}
                             </div>
@@ -185,33 +202,37 @@ export default function ReplicatesPage() {
                     {/* Right column */}
                     <div>
                         {/* Current Parameters */}
-                        <div className="card" style={{ marginBottom: 12 }}>
-                            <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>Current Parameters</div>
-                            <table>
-                                <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
-                                <tbody>
-                                    {Object.entries(parameters).map(([k, v]) => (
-                                        <tr key={k}>
-                                            <td><MathTex tex={paramToTex(k)} /></td>
-                                            <td style={{ fontFamily: "var(--font-mono)" }}>{typeof v === 'number' ? v.toFixed(6) : String(v)}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        <div className="card mb-3">
+                            <div className="mb-2 text-[11px] font-medium text-muted">Current Parameters</div>
+                            {Object.keys(parameters).length === 0 ? (
+                                <div className="text-[11px] text-subtle">No parameters found for this model.</div>
+                            ) : (
+                                <table>
+                                    <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+                                    <tbody>
+                                        {Object.entries(parameters).map(([k, v]) => (
+                                            <tr key={k}>
+                                                <td><MathTex tex={paramToTex(k)} /></td>
+                                                <td className="font-mono">{typeof v === 'number' ? v.toFixed(6) : String(v)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
 
                         {/* Integrator Settings */}
                         <div className="card">
-                            <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>Integrator Settings</div>
-                            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                            <div className="mb-2 text-[11px] font-medium text-muted">Integrator Settings</div>
+                            <div className="flex flex-col gap-1.5">
                                 {Object.entries(intKwargs).map(([k, v]) => (
-                                    <div key={k} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                        <label style={{ fontSize: 10, width: 50 }}><MathTex tex={paramToTex(k)} /></label>
-                                        <input type="text" value={v} onChange={(e) => setIntKwargs({ ...intKwargs, [k]: e.target.value })} style={{ width: 100 }} />
+                                    <div key={k} className="flex items-center gap-1.5">
+                                        <label className="w-[50px] text-[10px]"><MathTex tex={paramToTex(k)} /></label>
+                                        <input type="text" value={v} onChange={(e) => setIntKwargs({ ...intKwargs, [k]: e.target.value })} className="w-[100px]" />
                                     </div>
                                 ))}
-                                <div style={{ display: "flex", gap: 6 }}>
-                                    <button className="btn-secondary" onClick={() => setIntKwargs({ ...intKwargs, [prompt("Key:") || ""]: "" })}>+ Add</button>
+                                <div className="flex gap-1.5">
+                                    <button className="btn-secondary" onClick={addIntegratorKey}>+ Add</button>
                                     <button className="btn-primary" onClick={updateIntegrator}>Update</button>
                                 </div>
                             </div>

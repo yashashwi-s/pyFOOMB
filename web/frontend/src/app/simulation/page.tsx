@@ -5,8 +5,21 @@ import { api } from "@/lib/api";
 import { ComposedChart, Line, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import MathTex from "@/components/Math";
 import { paramToTex } from "@/lib/paramToTex";
-
-const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#f97316"];
+import { Play, Download, LineChart as LineChartIcon } from "lucide-react";
+import PageHeader from "@/components/ui/PageHeader";
+import StatusMessage from "@/components/ui/StatusMessage";
+import EmptyState from "@/components/ui/EmptyState";
+import { SkeletonChart } from "@/components/ui/Skeleton";
+import {
+    CHART_COLORS,
+    CHART_GRID_STROKE,
+    CHART_AXIS_TICK,
+    CHART_TOOLTIP_STYLE,
+    CHART_TOOLTIP_LABEL_STYLE,
+    CHART_TOOLTIP_ITEM_STYLE,
+    CHART_LEGEND_STYLE,
+    formatNumber,
+} from "@/lib/chartTheme";
 
 interface ModelInfo { id: string; name: string; }
 
@@ -25,6 +38,7 @@ export default function SimulationPage() {
     const [running, setRunning] = useState(false);
     const [error, setError] = useState("");
     const [measurements, setMeasurements] = useState<MeasData[]>([]);
+    const [modelLoading, setModelLoading] = useState(false);
 
     useEffect(() => {
         api.getModels().then((r) => setModels(r.models)).catch(console.error);
@@ -34,6 +48,8 @@ export default function SimulationPage() {
         setModelId(id);
         setResults([]);
         setError("");
+        if (!id) { setModelMeta(null); return; }
+        setModelLoading(true);
         try {
             const r = await api.getModel(id);
             setModelMeta(r.metadata);
@@ -47,6 +63,7 @@ export default function SimulationPage() {
         } catch (e: unknown) {
             setError(e instanceof Error ? e.message : "Failed");
         }
+        setModelLoading(false);
     }
 
     async function runSimulation() {
@@ -91,10 +108,7 @@ export default function SimulationPage() {
 
     return (
         <div>
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Simulation</h1>
-                <p style={{ fontSize: 12, color: "#a1a1aa" }}>Run forward simulations and explore model dynamics.</p>
-            </div>
+            <PageHeader title="Simulation" description="Run forward simulations and explore model dynamics." />
 
             <div className="hint-bar">
                 Run a forward simulation to verify your model produces sensible dynamics before fitting to data.
@@ -102,48 +116,48 @@ export default function SimulationPage() {
             </div>
 
             {/* Controls */}
-            <div className="card" style={{ marginBottom: 16 }}>
-                <div style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
+            <div className="card mb-4">
+                <div className="flex flex-wrap items-end gap-3">
                     <div>
-                        <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>Model</label>
-                        <select value={modelId} onChange={(e) => loadModel(e.target.value)} style={{ width: 180 }}>
+                        <label className="mb-1 block text-[10px] text-muted-2">Model</label>
+                        <select value={modelId} onChange={(e) => loadModel(e.target.value)} className="w-[180px]">
                             <option value="">Select model...</option>
                             {models.map((m) => <option key={m.id} value={m.id}>{m.name} ({m.id})</option>)}
                         </select>
                     </div>
                     <div>
-                        <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>t_start</label>
+                        <label className="mb-1 block text-[10px] text-muted-2">t_start</label>
                         <input type="number" step="any" value={tStart} onChange={(e) => setTStart(parseFloat(e.target.value) || 0)} />
                     </div>
                     <div>
-                        <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>t_end</label>
+                        <label className="mb-1 block text-[10px] text-muted-2">t_end</label>
                         <input type="number" step="any" value={tEnd} onChange={(e) => setTEnd(parseFloat(e.target.value) || 0)} />
                     </div>
                     <div>
-                        <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>Points</label>
+                        <label className="mb-1 block text-[10px] text-muted-2">Points</label>
                         <input type="number" value={nPoints} onChange={(e) => setNPoints(parseInt(e.target.value) || 100)} />
                     </div>
                     <button className="btn-primary" onClick={runSimulation} disabled={running || !modelId}>
-                        {running ? <><span className="spinner" style={{ marginRight: 6 }} /> Running...</> : "▸ Run Simulation"}
+                        {running ? <><span className="spinner" /> Running...</> : <><Play size={12} /> Run Simulation</>}
                     </button>
                 </div>
             </div>
 
             {/* Parameter overrides */}
             {modelMeta && (
-                <div className="card" style={{ marginBottom: 16 }}>
-                    <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>
-                        Parameters <span style={{ fontWeight: 400, color: "#52525b" }}>(modify to override defaults)</span>
+                <div className="card mb-4">
+                    <div className="mb-2 text-[11px] font-medium text-muted">
+                        Parameters <span className="font-normal text-subtle">(modify to override defaults)</span>
                     </div>
-                    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    <div className="flex flex-wrap gap-3">
                         {Object.entries(allParams).map(([key, defaultVal]) => (
-                            <div key={key} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                                <label style={{ fontSize: 10, color: "#a1a1aa" }}><MathTex tex={paramToTex(key)} /></label>
+                            <div key={key} className="flex items-center gap-1">
+                                <label className="text-[10px] text-muted"><MathTex tex={paramToTex(key)} /></label>
                                 <input
                                     type="number"
                                     step="any"
                                     defaultValue={defaultVal}
-                                    style={{ width: 80 }}
+                                    className="w-20"
                                     onChange={(e) => {
                                         const v = parseFloat(e.target.value);
                                         if (!isNaN(v)) setParamOverrides((p) => ({ ...p, [key]: v }));
@@ -156,34 +170,67 @@ export default function SimulationPage() {
             )}
 
             {error && (
-                <div style={{ padding: "8px 12px", background: "#450a0a", border: "1px solid #991b1b", borderRadius: 6, fontSize: 11, marginBottom: 16 }}>
-                    <span className="dot dot-red" />{error}
+                <div className="mb-4">
+                    <StatusMessage type="error">{error}</StatusMessage>
+                </div>
+            )}
+
+            {!modelId && !modelLoading && (
+                <div className="card">
+                    <EmptyState
+                        icon={LineChartIcon}
+                        title="No model selected"
+                        description="Pick a model above to run a forward simulation, or create one on the Model page first."
+                    />
+                </div>
+            )}
+
+            {modelLoading && (
+                <div className="card mb-4">
+                    <SkeletonChart height={80} />
                 </div>
             )}
 
             {/* Chart */}
-            {(chartData.length > 0 || measurements.length > 0) && (
-                <div className="card" style={{ marginBottom: 16 }}>
+            {running && (
+                <div className="card mb-4">
+                    <SkeletonChart height={360} />
+                </div>
+            )}
+            {!running && (chartData.length > 0 || measurements.length > 0) && (
+                <div className="card mb-4">
                     {measurements.length > 0 && chartData.length === 0 && (
-                        <div style={{ fontSize: 11, color: "#71717a", marginBottom: 8 }}>
+                        <div className="mb-2 text-[11px] text-muted-2">
                             {measurements.length} measurement series loaded — run simulation to overlay model fit
                         </div>
                     )}
                     <ResponsiveContainer width="100%" height={360}>
                         <ComposedChart margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                            <XAxis dataKey="time" type="number" tick={{ fontSize: 10, fill: "#71717a" }} label={{ value: "Time [h]", position: "insideBottom", offset: -4, style: { fontSize: 10, fill: "#71717a" } }} domain={["auto", "auto"]} />
-                            <YAxis tick={{ fontSize: 10, fill: "#71717a" }} />
-                            <Tooltip contentStyle={{ background: "#18181b", border: "1px solid #27272a", borderRadius: 6, fontSize: 11 }} />
-                            <Legend wrapperStyle={{ fontSize: 11 }} />
+                            <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
+                            <XAxis
+                                dataKey="time"
+                                type="number"
+                                tick={CHART_AXIS_TICK}
+                                label={{ value: "Time [h]", position: "insideBottom", offset: -4, style: { fontSize: 10, fill: "#71717a" } }}
+                                domain={["auto", "auto"]}
+                            />
+                            <YAxis tick={CHART_AXIS_TICK} tickFormatter={formatNumber} width={52} />
+                            <Tooltip
+                                contentStyle={CHART_TOOLTIP_STYLE}
+                                labelStyle={CHART_TOOLTIP_LABEL_STYLE}
+                                itemStyle={CHART_TOOLTIP_ITEM_STYLE}
+                                labelFormatter={(v) => `t = ${formatNumber(Number(v))} h`}
+                                formatter={(value) => formatNumber(value as number)}
+                            />
+                            <Legend wrapperStyle={CHART_LEGEND_STYLE} />
                             {/* Simulation lines */}
                             {results.map((r, i) => (
-                                <Line key={r.name} type="monotone" data={chartData} dataKey={r.name} stroke={COLORS[i % COLORS.length]} dot={false} strokeWidth={1.5} name={r.name} />
+                                <Line key={r.name} type="monotone" data={chartData} dataKey={r.name} stroke={CHART_COLORS[i % CHART_COLORS.length]} dot={false} strokeWidth={2} name={r.name} isAnimationActive={false} />
                             ))}
                             {/* Measurement scatter points */}
                             {measNames.map((name, i) => {
                                 const colorIdx = results.findIndex((r) => r.name === name);
-                                const color = COLORS[(colorIdx >= 0 ? colorIdx : i) % COLORS.length];
+                                const color = CHART_COLORS[(colorIdx >= 0 ? colorIdx : i) % CHART_COLORS.length];
                                 return (
                                     <Scatter
                                         key={`${name}_meas`}
@@ -193,6 +240,7 @@ export default function SimulationPage() {
                                         name={`${name} (data)`}
                                         shape="circle"
                                         legendType="circle"
+                                        isAnimationActive={false}
                                     />
                                 );
                             })}
@@ -203,10 +251,10 @@ export default function SimulationPage() {
 
             {/* Data table */}
             {chartData.length > 0 && (
-                <div className="card" style={{ maxHeight: 300, overflowY: "auto" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                        <span style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa" }}>Data Table</span>
-                        <button className="btn-secondary" style={{ fontSize: 10, padding: "3px 10px" }} onClick={() => {
+                <div className="card max-h-[300px] overflow-y-auto">
+                    <div className="mb-2 flex items-center justify-between">
+                        <span className="text-[11px] font-medium text-muted">Data Table</span>
+                        <button className="btn-secondary py-1 text-[10px]" onClick={() => {
                             const header = ["time", ...results.map((r) => r.name)].join(",");
                             const rows = chartData.map((d) => [d.time, ...results.map((r) => d[r.name])].join(","));
                             const csv = [header, ...rows].join("\n");
@@ -214,25 +262,27 @@ export default function SimulationPage() {
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement("a"); a.href = url; a.download = "simulation.csv"; a.click();
                         }}>
-                            Export CSV
+                            <Download size={11} /> Export CSV
                         </button>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                {results.map((r) => <th key={r.name}>{r.name}</th>)}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {chartData.filter((_, i) => i % Math.ceil(chartData.length / 50) === 0).map((d, i) => (
-                                <tr key={i}>
-                                    <td>{typeof d.time === 'number' ? d.time.toFixed(3) : d.time}</td>
-                                    {results.map((r) => <td key={r.name}>{typeof d[r.name] === 'number' ? (d[r.name] as number).toFixed(4) : d[r.name]}</td>)}
+                    <div className="overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    {results.map((r) => <th key={r.name}>{r.name}</th>)}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {chartData.filter((_, i) => i % Math.ceil(chartData.length / 50) === 0).map((d, i) => (
+                                    <tr key={i}>
+                                        <td>{typeof d.time === 'number' ? d.time.toFixed(3) : d.time}</td>
+                                        {results.map((r) => <td key={r.name}>{typeof d[r.name] === 'number' ? (d[r.name] as number).toFixed(4) : d[r.name]}</td>)}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
         </div>
