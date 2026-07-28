@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ScatterChart, Scatter } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import MathTex from "@/components/Math";
 import { paramToTex } from "@/lib/paramToTex";
-
-const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"];
+import { Target } from "lucide-react";
+import PageHeader from "@/components/ui/PageHeader";
+import StatusMessage from "@/components/ui/StatusMessage";
+import EmptyState from "@/components/ui/EmptyState";
+import { SkeletonChart } from "@/components/ui/Skeleton";
+import { CHART_COLORS, CHART_TOOLTIP_STYLE, CHART_TOOLTIP_LABEL_STYLE, CHART_TOOLTIP_ITEM_STYLE, formatNumber } from "@/lib/chartTheme";
 
 interface ModelInfo { id: string; name: string; }
 
@@ -41,6 +45,7 @@ export default function EstimationPage() {
         setModelId(id);
         setResult(null);
         setError("");
+        if (!id) { setModelMeta(null); return; }
         try {
             const r = await api.getModel(id);
             setModelMeta(r.metadata);
@@ -97,10 +102,7 @@ export default function EstimationPage() {
 
     return (
         <div>
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Parameter Estimation</h1>
-                <p style={{ fontSize: 12, color: "#a1a1aa" }}>Fit model parameters to your measurement data.</p>
-            </div>
+            <PageHeader title="Parameter Estimation" description="Fit model parameters to your measurement data." />
 
             <div className="hint-bar">
                 Select which parameters to estimate and set their bounds. Choose a metric
@@ -108,13 +110,13 @@ export default function EstimationPage() {
                 Requires measurement data to be uploaded first.
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 {/* Left: Configuration */}
                 <div>
                     {/* Model selector */}
-                    <div className="card" style={{ marginBottom: 12 }}>
-                        <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>Model</label>
-                        <select value={modelId} onChange={(e) => loadModel(e.target.value)} style={{ width: "100%" }}>
+                    <div className="card mb-3">
+                        <label className="mb-1 block text-[10px] text-muted-2">Model</label>
+                        <select value={modelId} onChange={(e) => loadModel(e.target.value)} className="w-full">
                             <option value="">Select model...</option>
                             {models.map((m) => <option key={m.id} value={m.id}>{m.name} ({m.id})</option>)}
                         </select>
@@ -122,37 +124,36 @@ export default function EstimationPage() {
 
                     {/* Unknowns */}
                     {modelMeta && (
-                        <div className="card" style={{ marginBottom: 12 }}>
-                            <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>
-                                Select Unknowns & Bounds
+                        <div className="card mb-3">
+                            <div className="mb-2 text-[11px] font-medium text-muted">
+                                Select Unknowns &amp; Bounds
                             </div>
-                            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                            <div className="flex flex-col gap-1">
                                 {Object.entries(allParams).map(([key, val]) => {
                                     const isSelected = !!unknowns[key];
                                     return (
-                                        <div key={key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                        <div key={key} className="flex items-center gap-1.5">
                                             <input
                                                 type="checkbox"
                                                 checked={isSelected}
                                                 onChange={() => toggleUnknown(key)}
-                                                style={{ accentColor: "#3b82f6" }}
                                             />
-                                            <span style={{ width: 70, flexShrink: 0 }}><MathTex tex={paramToTex(key)} /></span>
-                                            <span style={{ fontSize: 10, color: "#52525b", width: 50 }}>= {typeof val === 'number' ? val.toFixed(3) : String(val)}</span>
+                                            <span className="w-[70px] flex-shrink-0"><MathTex tex={paramToTex(key)} /></span>
+                                            <span className="w-[50px] text-[10px] text-subtle">= {typeof val === 'number' ? val.toFixed(3) : String(val)}</span>
                                             {isSelected && (
                                                 <>
                                                     <input
                                                         type="number" step="any"
                                                         value={unknowns[key][0]}
                                                         onChange={(e) => setUnknowns({ ...unknowns, [key]: [parseFloat(e.target.value) || 0, unknowns[key][1]] })}
-                                                        style={{ width: 70 }}
+                                                        className="w-[70px]"
                                                     />
-                                                    <span style={{ fontSize: 10, color: "#52525b" }}>→</span>
+                                                    <span className="text-[10px] text-subtle">→</span>
                                                     <input
                                                         type="number" step="any"
                                                         value={unknowns[key][1]}
                                                         onChange={(e) => setUnknowns({ ...unknowns, [key]: [unknowns[key][0], parseFloat(e.target.value) || 0] })}
-                                                        style={{ width: 70 }}
+                                                        className="w-[70px]"
                                                     />
                                                 </>
                                             )}
@@ -165,19 +166,19 @@ export default function EstimationPage() {
 
                     {/* Metric & Method */}
                     {modelMeta && (
-                        <div className="card" style={{ marginBottom: 12 }}>
-                            <div style={{ display: "flex", gap: 16, marginBottom: 10 }}>
+                        <div className="card mb-3">
+                            <div className="mb-2.5 flex gap-4">
                                 <div>
-                                    <div style={{ fontSize: 10, color: "#71717a", marginBottom: 3 }}>Metric</div>
-                                    <select value={metric} onChange={(e) => setMetric(e.target.value)} style={{ width: 120 }}>
+                                    <div className="mb-1 text-[10px] text-muted-2">Metric</div>
+                                    <select value={metric} onChange={(e) => setMetric(e.target.value)} className="w-[120px]">
                                         <option value="SS">Sum of Squares</option>
                                         <option value="WSS">Weighted SS</option>
                                         <option value="negLL">Neg. Log-Likelihood</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 10, color: "#71717a", marginBottom: 3 }}>Method</div>
-                                    <select value={method} onChange={(e) => setMethod(e.target.value)} style={{ width: 140 }}>
+                                    <div className="mb-1 text-[10px] text-muted-2">Method</div>
+                                    <select value={method} onChange={(e) => setMethod(e.target.value)} className="w-[140px]">
                                         <option value="local">Local (scipy)</option>
                                         <option value="parallel">Parallel (pygmo)</option>
                                         <option value="repeated">Repeated</option>
@@ -189,39 +190,44 @@ export default function EstimationPage() {
 
                             {/* Method-specific options */}
                             {(method === "parallel" || method === "parallel_mc") && (
-                                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+                                <div className="mb-2 flex flex-wrap gap-2">
                                     <div>
-                                        <label style={{ fontSize: 9, color: "#52525b" }}>Islands</label>
-                                        <input type="number" value={nIslands} onChange={(e) => setNIslands(parseInt(e.target.value) || 4)} style={{ width: 60 }} />
+                                        <label className="text-[9px] text-subtle">Islands</label>
+                                        <input type="number" value={nIslands} onChange={(e) => setNIslands(parseInt(e.target.value) || 4)} className="w-[60px]" />
                                     </div>
                                     <div>
-                                        <label style={{ fontSize: 9, color: "#52525b" }}>Pop Size</label>
-                                        <input type="number" value={popSize} onChange={(e) => setPopSize(parseInt(e.target.value) || 20)} style={{ width: 60 }} />
+                                        <label className="text-[9px] text-subtle">Pop Size</label>
+                                        <input type="number" value={popSize} onChange={(e) => setPopSize(parseInt(e.target.value) || 20)} className="w-[60px]" />
                                     </div>
                                     <div>
-                                        <label style={{ fontSize: 9, color: "#52525b" }}>Evolutions</label>
-                                        <input type="number" value={nEvolutions} onChange={(e) => setNEvolutions(parseInt(e.target.value) || 50)} style={{ width: 60 }} />
+                                        <label className="text-[9px] text-subtle">Evolutions</label>
+                                        <input type="number" value={nEvolutions} onChange={(e) => setNEvolutions(parseInt(e.target.value) || 50)} className="w-[60px]" />
                                     </div>
                                 </div>
                             )}
                             {method === "repeated" && (
                                 <div>
-                                    <label style={{ fontSize: 9, color: "#52525b" }}>Jobs</label>
-                                    <input type="number" value={nJobs} onChange={(e) => setNJobs(parseInt(e.target.value) || 10)} style={{ width: 60 }} />
+                                    <label className="text-[9px] text-subtle">Jobs</label>
+                                    <input type="number" value={nJobs} onChange={(e) => setNJobs(parseInt(e.target.value) || 10)} className="w-[60px]" />
                                 </div>
                             )}
                             {(method === "mc" || method === "parallel_mc") && (
                                 <div>
-                                    <label style={{ fontSize: 9, color: "#52525b" }}>MC Samples</label>
-                                    <input type="number" value={mcSamples} onChange={(e) => setMcSamples(parseInt(e.target.value) || 100)} style={{ width: 70 }} />
+                                    <label className="text-[9px] text-subtle">MC Samples</label>
+                                    <input type="number" value={mcSamples} onChange={(e) => setMcSamples(parseInt(e.target.value) || 100)} className="w-[70px]" />
+                                </div>
+                            )}
+                            {(method === "parallel" || method === "parallel_mc" || method === "repeated") && (
+                                <div className="mt-2 text-[10px] text-faint">
+                                    Global/parallel methods use pygmo islands and may take a while — the tab will stay busy until it completes.
                                 </div>
                             )}
                         </div>
                     )}
 
                     {modelMeta && (
-                        <button className="btn-primary" onClick={runEstimation} disabled={running || Object.keys(unknowns).length === 0} style={{ width: "100%" }}>
-                            {running ? <><span className="spinner" style={{ marginRight: 6 }} /> Estimating...</> : "Run Estimation"}
+                        <button className="btn-primary w-full" onClick={runEstimation} disabled={running || Object.keys(unknowns).length === 0}>
+                            {running ? <><span className="spinner" /> Estimating...</> : "Run Estimation"}
                         </button>
                     )}
                 </div>
@@ -229,38 +235,44 @@ export default function EstimationPage() {
                 {/* Right: Results */}
                 <div>
                     {error && (
-                        <div style={{ padding: "8px 12px", background: "#450a0a", border: "1px solid #991b1b", borderRadius: 6, fontSize: 11, marginBottom: 12 }}>
-                            <span className="dot dot-red" />{error}
+                        <div className="mb-3">
+                            <StatusMessage type="error">{error}</StatusMessage>
                         </div>
                     )}
 
-                    {result && result.estimates && (
-                        <div className="card" style={{ marginBottom: 12 }}>
-                            <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>Estimated Parameters</div>
+                    {running && (
+                        <div className="card mb-3">
+                            <SkeletonChart height={200} />
+                        </div>
+                    )}
+
+                    {!running && result && result.estimates && (
+                        <div className="card mb-3">
+                            <div className="mb-2 text-[11px] font-medium text-muted">Estimated Parameters</div>
                             <table>
                                 <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
                                 <tbody>
                                     {Object.entries(result.estimates).map(([k, v]) => (
                                         <tr key={k}>
                                             <td><MathTex tex={paramToTex(k)} /></td>
-                                            <td style={{ fontFamily: "var(--font-mono)" }}>{v.toFixed(6)}</td>
+                                            <td className="font-mono">{v.toFixed(6)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                             {result.loss != null && (
-                                <div style={{ marginTop: 8, fontSize: 11, color: "#71717a" }}>
-                                    Loss ({metric}): <span style={{ fontFamily: "var(--font-mono)", color: "#fafafa" }}>{result.loss.toExponential(4)}</span>
+                                <div className="mt-2 text-[11px] text-muted-2">
+                                    Loss ({metric}): <span className="font-mono text-foreground">{result.loss.toExponential(4)}</span>
                                 </div>
                             )}
                         </div>
                     )}
 
-                    {result && result.distributions && (
-                        <div className="card" style={{ marginBottom: 12 }}>
-                            <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 8 }}>Parameter Distributions</div>
+                    {!running && result && result.distributions && (
+                        <div className="card mb-3">
+                            <div className="mb-2 text-[11px] font-medium text-muted">Parameter Distributions</div>
                             {Object.entries(result.distributions).map(([k, vals], i) => {
-                                if (!Array.isArray(vals)) return null;
+                                if (!Array.isArray(vals) || vals.length === 0) return null;
                                 const mean = vals.reduce((a: number, b: number) => a + b, 0) / vals.length;
                                 const std = Math.sqrt(vals.reduce((a: number, b: number) => a + (b - mean) ** 2, 0) / vals.length);
                                 const nBins = 20;
@@ -273,18 +285,26 @@ export default function EstimationPage() {
                                     const count = vals.filter((v: number) => v >= lo && v < hi).length;
                                     return { x: (lo + hi) / 2, count };
                                 });
+                                const color = CHART_COLORS[i % CHART_COLORS.length];
 
                                 return (
-                                    <div key={k} style={{ marginBottom: 12 }}>
-                                        <div style={{ fontSize: 11, marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
-                                            <MathTex tex={paramToTex(k)} /> <span style={{ color: "#71717a" }}>&mu;={mean.toFixed(4)}, &sigma;={std.toFixed(4)}</span>
+                                    <div key={k} className="mb-3 last:mb-0">
+                                        <div className="mb-1 flex items-center gap-1.5 text-[11px]">
+                                            <MathTex tex={paramToTex(k)} /> <span className="text-muted-2">mean={formatNumber(mean)}, sd={formatNumber(std)}</span>
                                         </div>
-                                        <ResponsiveContainer width="100%" height={80}>
-                                            <ScatterChart margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
-                                                <XAxis dataKey="x" tick={{ fontSize: 9, fill: "#52525b" }} />
-                                                <YAxis dataKey="count" tick={{ fontSize: 9, fill: "#52525b" }} hide />
-                                                <Scatter data={bins} fill={COLORS[i % COLORS.length]} />
-                                            </ScatterChart>
+                                        <ResponsiveContainer width="100%" height={90}>
+                                            <BarChart data={bins} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+                                                <XAxis dataKey="x" tick={{ fontSize: 9, fill: "#52525b" }} tickFormatter={formatNumber} />
+                                                <YAxis dataKey="count" hide />
+                                                <Tooltip
+                                                    contentStyle={CHART_TOOLTIP_STYLE}
+                                                    labelStyle={CHART_TOOLTIP_LABEL_STYLE}
+                                                    itemStyle={CHART_TOOLTIP_ITEM_STYLE}
+                                                    labelFormatter={(v) => `≈ ${formatNumber(Number(v))}`}
+                                                    formatter={(value) => [value, "samples"]}
+                                                />
+                                                <Bar dataKey="count" fill={color} radius={[2, 2, 0, 0]} isAnimationActive={false} />
+                                            </BarChart>
                                         </ResponsiveContainer>
                                     </div>
                                 );
@@ -292,10 +312,13 @@ export default function EstimationPage() {
                         </div>
                     )}
 
-                    {!result && !error && (
-                        <div className="card" style={{ textAlign: "center", padding: 40, color: "#52525b" }}>
-                            <div style={{ fontSize: 24, marginBottom: 8 }}>⊞</div>
-                            <div style={{ fontSize: 12 }}>Configure and run an estimation to see results</div>
+                    {!running && !result && !error && (
+                        <div className="card">
+                            <EmptyState
+                                icon={Target}
+                                title="No estimation run yet"
+                                description="Select parameters to fit and their bounds on the left, then run an estimation to see results here."
+                            />
                         </div>
                     )}
                 </div>

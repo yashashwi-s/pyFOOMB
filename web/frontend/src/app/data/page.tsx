@@ -3,6 +3,10 @@
 import { useEffect, useState, useRef } from "react";
 import { api } from "@/lib/api";
 import { useToast } from "@/components/Toast";
+import { ClipboardPaste, UploadCloud, Link2, Trash2, Database } from "lucide-react";
+import PageHeader from "@/components/ui/PageHeader";
+import EmptyState from "@/components/ui/EmptyState";
+import { SkeletonTable } from "@/components/ui/Skeleton";
 
 interface ModelInfo { id: string; name: string; }
 interface MeasSeries { name: string; timepoints: number[]; values: number[]; errors: number[] | null; }
@@ -22,6 +26,7 @@ export default function DataPage() {
     const [models, setModels] = useState<ModelInfo[]>([]);
     const [modelId, setModelId] = useState("");
     const [measurements, setMeasurements] = useState<MeasSeries[]>([]);
+    const [measLoading, setMeasLoading] = useState(false);
     const [tab, setTab] = useState<Tab>("paste");
     const [busy, setBusy] = useState(false);
 
@@ -41,10 +46,13 @@ export default function DataPage() {
 
     async function loadMeasurements(id: string) {
         setModelId(id);
+        if (!id) { setMeasurements([]); return; }
+        setMeasLoading(true);
         try {
             const r = await api.getMeasurements(id);
             setMeasurements(r.measurements);
         } catch { setMeasurements([]); }
+        setMeasLoading(false);
     }
 
     async function clearAll() {
@@ -60,7 +68,7 @@ export default function DataPage() {
         setBusy(true);
         try {
             const r = await api.pasteMeasurements(modelId, pasteText);
-            toast(`Parsed ${r.names.length} series: ${r.names.join(", ")}`);
+            toast(`Parsed ${r.names.length} series: ${r.names.join(", ")}`, "success");
             setPasteText("");
             loadMeasurements(modelId);
         } catch (e: unknown) {
@@ -75,7 +83,7 @@ export default function DataPage() {
         setBusy(true);
         try {
             const r = await api.uploadMeasurementFile(modelId, file);
-            toast(`Uploaded ${r.names.length} series: ${r.names.join(", ")}`);
+            toast(`Uploaded ${r.names.length} series: ${r.names.join(", ")}`, "success");
             loadMeasurements(modelId);
         } catch (e: unknown) {
             toast(e instanceof Error ? e.message : "Upload failed", "error");
@@ -101,7 +109,7 @@ export default function DataPage() {
         setBusy(true);
         try {
             const r = await api.importGoogleSheets(modelId, sheetsUrl);
-            toast(`Imported ${r.names.length} series from Google Sheets`);
+            toast(`Imported ${r.names.length} series from Google Sheets`, "success");
             setSheetsUrl("");
             loadMeasurements(modelId);
         } catch (e: unknown) {
@@ -110,57 +118,58 @@ export default function DataPage() {
         setBusy(false);
     }
 
-    const tabs: { key: Tab; label: string }[] = [
-        { key: "paste", label: "Paste Data" },
-        { key: "upload", label: "Upload File" },
-        { key: "sheets", label: "Google Sheets" },
+    const tabs: { key: Tab; label: string; icon: typeof ClipboardPaste }[] = [
+        { key: "paste", label: "Paste Data", icon: ClipboardPaste },
+        { key: "upload", label: "Upload File", icon: UploadCloud },
+        { key: "sheets", label: "Google Sheets", icon: Link2 },
     ];
 
     return (
         <div>
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Measurement Data</h1>
-                <p style={{ fontSize: 12, color: "#a1a1aa" }}>Import experimental measurements for model calibration.</p>
-            </div>
+            <PageHeader title="Measurement Data" description="Import experimental measurements for model calibration." />
 
-            <div className="hint-bar" style={{ lineHeight: 1.7 }}>
-                Paste, upload, or import data in <strong style={{ color: "#d4d4d8" }}>wide format</strong> — one column per state.
+            <div className="hint-bar leading-[1.7]">
+                Paste, upload, or import data in <strong>wide format</strong> — one column per state.
                 Column names are parsed automatically:
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "#71717a" }}> &quot;Biomass (X) [g/L]&quot; → X</span>.
-                Values with annotations like <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "#71717a" }}>&quot;2.1 (Feed starts)&quot;</span> are handled.
+                <span className="font-mono text-[10px] text-muted-2"> &quot;Biomass (X) [g/L]&quot; → X</span>.
+                Values with annotations like <span className="font-mono text-[10px] text-muted-2">&quot;2.1 (Feed starts)&quot;</span> are handled.
             </div>
 
             {/* Model selector */}
-            <div className="card" style={{ marginBottom: 16, display: "flex", gap: 12, alignItems: "flex-end" }}>
+            <div className="card mb-4 flex flex-wrap items-end gap-3">
                 <div>
-                    <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>Model</label>
-                    <select value={modelId} onChange={(e) => loadMeasurements(e.target.value)} style={{ width: 220 }}>
+                    <label className="mb-1 block text-[10px] text-muted-2">Model</label>
+                    <select value={modelId} onChange={(e) => loadMeasurements(e.target.value)} className="w-[220px]">
                         <option value="">Select model...</option>
                         {models.map((m) => <option key={m.id} value={m.id}>{m.name} ({m.id.slice(0, 6)})</option>)}
                     </select>
                 </div>
                 {modelId && measurements.length > 0 && (
-                    <button className="btn-secondary" style={{ fontSize: 10, padding: "4px 10px", color: "#a1a1aa" }} onClick={clearAll}>Clear All</button>
+                    <button className="btn-secondary py-1 text-[10px] text-muted" onClick={clearAll}>
+                        <Trash2 size={11} /> Clear All
+                    </button>
                 )}
             </div>
 
+            {!modelId && (
+                <div className="card">
+                    <EmptyState icon={Database} title="No model selected" description="Select a model above to import or view its measurement data." />
+                </div>
+            )}
+
             {/* Import tabs */}
             {modelId && (
-                <div className="card" style={{ marginBottom: 16 }}>
+                <div className="card mb-4">
                     {/* Tab bar */}
-                    <div style={{ display: "flex", gap: 0, borderBottom: "1px solid #27272a", marginBottom: 14 }}>
+                    <div className="mb-3.5 flex gap-0 border-b border-border">
                         {tabs.map((t) => (
                             <button
                                 key={t.key}
                                 onClick={() => setTab(t.key)}
-                                style={{
-                                    padding: "8px 16px", fontSize: 11, fontWeight: 500,
-                                    color: tab === t.key ? "#fafafa" : "#52525b",
-                                    background: "transparent", border: "none", borderRadius: 0,
-                                    borderBottom: tab === t.key ? "2px solid #3b82f6" : "2px solid transparent",
-                                    cursor: "pointer", transition: "all 0.15s",
-                                }}
+                                className={`rounded-none border-b-2 bg-transparent px-4 py-2 text-[11px] font-medium ${tab === t.key ? "border-accent text-foreground" : "border-transparent text-subtle"
+                                    }`}
                             >
+                                <t.icon size={12} className="inline -mt-0.5 mr-1.5" />
                                 {t.label}
                             </button>
                         ))}
@@ -169,13 +178,12 @@ export default function DataPage() {
                     {/* ── Paste tab ── */}
                     {tab === "paste" && (
                         <div>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                                <span style={{ fontSize: 11, color: "#71717a" }}>
+                            <div className="mb-2 flex items-center justify-between">
+                                <span className="text-[11px] text-muted-2">
                                     Paste CSV or tab-separated data with a header row
                                 </span>
                                 <button
-                                    className="btn-secondary"
-                                    style={{ fontSize: 10, padding: "3px 8px" }}
+                                    className="btn-secondary py-1 text-[10px]"
                                     onClick={() => { setPasteText(SAMPLE_DATA); toast("Sample data loaded"); }}
                                 >
                                     Insert sample
@@ -185,22 +193,17 @@ export default function DataPage() {
                                 value={pasteText}
                                 onChange={(e) => setPasteText(e.target.value)}
                                 placeholder={`Time (h),Biomass (X) [g/L],Substrate (S) [g/L],Product (P) [g/L]\n0,0.5,10.0,0.0\n4,2.8,1.2,0.1\n...`}
-                                style={{
-                                    width: "100%", minHeight: 180, padding: "10px 12px",
-                                    background: "#09090b", border: "1px solid #27272a", borderRadius: 6,
-                                    color: "#d4d4d8", fontFamily: "var(--font-mono)", fontSize: 11,
-                                    lineHeight: 1.6, resize: "vertical", outline: "none",
-                                }}
+                                className="min-h-[180px] w-full resize-y p-2.5 text-[11px] leading-[1.6]"
                             />
                             {/* Preview */}
                             {pasteText.trim() && (
-                                <div style={{ marginTop: 8 }}>
+                                <div className="mt-2">
                                     <PastePreview text={pasteText} />
                                 </div>
                             )}
-                            <div style={{ marginTop: 10, display: "flex", justifyContent: "flex-end" }}>
+                            <div className="mt-2.5 flex justify-end">
                                 <button className="btn-primary" onClick={submitPaste} disabled={busy || !pasteText.trim()}>
-                                    {busy ? <span className="spinner" style={{ width: 12, height: 12, borderWidth: 1.5 }} /> : "Import Data"}
+                                    {busy ? <span className="spinner h-3 w-3 border" /> : "Import Data"}
                                 </button>
                             </div>
                         </div>
@@ -214,56 +217,52 @@ export default function DataPage() {
                                 onDragLeave={() => setDragOver(false)}
                                 onDrop={onDrop}
                                 onClick={() => fileRef.current?.click()}
-                                style={{
-                                    border: `2px dashed ${dragOver ? "#3b82f6" : "#27272a"}`,
-                                    borderRadius: 8, padding: "40px 20px", textAlign: "center",
-                                    cursor: "pointer", transition: "border-color 0.15s",
-                                    background: dragOver ? "#0c1929" : "transparent",
-                                }}
+                                className={`cursor-pointer rounded-lg border-2 border-dashed px-5 py-10 text-center transition-colors ${dragOver ? "border-accent bg-accent-soft" : "border-border"
+                                    }`}
                             >
-                                <div style={{ fontSize: 12, color: "#71717a", marginBottom: 4 }}>
+                                <UploadCloud size={22} className="mx-auto mb-2 text-subtle" strokeWidth={1.5} />
+                                <div className="mb-1 text-xs text-muted-2">
                                     Drop a <strong>.csv</strong> or <strong>.xlsx</strong> file here
                                 </div>
-                                <div style={{ fontSize: 10, color: "#3f3f46" }}>
-                                    or click to browse
-                                </div>
+                                <div className="text-[10px] text-faint">or click to browse</div>
                                 <input
                                     ref={fileRef}
                                     type="file"
                                     accept=".csv,.xlsx,.xls"
                                     onChange={onFileSelect}
-                                    style={{ display: "none" }}
+                                    className="hidden"
                                 />
                             </div>
-                            <div style={{ marginTop: 10, fontSize: 10, color: "#3f3f46" }}>
+                            <div className="mt-2.5 text-[10px] text-faint">
                                 Expected format — wide table with a &quot;Time&quot; column and one column per state.
-                                Column names like <span style={{ fontFamily: "var(--font-mono)" }}>&quot;Biomass (X) [g/L]&quot;</span> are auto-parsed to state name <span style={{ fontFamily: "var(--font-mono)" }}>X</span>.
+                                Column names like <span className="font-mono">&quot;Biomass (X) [g/L]&quot;</span> are auto-parsed to state name <span className="font-mono">X</span>.
                             </div>
+                            {busy && <div className="mt-2 flex items-center gap-2 text-[11px] text-muted-2"><span className="spinner" /> Uploading…</div>}
                         </div>
                     )}
 
                     {/* ── Google Sheets tab ── */}
                     {tab === "sheets" && (
                         <div>
-                            <div style={{ fontSize: 11, color: "#71717a", marginBottom: 8, lineHeight: 1.6 }}>
-                                Paste a <strong style={{ color: "#d4d4d8" }}>public</strong> Google Sheets link.
+                            <div className="mb-2 text-[11px] leading-[1.6] text-muted-2">
+                                Paste a <strong>public</strong> Google Sheets link.
                                 The sheet must be shared as &quot;Anyone with the link can view&quot;.
                             </div>
-                            <div style={{ display: "flex", gap: 8 }}>
+                            <div className="flex gap-2">
                                 <input
                                     type="text"
                                     value={sheetsUrl}
                                     onChange={(e) => setSheetsUrl(e.target.value)}
                                     placeholder="https://docs.google.com/spreadsheets/d/..."
-                                    style={{ flex: 1, fontFamily: "var(--font-mono)", fontSize: 11 }}
+                                    className="flex-1 text-[11px]"
                                 />
                                 <button className="btn-primary" onClick={submitSheets} disabled={busy || !sheetsUrl.trim()}>
-                                    {busy ? <span className="spinner" style={{ width: 12, height: 12, borderWidth: 1.5 }} /> : "Import"}
+                                    {busy ? <span className="spinner h-3 w-3 border" /> : "Import"}
                                 </button>
                             </div>
-                            <div style={{ marginTop: 10, fontSize: 10, color: "#3f3f46" }}>
+                            <div className="mt-2.5 text-[10px] text-faint">
                                 Uses the same wide-format column parsing. First row should be headers.
-                                Supports specific sheet tabs via the <span style={{ fontFamily: "var(--font-mono)" }}>gid=</span> parameter in the URL.
+                                Supports specific sheet tabs via the <span className="font-mono">gid=</span> parameter in the URL.
                             </div>
                         </div>
                     )}
@@ -271,46 +270,63 @@ export default function DataPage() {
             )}
 
             {/* ── Stored measurements ── */}
+            {modelId && measLoading && (
+                <div className="card">
+                    <SkeletonTable rows={3} cols={5} />
+                </div>
+            )}
+            {modelId && !measLoading && measurements.length === 0 && (
+                <div className="card">
+                    <EmptyState
+                        icon={Database}
+                        title="No measurements stored yet"
+                        description="Use one of the import options above to load experimental data for this model."
+                        compact
+                    />
+                </div>
+            )}
             {measurements.length > 0 && (
                 <div className="card">
-                    <div style={{ fontSize: 11, fontWeight: 500, color: "#a1a1aa", marginBottom: 10 }}>
+                    <div className="mb-2.5 text-[11px] font-medium text-muted">
                         Stored Measurements ({measurements.length} series)
                     </div>
 
                     {/* Summary table */}
-                    <table style={{ marginBottom: 16 }}>
-                        <thead>
-                            <tr>
-                                <th>State</th>
-                                <th>Points</th>
-                                <th>Time Range</th>
-                                <th>Value Range</th>
-                                <th>Errors</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {measurements.map((m, i) => {
-                                const vMin = m.values.length > 0 ? Math.min(...m.values) : 0;
-                                const vMax = m.values.length > 0 ? Math.max(...m.values) : 0;
-                                return (
-                                    <tr key={i}>
-                                        <td style={{ fontWeight: 500 }}>{m.name}</td>
-                                        <td>{m.timepoints.length}</td>
-                                        <td>{m.timepoints[0]?.toFixed(1)} – {m.timepoints[m.timepoints.length - 1]?.toFixed(1)} h</td>
-                                        <td>{vMin.toFixed(3)} – {vMax.toFixed(3)}</td>
-                                        <td>
-                                            <span className={`dot ${m.errors ? "dot-green" : "dot-gray"}`} />
-                                            {m.errors ? "Yes" : "No"}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                    <div className="mb-4 overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>State</th>
+                                    <th>Points</th>
+                                    <th>Time Range</th>
+                                    <th>Value Range</th>
+                                    <th>Errors</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {measurements.map((m, i) => {
+                                    const vMin = m.values.length > 0 ? Math.min(...m.values) : 0;
+                                    const vMax = m.values.length > 0 ? Math.max(...m.values) : 0;
+                                    return (
+                                        <tr key={i}>
+                                            <td className="font-medium">{m.name}</td>
+                                            <td>{m.timepoints.length}</td>
+                                            <td>{m.timepoints[0]?.toFixed(1)} – {m.timepoints[m.timepoints.length - 1]?.toFixed(1)} h</td>
+                                            <td>{vMin.toFixed(3)} – {vMax.toFixed(3)}</td>
+                                            <td>
+                                                <span className={`dot ${m.errors ? "dot-green" : "dot-gray"}`} />
+                                                {m.errors ? "Yes" : "No"}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {/* Wide-format data view */}
-                    <div style={{ fontSize: 10, color: "#52525b", marginBottom: 6, fontWeight: 500 }}>Raw Data</div>
-                    <div style={{ maxHeight: 300, overflowY: "auto", overflowX: "auto" }}>
+                    <div className="mb-1.5 text-[10px] font-medium text-subtle">Raw Data</div>
+                    <div className="max-h-[300px] overflow-y-auto overflow-x-auto">
                         <WideDataTable measurements={measurements} />
                     </div>
                 </div>
@@ -330,16 +346,16 @@ function PastePreview({ text }: { text: string }) {
     const rows = lines.slice(1, 4).map((l) => l.split(sep).map((c) => c.trim()));
 
     return (
-        <div style={{ fontSize: 10, color: "#52525b" }}>
-            <div style={{ marginBottom: 4 }}>
+        <div className="text-[10px] text-subtle">
+            <div className="mb-1">
                 Preview: {headers.length} columns, {lines.length - 1} rows
             </div>
-            <div style={{ overflowX: "auto" }}>
+            <div className="overflow-x-auto">
                 <table>
                     <thead>
                         <tr>
                             {headers.map((h, i) => (
-                                <th key={i} style={{ fontSize: 9, whiteSpace: "nowrap" }}>{h}</th>
+                                <th key={i} className="whitespace-nowrap text-[9px]">{h}</th>
                             ))}
                         </tr>
                     </thead>
@@ -347,12 +363,12 @@ function PastePreview({ text }: { text: string }) {
                         {rows.map((row, i) => (
                             <tr key={i}>
                                 {row.map((cell, j) => (
-                                    <td key={j} style={{ fontSize: 9, whiteSpace: "nowrap" }}>{cell}</td>
+                                    <td key={j} className="whitespace-nowrap text-[9px]">{cell}</td>
                                 ))}
                             </tr>
                         ))}
                         {lines.length > 4 && (
-                            <tr><td colSpan={headers.length} style={{ color: "#3f3f46", fontSize: 9 }}>… {lines.length - 4} more rows</td></tr>
+                            <tr><td colSpan={headers.length} className="text-[9px] text-faint">… {lines.length - 4} more rows</td></tr>
                         )}
                     </tbody>
                 </table>
@@ -384,18 +400,18 @@ function WideDataTable({ measurements }: { measurements: MeasSeries[] }) {
         <table>
             <thead>
                 <tr>
-                    <th style={{ fontSize: 9 }}>Time (h)</th>
+                    <th className="text-[9px]">Time (h)</th>
                     {stateNames.map((s) => (
-                        <th key={s} style={{ fontSize: 9 }}>{s}</th>
+                        <th key={s} className="text-[9px]">{s}</th>
                     ))}
                 </tr>
             </thead>
             <tbody>
                 {sortedTimes.map((t) => (
                     <tr key={t}>
-                        <td style={{ fontSize: 10 }}>{t.toFixed(2)}</td>
+                        <td className="text-[10px]">{t.toFixed(2)}</td>
                         {stateNames.map((s) => (
-                            <td key={s} style={{ fontSize: 10, color: lookup[s][t] !== undefined ? "#d4d4d8" : "#27272a" }}>
+                            <td key={s} className={`text-[10px] ${lookup[s][t] !== undefined ? "text-[#d4d4d8]" : "text-border"}`}>
                                 {lookup[s][t] !== undefined ? lookup[s][t].toFixed(4) : "—"}
                             </td>
                         ))}

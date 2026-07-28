@@ -1,5 +1,9 @@
 const BASE_URL = 'http://localhost:8000/api';
 
+/** Loosely-typed JSON request body — payload shapes vary per endpoint and
+ * are validated server-side by the FastAPI/pydantic layer. */
+type JsonPayload = Record<string, unknown>;
+
 async function fetcher(endpoint: string, options: RequestInit = {}) {
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
@@ -22,15 +26,16 @@ async function fetcher(endpoint: string, options: RequestInit = {}) {
 }
 
 export const api = {
+  health: () => fetcher('/health'),
   getTemplates: () => fetcher('/templates'),
-  createModel: (payload: any) => fetcher('/models', { method: 'POST', body: JSON.stringify(payload) }),
+  createModel: (payload: JsonPayload) => fetcher('/models', { method: 'POST', body: JSON.stringify(payload) }),
   getModels: () => fetcher('/models'),
   getModel: (id: string) => fetcher(`/models/${id}`),
   deleteModel: (id: string) => fetcher(`/models/${id}`, { method: 'DELETE' }),
   
   getMeasurements: (id: string) => fetcher(`/models/${id}/measurements`),
   clearMeasurements: (id: string) => fetcher(`/models/${id}/measurements`, { method: 'DELETE' }),
-  addMeasurements: (id: string, payload: any) => fetcher(`/models/${id}/measurements`, { method: 'POST', body: JSON.stringify(payload) }),
+  addMeasurements: (id: string, payload: JsonPayload) => fetcher(`/models/${id}/measurements`, { method: 'POST', body: JSON.stringify(payload) }),
   pasteMeasurements: (id: string, text: string) => fetcher(`/models/${id}/measurements/paste`, { method: 'POST', body: JSON.stringify({ text }) }),
   importGoogleSheets: (id: string, url: string) => fetcher(`/models/${id}/measurements/sheets`, { method: 'POST', body: JSON.stringify({ url }) }),
   uploadMeasurementFile: async (id: string, file: File) => {
@@ -52,17 +57,17 @@ export const api = {
     }
     return response.json();
   },
-  generateData: (id: string, payload: any) => fetcher(`/models/${id}/generate-data`, { method: 'POST', body: JSON.stringify(payload) }),
+  generateData: (id: string, payload: JsonPayload) => fetcher(`/models/${id}/generate-data`, { method: 'POST', body: JSON.stringify(payload) }),
   
-  simulate: (id: string, payload: any) => fetcher(`/models/${id}/simulate`, { method: 'POST', body: JSON.stringify(payload) }),
-  estimate: (id: string, payload: any) => fetcher(`/models/${id}/estimate`, { method: 'POST', body: JSON.stringify(payload) }),
+  simulate: (id: string, payload: JsonPayload) => fetcher(`/models/${id}/simulate`, { method: 'POST', body: JSON.stringify(payload) }),
+  estimate: (id: string, payload: JsonPayload) => fetcher(`/models/${id}/estimate`, { method: 'POST', body: JSON.stringify(payload) }),
   
-  getSensitivities: (id: string, payload: any) => fetcher(`/models/${id}/sensitivities`, { method: 'POST', body: JSON.stringify(payload) }),
-  getParameterMatrices: (id: string, payload: any) => fetcher(`/models/${id}/parameter-matrices`, { method: 'POST', body: JSON.stringify(payload) }),
+  getSensitivities: (id: string, payload: JsonPayload) => fetcher(`/models/${id}/sensitivities`, { method: 'POST', body: JSON.stringify(payload) }),
+  getParameterMatrices: (id: string, payload: JsonPayload) => fetcher(`/models/${id}/parameter-matrices`, { method: 'POST', body: JSON.stringify(payload) }),
   
   getReplicates: (id: string) => fetcher(`/models/${id}/replicates`),
   getParameters: (id: string) => fetcher(`/models/${id}/parameters`),
   addReplicate: (id: string, newRepId: string) => fetcher(`/models/${id}/replicates`, { method: 'POST', body: JSON.stringify({ replicate_id: newRepId }) }),
-  applyMappings: (id: string, formatted: any) => fetcher(`/models/${id}/mappings`, { method: 'POST', body: JSON.stringify(formatted) }),
-  setIntegrator: (id: string, kwargs: any) => fetcher(`/models/${id}/integrator`, { method: 'PUT', body: JSON.stringify(kwargs) }),
+  applyMappings: (id: string, formatted: JsonPayload[]) => fetcher(`/models/${id}/mappings`, { method: 'POST', body: JSON.stringify(formatted) }),
+  setIntegrator: (id: string, kwargs: JsonPayload) => fetcher(`/models/${id}/integrator`, { method: 'PUT', body: JSON.stringify(kwargs) }),
 };

@@ -21,6 +21,18 @@ except Exception:
     pass
 sys.stderr = _stderr
 
+# pygmo.mp_island lazily creates its worker-process pool on first use, which involves a
+# signal.signal() call that only works on the main thread. FastAPI/Starlette runs sync
+# route handlers (like the "parallel"/"parallel_mc" estimation methods) in a worker
+# thread, so without this the pool init crashes on the very first request with
+# "ValueError: signal only works in main thread of the main interpreter". Warming the
+# pool here, at import time on the main thread, makes later per-request inits no-ops.
+try:
+    import pygmo
+    pygmo.mp_island.init_pool()
+except Exception as ex:
+    warnings.warn(f"Could not pre-warm pygmo.mp_island pool: {ex}")
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

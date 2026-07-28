@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import Math from "@/components/Math";
 import { paramToTex } from "@/lib/paramToTex";
+import { FlaskConical } from "lucide-react";
+import PageHeader from "@/components/ui/PageHeader";
+import StatusMessage from "@/components/ui/StatusMessage";
+import EmptyState from "@/components/ui/EmptyState";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 interface Template {
     id: string;
@@ -22,6 +27,7 @@ interface Template {
 
 export default function ModelPage() {
     const [templates, setTemplates] = useState<Template[]>([]);
+    const [loadingTemplates, setLoadingTemplates] = useState(true);
     const [selected, setSelected] = useState<Template | null>(null);
     const [params, setParams] = useState<Record<string, number>>({});
     const [initVals, setInitVals] = useState<Record<string, number>>({});
@@ -30,7 +36,10 @@ export default function ModelPage() {
     const [result, setResult] = useState<{ model_id?: string; error?: string } | null>(null);
 
     useEffect(() => {
-        api.getTemplates().then((r) => setTemplates(r.templates)).catch(console.error);
+        api.getTemplates()
+            .then((r) => setTemplates(r.templates))
+            .catch(console.error)
+            .finally(() => setLoadingTemplates(false));
     }, []);
 
     function selectTemplate(t: Template) {
@@ -63,140 +72,146 @@ export default function ModelPage() {
 
     return (
         <div>
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Model Definition</h1>
-                <p style={{ fontSize: 12, color: "#a1a1aa" }}>Select a bioprocess model template and configure its parameters.</p>
-            </div>
+            <PageHeader
+                title="Model Definition"
+                description="Select a bioprocess model template and configure its parameters."
+            />
 
             <div className="hint-bar">
                 Define your bioprocess as a system of ODEs. Choose a template below — each implements a validated kinetic model.
                 Parameters and initial values can be adjusted before or after creation.
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 {/* Left: Template selector */}
                 <div>
-                    {categories.map((cat) => (
-                        <div key={cat} style={{ marginBottom: 16 }}>
-                            <div style={{ fontSize: 10, color: "#52525b", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: 6 }}>
-                                {cat}
-                            </div>
-                            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                                {templates.filter((t) => t.category === cat).map((t) => (
-                                    <div
-                                        key={t.id}
-                                        className="card"
-                                        onClick={() => selectTemplate(t)}
-                                        style={{
-                                            cursor: "pointer",
-                                            borderColor: selected?.id === t.id ? "#3b82f6" : undefined,
-                                            padding: 12,
-                                        }}
-                                    >
-                                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                                            <span style={{ fontSize: 12, fontWeight: 500 }}>{t.name}</span>
-                                            <span style={{ fontSize: 10, color: "#52525b", fontFamily: "var(--font-mono)" }}>
-                                                {t.states.length} state{t.states.length > 1 ? "s" : ""}
-                                            </span>
-                                        </div>
-                                        <div style={{ fontSize: 11, color: "#71717a", marginBottom: 4 }}>{t.description}</div>
-                                        <div style={{ padding: "4px 8px", borderRadius: 4, overflowX: "auto" }}>
-                                            <Math tex={t.equation} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                    {loadingTemplates ? (
+                        <div className="flex flex-col gap-2">
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <Skeleton key={i} className="h-16 w-full" />
+                            ))}
                         </div>
-                    ))}
+                    ) : (
+                        categories.map((cat) => (
+                            <div key={cat} className="mb-4">
+                                <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-subtle">
+                                    {cat}
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    {templates.filter((t) => t.category === cat).map((t) => (
+                                        <div
+                                            key={t.id}
+                                            className={`card cursor-pointer p-3 ${selected?.id === t.id ? "border-accent" : ""}`}
+                                            onClick={() => selectTemplate(t)}
+                                        >
+                                            <div className="mb-1 flex items-center justify-between">
+                                                <span className="text-xs font-medium">{t.name}</span>
+                                                <span className="font-mono text-[10px] text-subtle">
+                                                    {t.states.length} state{t.states.length > 1 ? "s" : ""}
+                                                </span>
+                                            </div>
+                                            <div className="mb-1 text-[11px] text-muted-2">{t.description}</div>
+                                            <div className="overflow-x-auto rounded px-2 py-1">
+                                                <Math tex={t.equation} />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
 
                 {/* Right: Configuration */}
                 <div>
                     {selected ? (
                         <div>
-                            <div className="card" style={{ marginBottom: 12 }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                                    <div>
-                                        <div style={{ fontSize: 13, fontWeight: 500 }}>{selected.name}</div>
-                                        <div style={{ marginTop: 4, padding: "4px 8px", borderRadius: 4, overflowX: "auto" }}>
+                            <div className="card mb-3">
+                                <div className="mb-3 flex items-center justify-between gap-3">
+                                    <div className="min-w-0">
+                                        <div className="text-sm font-medium">{selected.name}</div>
+                                        <div className="mt-1 overflow-x-auto rounded px-2 py-1">
                                             <Math tex={selected.equation} />
                                         </div>
                                     </div>
-                                    <div style={{ display: "flex", gap: 6 }}>
+                                    <div className="flex flex-shrink-0 flex-wrap gap-1.5">
                                         {selected.states.map((s) => (
-                                            <span key={s} style={{ fontSize: 10, padding: "2px 8px", background: "#27272a", borderRadius: 4, fontFamily: "var(--font-mono)" }}>
+                                            <span key={s} className="whitespace-nowrap rounded bg-border px-2 py-0.5 font-mono text-[10px]">
                                                 {s}: {selected.state_labels[s]}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
 
-                                <div style={{ marginBottom: 8 }}>
-                                    <label style={{ fontSize: 10, color: "#71717a", display: "block", marginBottom: 3 }}>Model Name</label>
-                                    <input type="text" value={modelName} onChange={(e) => setModelName(e.target.value)} style={{ width: "100%" }} />
+                                <div>
+                                    <label className="mb-1 block text-[10px] text-muted-2">Model Name</label>
+                                    <input type="text" value={modelName} onChange={(e) => setModelName(e.target.value)} className="w-full" />
                                 </div>
                             </div>
 
                             {/* Parameters */}
-                            <div className="card" style={{ marginBottom: 12 }}>
-                                <div style={{ fontSize: 11, fontWeight: 500, marginBottom: 8, color: "#a1a1aa" }}>Model Parameters</div>
-                                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                            <div className="card mb-3">
+                                <div className="mb-2 text-[11px] font-medium text-muted">Model Parameters</div>
+                                <div className="flex flex-col gap-1.5">
                                     {Object.entries(params).map(([key, val]) => (
-                                        <div key={key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                            <label style={{ width: 80, flexShrink: 0 }}><Math tex={paramToTex(key)} /></label>
+                                        <div key={key} className="flex items-center gap-2">
+                                            <label className="w-20 flex-shrink-0"><Math tex={paramToTex(key)} /></label>
                                             <input
                                                 type="number"
                                                 step="any"
                                                 value={val}
                                                 onChange={(e) => setParams({ ...params, [key]: parseFloat(e.target.value) || 0 })}
                                             />
-                                            <span style={{ fontSize: 10, color: "#52525b", flex: 1 }}>{selected.parameter_labels[key]}</span>
+                                            <span className="flex-1 text-[10px] text-subtle">{selected.parameter_labels[key]}</span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
                             {/* Initial Values */}
-                            <div className="card" style={{ marginBottom: 12 }}>
-                                <div style={{ fontSize: 11, fontWeight: 500, marginBottom: 8, color: "#a1a1aa" }}>Initial Values</div>
-                                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                            <div className="card mb-3">
+                                <div className="mb-2 text-[11px] font-medium text-muted">Initial Values</div>
+                                <div className="flex flex-col gap-1.5">
                                     {Object.entries(initVals).map(([key, val]) => (
-                                        <div key={key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                            <label style={{ width: 80, flexShrink: 0 }}><Math tex={paramToTex(key)} /></label>
+                                        <div key={key} className="flex items-center gap-2">
+                                            <label className="w-20 flex-shrink-0"><Math tex={paramToTex(key)} /></label>
                                             <input
                                                 type="number"
                                                 step="any"
                                                 value={val}
                                                 onChange={(e) => setInitVals({ ...initVals, [key]: parseFloat(e.target.value) || 0 })}
                                             />
-                                            <span style={{ fontSize: 10, color: "#52525b", flex: 1 }}>{selected.initial_value_labels[key]}</span>
+                                            <span className="flex-1 text-[10px] text-subtle">{selected.initial_value_labels[key]}</span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
                             {/* Create button */}
-                            <button className="btn-primary" onClick={createModel} disabled={creating} style={{ width: "100%" }}>
-                                {creating ? <><span className="spinner" style={{ marginRight: 6 }} /> Creating...</> : "Create Model"}
+                            <button className="btn-primary w-full" onClick={createModel} disabled={creating}>
+                                {creating ? <><span className="spinner" /> Creating...</> : "Create Model"}
                             </button>
 
                             {result?.model_id && (
-                                <div style={{ marginTop: 8, padding: "8px 12px", background: "#052e16", border: "1px solid #166534", borderRadius: 6, fontSize: 11 }}>
-                                    <span className="dot dot-green" />
-                                    Model created — ID: <strong style={{ fontFamily: "var(--font-mono)" }}>{result.model_id}</strong>
+                                <div className="mt-2">
+                                    <StatusMessage type="success">
+                                        Model created — ID: <strong className="font-mono">{result.model_id}</strong>
+                                    </StatusMessage>
                                 </div>
                             )}
                             {result?.error && (
-                                <div style={{ marginTop: 8, padding: "8px 12px", background: "#450a0a", border: "1px solid #991b1b", borderRadius: 6, fontSize: 11 }}>
-                                    <span className="dot dot-red" />
-                                    {result.error}
+                                <div className="mt-2">
+                                    <StatusMessage type="error">{result.error}</StatusMessage>
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <div className="card" style={{ textAlign: "center", padding: 40, color: "#52525b" }}>
-                            <div style={{ fontSize: 24, marginBottom: 8 }}>⬡</div>
-                            <div style={{ fontSize: 12 }}>Select a model template from the left</div>
+                        <div className="card">
+                            <EmptyState
+                                icon={FlaskConical}
+                                title="No template selected"
+                                description="Select a model template from the list on the left to configure its parameters."
+                            />
                         </div>
                     )}
                 </div>
