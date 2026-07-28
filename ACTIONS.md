@@ -64,9 +64,28 @@ no automated plot-digitisation tool was used in this session. Worth a
 second pass against the original papers (or a tool like WebPlotDigitizer) if
 precision matters.
 
-## 5. Website: needs to actually be run/deployed by you to demo it
+## 5. Website: UI/UX overhaul done, but still needs to be run/deployed by you to demo it
 
-This sandbox's frontend/backend processes die when the container is
+Done (commit `a6ed980`): design tokens consolidated out of inline styles into
+Tailwind, a real cascade bug fixed (custom CSS was silently beating
+conditional Tailwind classes — the selected-template highlight and active-tab
+underline never actually showed color), unicode glyph icons replaced with
+`lucide-react`, loading/empty/error states added everywhere data is fetched,
+the sensitivity-analysis chart fixed (was drawing 20+ series on one
+categorical axis — now faceted per state with a real numeric time axis), the
+sidebar made responsive (drawer below `md` instead of eating half a phone
+screen), and the `eslint`/`eslint-config-next` toolchain fixed (`npm run
+lint`/`npm run build` were silently never working before — both pass clean
+now). Verified against a real running backend + real browser (Playwright),
+screenshots before/after on disk if you want to see more than what was sent
+to you.
+
+**Not verified**: the pygmo-island (`estimate_parallel`) and Monte-Carlo
+estimation methods — `pygmo` itself installed and imports fine via pip here,
+but a full multi-island run wasn't executed to completion given time. Worth
+a manual click-through once you have this running locally.
+
+This sandbox's frontend/backend processes still die when the container is
 reclaimed — nothing here is a persistent URL. To show it to your professor:
 ```bash
 # backend (needs the real conda env from #1 above, not the /tmp shim)
@@ -74,12 +93,7 @@ cd web/backend && pip install -r requirements.txt && uvicorn main:app --reload
 # frontend, separate terminal
 cd web/frontend && npm install && npm run dev
 ```
-or use the existing `web/start.sh` / `web/start-docker.sh`. If the UI/UX
-overhaul subagent finished after this note was written, check this file's
-git history / the latest commit message for what actually changed — do a
-once-over on a real browser (this sandbox's Playwright/Chromium check is not
-a substitute for you looking at it) and a mobile-width check, since that
-wasn't exhaustively covered.
+or use the existing `web/start.sh` / `web/start-docker.sh`.
 
 ## 6. Email to your professor — drafted, not sent
 
