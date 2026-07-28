@@ -221,6 +221,11 @@ def feed_pulsed(t, y, p, kin):
     return F_pulse if phase < duty * T_cycle else 0.0
 
 
+def feed_exp_linear(t, y, p, kin):
+    F0, mu_set, k = p
+    return F0 * np.exp(mu_set * t) + k * t
+
+
 def feed_feedback_control(t, y, p, kin):
     """Proportional control on S, targeting the S set-point that Monod kinetics
     maps to mu_target. Approximates a real-time specific-growth-rate controller."""
@@ -250,6 +255,12 @@ STRATEGIES = {
         bounds=lambda kin: [(1e-3, 0.3), (0.0, 0.05)],
         max_step=1.0,
         description='F(t)=F0+k*t, sub-exponential ramp (mu drifts down over time).',
+    ),
+    'exp_linear': dict(
+        fn=feed_exp_linear, names=['F0', 'mu_set', 'k'],
+        bounds=lambda kin: [(1e-4, 0.2), (1e-3, kin['mu_max'] * 1.05), (0.0, 0.05)],
+        max_step=1.0,
+        description='F(t)=F0*exp(mu_set*t)+k*t, exponential growth-rate control plus a linear top-up.',
     ),
     'two_stage': dict(
         fn=feed_two_stage, names=['F1', 'F2', 't_switch'],

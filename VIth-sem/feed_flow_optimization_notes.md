@@ -52,16 +52,25 @@ already used for the batch X/S/P plots.
   than `RK45` here because of how stiff the dynamics get once V approaches
   V_max (RK45: ~0.7 s/solve, LSODA: ~0.004 s/solve in benchmarking).
 
-## 3. The six feed-flow strategies
+## 3. The seven feed-flow strategies
 
 | Strategy | F(t) | Free parameters |
 |---|---|---|
 | Constant | `F0` | F0 |
 | Exponential | `F0 * exp(mu_set * t)` | F0, mu_set |
 | Linear ramp | `F0 + k*t` | F0, k |
+| Exponential + linear | `F0 * exp(mu_set * t) + k*t` | F0, mu_set, k |
 | Two-stage | `F1` until `t_switch`, then `F2` | F1, F2, t_switch |
 | Pulsed | on/off square wave, period `T_cycle`, duty cycle `duty`, amplitude `F_pulse` | F_pulse, T_cycle, duty |
 | Feedback control | `Kp * (S_set(mu_target) - S(t))`, clipped >= 0 | mu_target, Kp |
+
+"Exponential + linear" is a superset of both the pure exponential and pure
+linear-ramp laws (set `k=0` or `mu_set=0` to recover them), added to check
+whether combining "hold a growth rate" with "keep adding a little extra"
+ever beats either pure strategy. It wins narrowly for 3/9 datasets (see below)
+by giving the optimiser one more degree of freedom near the same optimum —
+never by a wide margin, which is itself informative: the pure strategies were
+already close to the achievable optimum for those datasets.
 
 Exponential and feedback-control are the two "control the growth rate"
 strategies (open-loop vs. closed-loop); constant/linear/two-stage/pulsed are
@@ -82,28 +91,37 @@ idea, portable dependencies).
 time-integral of production, dilution cancels out). A quadratic penalty
 applies if the volume ceiling is exceeded.
 
-54 optimisation runs (9 datasets x 6 strategies) were executed; full results
+63 optimisation runs (9 datasets x 7 strategies) were executed; full results
 in `feed_flow_results.csv`, one winner per dataset in
-`feed_flow_best_per_dataset.csv`.
+`feed_flow_best_per_dataset.csv`. (The 7th strategy, exponential+linear, was
+added after the initial 6-strategy/54-run sweep and optimised separately with
+`add_strategy.py`, then merged in -- no need to redo the other 54 runs.)
 
 ## 5. Results
 
-### 5.1 Winner per dataset
+### 5.1 Winner per dataset (7 strategies, incl. exponential+linear)
 
 | qp(mu) shape | Product | Winning strategy | Margin vs. runner-up | Spread best-vs-worst |
 |---|---|---|---|---|
-| Linear | Resveratrol | **Exponential** | 6.8% | 90.9% |
+| Linear | Resveratrol | **Exp + linear** | 0.4% | 91.7% |
 | Linear | Heterologous Protein (HIP) | **Pulsed** | 4.9% | 183.1% |
 | Linear | Crl1 Lipase (SCC) | **Exponential** | 0.5% | 16.3% |
-| Bell-shaped | EPG | **Exponential** | 0.1% | 13.3% |
-| Bell-shaped | Fab 3H6 | **Exponential** | 6.7% | 62.7% |
-| Bell-shaped | ROL | **Exponential** | 1.6% | 18.8% |
-| Hyperbolic | Crl1 Lipase (MCC) | **Linear ramp** | 0.1% | 4.9% |
-| Hyperbolic | HSA | **Linear ramp** | 0.3% | 5.5% |
+| Bell-shaped | EPG | **Exp + linear** | 0.1% | 13.4% |
+| Bell-shaped | Fab 3H6 | **Exponential** | 0.0% | 62.7% |
+| Bell-shaped | ROL | **Exponential** | 0.0% | 18.8% |
+| Hyperbolic | Crl1 Lipase (MCC) | **Linear ramp** | 0.0% | 4.9% |
+| Hyperbolic | HSA | **Exp + linear** | 0.0% | 5.5% |
 | Hyperbolic | alpha-Galactosidase | **Linear ramp** | 0.0% | 1.2% |
 
 (margin/spread = % more total product than the runner-up / worst strategy for
-that dataset.)
+that dataset. The near-zero margins where "exp + linear" wins confirm it is
+converging to essentially the same optimum as the pure strategy it
+generalises, just with one extra free parameter to absorb numerical slack.)
+
+A dedicated presentation figure using **only the linear-ramp strategy**
+(`feed_flow_linear_ramp_only.png` / `feed_flow_linear_ramp_summary.py`) is
+provided separately for showing a single, simple-to-explain feed law without
+the other 6 competing curves cluttering the picture.
 
 ### 5.2 What this confirms
 
@@ -161,12 +179,15 @@ differences in total product between strategies above.
 
 ```bash
 cd VIth-sem
-python3 feed_flow_optimization.py   # ~45 min: 54 differential_evolution runs
-python3 feed_flow_plots.py          # seconds: re-simulates the 9 winners only
+python3 feed_flow_optimization.py           # ~45 min: full 9x7 differential_evolution sweep
+python3 add_strategy.py <strategy_name>     # ~2 min: (re-)optimise just one strategy and merge it in
+python3 feed_flow_plots.py                  # seconds: re-simulates the 9 winners only
+python3 feed_flow_linear_ramp_summary.py    # seconds: single-strategy presentation figure
 ```
 
 Outputs: `feed_flow_results.csv`, `feed_flow_best_per_dataset.csv`,
-`feed_flow_strategy_comparison.png`, `feed_flow_best_profiles.png`.
+`feed_flow_strategy_comparison.png`, `feed_flow_best_profiles.png`,
+`feed_flow_linear_ramp_only.png`.
 
 ## 8. Roadmap update
 

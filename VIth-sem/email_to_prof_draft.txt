@@ -1,0 +1,20 @@
+Subject: Feed strategy optimisation results (linear-ramp)
+
+Hi Sir,
+
+Quick update on the fed-batch feed optimisation work:
+
+- Took the 9 qp-mu datasets and simulated a full batch + fed-batch run for each.
+- Tried several feed profiles F(t) - constant, exponential, linear-ramp, two-stage,
+  pulsed, feedback-control, and exponential+linear - and optimised each one's
+  parameters using differential evolution (a global, gradient-free optimiser;
+  same family pyFOOMB itself uses for parameter estimation).
+- Attaching the linear-ramp results (F(t) = F0 + k*t) for all 9 products - it's
+  simple to run in practice and comes within a few % of the best strategy for
+  most of them.
+
+Happy to walk through the rest (bell-shaped ones prefer exponential feeding,
+by a bigger margin) whenever you have time.
+
+Thanks,
+Yashashwi

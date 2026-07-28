@@ -25,10 +25,10 @@ from feed_flow_optimization import (
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-STRATEGY_ORDER = ['constant', 'exponential', 'linear_ramp', 'two_stage', 'pulsed', 'feedback_control']
+STRATEGY_ORDER = ['constant', 'exponential', 'linear_ramp', 'exp_linear', 'two_stage', 'pulsed', 'feedback_control']
 STRATEGY_LABELS = {
     'constant': 'Constant', 'exponential': 'Exponential', 'linear_ramp': 'Linear ramp',
-    'two_stage': 'Two-stage', 'pulsed': 'Pulsed', 'feedback_control': 'Feedback',
+    'exp_linear': 'Exp + linear', 'two_stage': 'Two-stage', 'pulsed': 'Pulsed', 'feedback_control': 'Feedback',
 }
 MODEL_ORDER = ['linear', 'bell_shaped', 'hyperbolic']
 MODEL_EDGE = {'linear': '#1565C0', 'bell_shaped': '#E65100', 'hyperbolic': '#2E7D32'}
