@@ -21,11 +21,12 @@ This script turns that qualitative theory into a quantitative, testable claim:
   1. For every one of the 9 datasets, run a short **batch phase** (no feed) from
      inoculation until the substrate is nearly exhausted -- this is when a real
      fed-batch would switch the feed pump on.
-  2. From that point, integrate a **fed-batch phase** of fixed duration under 6
+  2. From that point, integrate a **fed-batch phase** of fixed duration under 7
      different feed-flow functions F(t):
        - constant             F(t) = F0
        - exponential          F(t) = F0 * exp(mu_set * t)
        - linear ramp          F(t) = F0 + k*t
+       - exponential+linear   F(t) = F0 * exp(mu_set * t) + k*t
        - two-stage (bang)     F(t) = F1 for t < t_switch, else F2
        - pulsed (bolus-like)  F(t) alternates between F_pulse and 0 with a duty cycle
        - feedback control     F(t) = Kp * (S_set(mu_target) - S(t)), clipped >= 0
@@ -33,7 +34,7 @@ This script turns that qualitative theory into a quantitative, testable claim:
      (the same global optimiser pyFOOMB's Caretaker.estimate() uses for Tier-1
      single-machine global estimation) to **maximise total product formed**,
      P(t_f) * V(t_f), subject to a working-volume ceiling (V <= V_MAX).
-  4. Rank the 6 strategies per dataset and report the winner.
+  4. Rank the 7 strategies per dataset and report the winner.
 
 Everything here runs on plain numpy/scipy so it can be executed and unit-tested
 without the compiled `assimulo`/`pygmo` stack that the full pyFOOMB package
@@ -326,6 +327,8 @@ def simulate_fedbatch(strategy, params, kin, qp_fn, qp_params, mu_cap, y_feed, m
         mu = kin['mu_max'] * S / (kin['Ks'] + S) if S > 1e-9 else 0.0
         qp = qp_eval(mu, qp_fn, qp_params, mu_cap)
         F = min(max(fn(t, y, params, kin), 0.0), F_CAP)
+        if V >= V_MAX:
+            F = 0.0  # pump physically stops at the working-volume ceiling
         dX = mu * X - (F / V) * X
         dS = (F / V) * (S_IN - S) - (mu / kin['Yxs']) * X
         dP = qp * X - (F / V) * P

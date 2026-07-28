@@ -44,7 +44,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                     return (
                         <div
                             key={t.id}
-                            role="status"
+                            role={t.type === "error" ? "alert" : "status"}
                             className={`pointer-events-auto flex max-w-[340px] items-start gap-2 rounded-lg border px-4 py-2.5 text-xs leading-relaxed shadow-[0_4px_24px_rgba(0,0,0,0.4)] backdrop-blur-md ${t.type === "error"
                                     ? "border-error-border bg-error-soft text-[#fca5a5]"
                                     : t.type === "success"
