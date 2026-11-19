@@ -166,7 +166,19 @@ Read the slopes to identify the feed laws. A jump between positive rates can be 
 
 **ROL example.** The exp → exp run starts at about 0.083 L/h, ramps up, then drops to about 0.031 L/h at the stage change and ramps up again. The shape changes substrate availability and thus the time spent at different growth and production rates. The product response must be read from the state trajectories or final score. Airflow, oxygen limitation, and cooling demands are outside this model.
 
-# Slide 12 · Closing answer
+# Slide 12 · What the feed comparison shows
+
+Use the bar chart for final amount, the gain table for the size of each improvement, and the feed and volume profiles to tell whether the second stage actually ran. The strongest gain over the original seven schedules was 1.28% for ROL. EPG and the Fab case showed smaller gains, and five of the nine cases gained less than 0.01%. Resveratrol is the clearest example of a scheduled switch that had no effect because the vessel was already full.
+
+**Say:** “The extra stage was most useful for ROL in this model. For many cases it added little to the harvest amount, so I'd compare the gain with the practical effort of running another stage.” The gains refer to simulated final product under shared reactor settings.
+
+# Slide 13 · Future work
+
+1. **Experimental validation.** Use selected experiments with measured time courses. Enter the reported starting conditions and feed, then compare biomass, residual substrate and product over time. A model can match harvest product while missing the transition or earlier dynamics.
+2. **Operational comparison.** Compare total amount and productivity per hour and check sensitivity to pump and vessel limits. Two schedules with similar final amount can take different amounts of time to reach an operational endpoint.
+3. **GUI integration and deployment.** Reuse the Semester VI GUI to add editable scenario presets and feed-family parameters. Plot pump rate with the culture trajectories and export inputs and outputs so the same simulation can be reproduced.
+
+# Slide 14 · Closing answer
 
 “I used the growth–production relationships from Semester VI to choose feed schedules in a batch-to-fed-batch model. The comparison tells me where a second feeding stage made a noticeable difference in the simulation and where simpler schedules performed nearly as well.”
 
@@ -190,4 +202,4 @@ Read the slopes to identify the feed laws. A jump between positive rates can be 
 
 **Where can I check the precise numbers?** The expanded study's `final/feed_flow_results.csv` stores every case and pump parameter, `best_per_dataset.csv` stores the winners and near alternatives, and `two_stage_vs_previous.csv` stores percentage gains. The `profiles/` files contain the simulated time series. The plotting scripts read these saved outputs. The expanded study README records the model settings, search details and reproduction commands.
 
-**What would I do after this project stage?** Connect the scenario presets and plots to the existing GUI, then validate against measured time courses with sourced conditions. This is a viva answer about future work. The deck ends with the completed optimisation study.
+**What would I do after this project stage?** Connect the scenario presets and plots to the existing GUI, then validate against measured time courses with sourced conditions. This is a viva answer about future work. Slide 13 lists these as future work.
