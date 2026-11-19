@@ -145,8 +145,8 @@
       \begin{block}{Semester VII}
         \begin{itemize}
           \item Modelled the batch-to-feed transition and the pump shutoff event.
-          \item Optimised and compared eleven feed schedules.
-          \item Reconstructed three reported Fab 2F5 runs using their published conditions and rates.
+          \item Optimised the pump settings for nine product datasets.
+          \item Compared single-stage and two-stage strategies under shared reactor conditions.
         \end{itemize}
       \end{block}
     \end{column}
@@ -184,7 +184,7 @@
   \end{block}
 \end{frame}
 
-\begin{frame}{Original Comparison Under Shared Conditions}
+\begin{frame}{Total Product Across Eleven Strategies}
   \centering
   \includegraphics[width=\linewidth,height=.80\textheight,keepaspectratio]{pyfoomb_results/two_stage_extension/final/strategy_comparison.png}
 \end{frame}
@@ -217,55 +217,6 @@
   \includegraphics[width=\linewidth,height=.80\textheight,keepaspectratio]{pyfoomb_results/two_stage_extension/final/two_stage_feed_profiles.png}
 \end{frame}
 
-
-\begin{frame}{A Paper-Specific Case for Fab 2F5}
-  \begin{block}{Experimental conditions}
-    I used 2 L and 40 g/L glycerol in batch, followed by exponential glucose feeding at nominal growth rates of 0.05, 0.10 and 0.15 h$^{-1}$. The reported runs ended at about 100 g/L dry biomass.
-  \end{block}
-  \begin{itemize}
-    \item I inferred starting biomass from the approximate 15-hour transition in Figure 2A and the published batch yield and growth rate.
-    \item I reconstructed the fed-batch profiles using each run's reported mean rates and its terminal biomass.
-  \end{itemize}
-  \footnotesize Garc\'ia-Ortega et al. (2013), Fig. 2A and Tables 1 and 3.
-  \href{https://doi.org/10.1016/j.bej.2013.07.013}{doi:10.1016/j.bej.2013.07.013}
-\end{frame}
-
-\begin{frame}{Fab 2F5 Reconstruction}
-  \centering
-  \includegraphics[width=\linewidth]{paper_benchmark/fab_2f5_reconstruction.png}
-  \begin{block}{How I read this comparison}
-    The curves show what the reported mean rates imply for the run. The titre points check the reconstruction against Table 3. Independent validation requires fitting on one run and predicting another.
-  \end{block}
-\end{frame}
-
-\begin{frame}{Crl1 Rerun Under Literature-Based Conditions}
-  \begin{itemize}
-    \item I reran all eleven feed schedules for the single-copy and multicopy clones. I fitted the production curves to their measured fed-batch rates in Table 1.
-    \item I used the cited protocol's 40 g/L glycerol batch, 2 L initial fill and 400 g/L glucose feed. I stopped at the paper's biomass target of about 100 g/L.
-    \item I retained a 40-hour search window and 2 L/h pump bound and used 4 L as a design ceiling. The inoculum and growth kinetics include model assumptions.
-  \end{itemize}
-  \footnotesize Nieto-Taype et al. (2020), Table 1 and Experimental Procedures.
-  \href{https://doi.org/10.1111/1751-7915.13498}{doi:10.1111/1751-7915.13498}
-\end{frame}
-
-\begin{frame}{Feed Comparison for the Two Crl1 Clones}
-  \centering
-  \includegraphics[width=.89\linewidth]{paper_benchmark/crl1_strategy_comparison.png}\par\smallskip
-  \small The single-copy results were closely grouped. Constant feed gave the highest activity found for the multicopy clone in this search.
-\end{frame}
-
-\begin{frame}{Crl1 Reactor Profiles from the Rerun}
-  \centering
-  \includegraphics[width=\linewidth,height=.80\textheight,keepaspectratio]{paper_benchmark/crl1_best_profiles.png}
-\end{frame}
-
-\begin{frame}{Next Steps}
-  \begin{enumerate}
-    \item \textbf{Validate the model.} Digitise the Fab 2F5 experimental curves and test the batch and feed phases on separate runs. Validate the Crl1 replay and match the remaining cases to their experimental operating modes.
-    \item \textbf{Integrate the scenarios into the GUI.} Add presets with source references, editable starting conditions and feed settings, and plots for $X$, $S$, $P$, volume and pump rate.
-    \item \textbf{Deploy the workflow.} Carry forward the Semester VI plan to deploy the GUI, with reproducible scenario inputs and downloadable simulation results.
-  \end{enumerate}
-\end{frame}
 
 \begin{frame}[plain]
   \centering\vfill
