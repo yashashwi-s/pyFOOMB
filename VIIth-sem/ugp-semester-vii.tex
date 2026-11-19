@@ -71,15 +71,86 @@
   \vfill
 \end{frame}
 
-\begin{frame}{From Growth Kinetics to Feed Design}
-  \begin{block}{Question I carried forward}
-    How should I feed a growing culture to maximise the amount of product at harvest?
-  \end{block}
-  \begin{itemize}
-    \item In Semester VI, I fitted the specific production rate $q_p$ as a function of growth rate $\mu$ for nine literature cases.
-    \item This semester, I used those fits in pyFOOMB to compare feed schedules over a full batch and fed-batch simulation.
-    \item I then tested whether allowing the pump to change its feeding law mid-run improved the best result.
-  \end{itemize}
+
+\begin{frame}{The Feed Design Problem}
+  \begin{columns}[T]
+    \begin{column}{.48\textwidth}
+      \begin{block}{Growth and production}
+        Feeding changes how fast cells grow and how much product each gram of biomass makes. The two responses depend on the product and organism.
+      \end{block}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{block}{The question I carried forward}
+        How should I vary the feed to build enough biomass and maximise the total product at harvest?
+      \end{block}
+    \end{column}
+  \end{columns}
+  \[
+  \text{Total production rate} = q_p(\mu)\,\underbrace{X V}_{\text{biomass in the reactor}}
+  \]
+\end{frame}
+
+\begin{frame}{$q_p$--$\mu$ Relationship Models}
+  The $q_p$--$\mu$ relationship governs how fast a cell produces product at a given growth rate.
+  I used these three shapes to represent how production responds to growth.
+
+  \vspace{0.2cm}
+  \begin{columns}[T]
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Linear}
+        \begin{center}
+          $q_p = \alpha \mu + \beta$
+        \end{center}
+        \vspace{0.1cm}
+        {\small Growth-associated.\\Production rises with growth.}
+      \end{block}
+    \end{column}
+    \begin{column}{0.34\textwidth}
+      \begin{block}{Bell-Shaped}
+        \begin{center}
+          $q_p = q_p^{max} e^{-\frac{(\mu - \mu_{opt})^2}{2\sigma^2}}$
+        \end{center}
+        \vspace{0.1cm}
+        {\small Peak at $\mu_{opt}$.\\Highest production per gram.}
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Hyperbolic}
+        \begin{center}
+          $q_p = \frac{q_p^{max} \mu}{K_q + \mu}$
+        \end{center}
+        \vspace{0.1cm}
+        {\small Saturates at high $\mu$.\\Diminishing gains.}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  {\small I surveyed 9 products from literature across \textit{S.\ cerevisiae} and \textit{P.\ pastoris},
+  and fitted each to one of these three models using \texttt{scipy.optimize.curve\_fit}.}
+\end{frame}
+
+\begin{frame}{From Semester VI to Semester VII}
+  \begin{columns}[T]
+    \begin{column}{.48\textwidth}
+      \begin{block}{Semester VI}
+        \begin{itemize}
+          \item Built a browser interface for pyFOOMB.
+          \item Fitted $q_p$--$\mu$ relationships for nine literature cases.
+          \item Simulated batch biomass, substrate and product profiles.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{block}{Semester VII}
+        \begin{itemize}
+          \item Modelled the batch-to-feed transition and the pump shutoff event.
+          \item Optimised and compared eleven feed schedules.
+          \item Reconstructed three reported Fab 2F5 runs using their published conditions and rates.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{Batch and Fed-Batch Simulation}
@@ -146,15 +217,33 @@
   \includegraphics[width=\linewidth,height=.80\textheight,keepaspectratio]{pyfoomb_results/two_stage_extension/final/two_stage_feed_profiles.png}
 \end{frame}
 
-\begin{frame}{Benchmarking Against the Original Experiment}
-  \begin{block}{Fab 2F5 case from Garc\'ia-Ortega et al. (2013)}
-    The experiment began with 2 L and 40 g/L glycerol. At glycerol depletion the authors began an exponential glucose feed. Figure 2A reports biomass, substrate and Fab concentrations for a nominal growth rate of $0.10\,\mathrm{h}^{-1}$.
+
+\begin{frame}{A Paper-Specific Case for Fab 2F5}
+  \begin{block}{Experimental conditions}
+    I used 2 L and 40 g/L glycerol in batch, followed by exponential glucose feeding at nominal growth rates of 0.05, 0.10 and 0.15 h$^{-1}$. The reported runs ended at about 100 g/L dry biomass.
   \end{block}
   \begin{itemize}
-    \item I identified this run as a benchmark for the batch-to-feed transition and product trajectory.
-    \item My next comparison is to replay the published conditions and overlay the model and experimental curves. For each other case, I need to identify the matching experiment and record its conditions and stopping rule.
+    \item I inferred starting biomass from the approximate 15-hour transition in Figure 2A and the published batch yield and growth rate.
+    \item I reconstructed the fed-batch profiles using each run's reported mean rates and its terminal biomass.
   \end{itemize}
-  \footnotesize Biochemical Engineering Journal 79, 172--181. \href{https://doi.org/10.1016/j.bej.2013.07.013}{doi:10.1016/j.bej.2013.07.013}
+  \footnotesize Garc\'ia-Ortega et al. (2013), Fig. 2A and Tables 1 and 3.
+  \href{https://doi.org/10.1016/j.bej.2013.07.013}{doi:10.1016/j.bej.2013.07.013}
+\end{frame}
+
+\begin{frame}{Fab 2F5 Reconstruction}
+  \centering
+  \includegraphics[width=\linewidth]{paper_benchmark/fab_2f5_reconstruction.png}
+  \begin{block}{How I read this comparison}
+    The curves show what the reported mean rates imply for the run. The titre points check the reconstruction against Table 3. Independent validation requires fitting on one run and predicting another.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Next Steps}
+  \begin{enumerate}
+    \item \textbf{Validate the model.} Digitise the Fab 2F5 experimental curves and test the batch and feed phases on separate runs. Trace each of the other cases to its source conditions.
+    \item \textbf{Integrate the scenarios into the GUI.} Add presets with source references, editable starting conditions and feed settings, and plots for $X$, $S$, $P$, volume and pump rate.
+    \item \textbf{Deploy the workflow.} Carry forward the Semester VI plan to deploy the GUI, with reproducible scenario inputs and downloadable simulation results.
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}[plain]
