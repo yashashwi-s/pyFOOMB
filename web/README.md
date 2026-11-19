@@ -170,10 +170,26 @@ Pre-configured models from the pyFOOMB notebook examples. Two loading modes:
 # Local (requires conda env 'bpdd' with pyfoomb installed)
 ./start.sh
 
-# Docker
-docker build -t pyfoomb-web .
+# Docker (build from the repo root, not from web/)
+cd ..
+docker build -f web/Dockerfile -t pyfoomb-web .
 docker run -p 3000:3000 -p 8000:8000 pyfoomb-web
 ```
+
+## Production deployment
+
+The frontend and backend are deployed separately:
+
+- **Frontend** (`web/frontend`): deployed on [Vercel](https://vercel.com). Set the
+  `NEXT_PUBLIC_API_URL` env var on the Vercel project to the backend's URL (e.g.
+  `https://pyfoomb-backend.onrender.com`), no trailing slash — `web/frontend/src/lib/api.ts`
+  appends `/api` itself.
+- **Backend** (`web/backend`): needs assimulo/pygmo (compiled SUNDIALS), which Vercel's
+  serverless functions can't run. Deploy it as a Docker web service instead — a Render
+  Blueprint is preconfigured at the repo root (`render.yaml`), using the standalone
+  `web/backend/Dockerfile`. On Render: New → Blueprint → connect this repo → it reads
+  `render.yaml` automatically. Set `ALLOWED_ORIGINS` on that service to the Vercel
+  frontend's URL(s), comma-separated, so CORS allows the browser to call it.
 
 | | URL |
 |---|---|

@@ -1,0 +1,37 @@
+{
+  "cases": 3,
+  "completed": 3,
+  "engine": "pygmo",
+  "mode": "optimize",
+  "source_sha256": "c19ebe9d04511e9b8ad103bddc38ff332fb25d7f390a941999ae317de7f5572a",
+  "baseline_sha256": "09041e6efb85e9b6a6bb1b2527536331f512ce9dbfaf8e85b17755339da6ce9f",
+  "source_files": [
+    "/Users/yashashwisinghania/pyFOOMB/VIIth-sem/pyfoomb_feed_optimization.py",
+    "/Users/yashashwisinghania/pyFOOMB/VIIth-sem/pyfoomb_feed_model.py",
+    "/Users/yashashwisinghania/pyFOOMB/VIIth-sem/feed_flow_optimization.py"
+  ],
+  "library_versions": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "pandas": "2.3.3",
+    "pygmo": "unknown",
+    "assimulo": "3.7.3",
+    "pyfoomb": "2.17.7"
+  },
+  "elapsed_seconds": 452.579871083999,
+  "solver": "Assimulo/SUNDIALS CVode",
+  "objective": "minimize negative final product concentration times final volume",
+  "native_simulation": "BioprocessModel -> Caretaker.simulate -> Simulator -> CVode",
+  "DE_settings": {
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_multiplier": 14,
+    "seeds": [
+      42,
+      43
+    ],
+    "migration_topology": "fully_connected"
+  },
+  "island_note": "pygmo mp_island build cannot serialize algorithms; in-process UDI avoids this. A lock serializes islands in each case; separate processes parallelize cases.",
+  "ranking_note": "Finite-budget searches, not proofs of global optimality. The pygmo branch includes one warm candidate per case; the Caretaker.estimate branch is fresh."
+}

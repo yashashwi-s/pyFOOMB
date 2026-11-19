@@ -1,0 +1,29 @@
+{
+  "row": {
+    "model_type": "linear",
+    "product": "Heterologous Protein (HIP)",
+    "organism": "S. cerevisiae",
+    "reference": "Liu et al. (2013)",
+    "strategy": "feedback_control",
+    "total_product": 11579.848954557528,
+    "P_final": 2894.962238639382,
+    "V_final": 4.0,
+    "X_final": 152.51499535806306,
+    "S_final": -1.5733571875401463e-08,
+    "avg_mu": 0.10313096613459034,
+    "t_feed": 11.57759467882621,
+    "qp_unit": "mg/(g*h)",
+    "param_Kp": 17.497495243245318,
+    "param_mu_target": 0.360114632650389
+  },
+  "diagnostics": {
+    "nfev": 1394,
+    "nit": 40,
+    "converged": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 10.053949582999849,
+    "failed_simulations": 0
+  }
+}

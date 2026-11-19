@@ -1,0 +1,30 @@
+{
+  "row": {
+    "model_type": "bell_shaped",
+    "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+    "organism": "P. pastoris",
+    "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+    "strategy": "exp_linear",
+    "total_product": 298771.1403344985,
+    "P_final": 74692.78508362462,
+    "V_final": 4.0,
+    "X_final": 137.27375869336893,
+    "S_final": 0.0026652264906963973,
+    "avg_mu": 0.10312141457823583,
+    "t_feed": 22.530130862809386,
+    "qp_unit": "AU/(g*h)",
+    "param_F0": 0.03691269217774305,
+    "param_k": 4.5596174429375635e-05,
+    "param_mu_set": 0.03156086741634298
+  },
+  "diagnostics": {
+    "nfev": 2098,
+    "nit": 40,
+    "converged": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 27.280016624999917,
+    "failed_simulations": 0
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "row": {
+    "model_type": "bell_shaped",
+    "product": "EPG (Polygalacturonase)",
+    "organism": "S. cerevisiae",
+    "reference": "Glauche et al. (2017)",
+    "strategy": "pulsed",
+    "total_product": 2094978.5775191754,
+    "P_final": 523744.64437979384,
+    "V_final": 4.0,
+    "X_final": 152.52534222984335,
+    "S_final": -4.865555834036033e-07,
+    "avg_mu": 0.10308688956068095,
+    "t_feed": 11.577608697124967,
+    "qp_unit": "U/(g*h)",
+    "param_duty": 0.6614797178551228,
+    "param_F_pulse": 0.1620977471380992,
+    "param_T_cycle": 6.994684441433416
+  },
+  "diagnostics": {
+    "nfev": 1765,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 42,
+    "island_champion_products": [
+      2090685.8277360445,
+      2095052.0873867793
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 399.32482662499933,
+    "failed_simulations": 0
+  }
+}

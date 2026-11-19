@@ -1,0 +1,73 @@
+case_index,product,strategy,source,seed,nfev,nit,converged,message,search_total_product
+63,Resveratrol,two_stage_linear_exp,caretaker_fresh,42,3080,40,False,Maximum number of iterations has been exceeded.,103.8103335090701
+63,Resveratrol,two_stage_linear_exp,caretaker_seeded,43,3152,40,False,Maximum number of iterations has been exceeded.,104.09865693545672
+64,Resveratrol,two_stage_exp_linear,caretaker_fresh,42,3284,40,False,Maximum number of iterations has been exceeded.,104.1003419401406
+64,Resveratrol,two_stage_exp_linear,caretaker_seeded,43,3104,40,False,Maximum number of iterations has been exceeded.,104.10280392104298
+65,Resveratrol,two_stage_exp_exp,caretaker_fresh,42,3164,40,False,Maximum number of iterations has been exceeded.,104.10126670162366
+65,Resveratrol,two_stage_exp_exp,caretaker_seeded,43,2990,40,False,Maximum number of iterations has been exceeded.,104.10306454351957
+66,Resveratrol,two_stage_linear_linear,caretaker_fresh,42,2978,40,False,Maximum number of iterations has been exceeded.,101.34648578170663
+66,Resveratrol,two_stage_linear_linear,caretaker_seeded,43,3134,40,False,Maximum number of iterations has been exceeded.,101.35872940736974
+67,Heterologous Protein (HIP),two_stage_linear_exp,caretaker_fresh,42,3242,40,False,Maximum number of iterations has been exceeded.,11582.968558575612
+67,Heterologous Protein (HIP),two_stage_linear_exp,caretaker_seeded,43,3290,40,False,Maximum number of iterations has been exceeded.,11582.993809844416
+68,Heterologous Protein (HIP),two_stage_exp_linear,caretaker_fresh,42,2996,40,False,Maximum number of iterations has been exceeded.,11584.730951438527
+68,Heterologous Protein (HIP),two_stage_exp_linear,caretaker_seeded,43,2978,40,False,Maximum number of iterations has been exceeded.,11584.731155822947
+69,Heterologous Protein (HIP),two_stage_exp_exp,caretaker_fresh,42,3152,40,False,Maximum number of iterations has been exceeded.,11584.728081304456
+69,Heterologous Protein (HIP),two_stage_exp_exp,caretaker_seeded,43,3032,40,False,Maximum number of iterations has been exceeded.,11584.781380358058
+70,Heterologous Protein (HIP),two_stage_linear_linear,caretaker_fresh,42,2996,40,False,Maximum number of iterations has been exceeded.,10861.578471407907
+70,Heterologous Protein (HIP),two_stage_linear_linear,caretaker_seeded,43,2996,40,False,Maximum number of iterations has been exceeded.,10862.624349356995
+71,"Crl1 Lipase (SCC, PGAP)",two_stage_linear_exp,caretaker_fresh,42,2978,40,False,Maximum number of iterations has been exceeded.,171554.56960878108
+71,"Crl1 Lipase (SCC, PGAP)",two_stage_linear_exp,caretaker_seeded,43,3332,40,False,Maximum number of iterations has been exceeded.,171709.3490477323
+72,"Crl1 Lipase (SCC, PGAP)",two_stage_exp_linear,caretaker_fresh,42,3062,40,False,Maximum number of iterations has been exceeded.,171708.2684915749
+72,"Crl1 Lipase (SCC, PGAP)",two_stage_exp_linear,caretaker_seeded,43,2996,40,False,Maximum number of iterations has been exceeded.,171708.27542616075
+73,"Crl1 Lipase (SCC, PGAP)",two_stage_exp_exp,caretaker_fresh,42,3146,40,False,Maximum number of iterations has been exceeded.,171707.62541251947
+73,"Crl1 Lipase (SCC, PGAP)",two_stage_exp_exp,caretaker_seeded,43,3098,40,False,Maximum number of iterations has been exceeded.,171708.47291014317
+74,"Crl1 Lipase (SCC, PGAP)",two_stage_linear_linear,caretaker_fresh,42,3230,40,False,Maximum number of iterations has been exceeded.,170022.14821245513
+74,"Crl1 Lipase (SCC, PGAP)",two_stage_linear_linear,caretaker_seeded,43,3230,40,False,Maximum number of iterations has been exceeded.,170049.05837856716
+75,EPG (Polygalacturonase),two_stage_linear_exp,caretaker_fresh,42,3230,40,False,Maximum number of iterations has been exceeded.,2435528.616207755
+75,EPG (Polygalacturonase),two_stage_linear_exp,caretaker_seeded,43,3146,40,False,Maximum number of iterations has been exceeded.,2435734.5309820767
+76,EPG (Polygalacturonase),two_stage_exp_linear,caretaker_fresh,42,2996,40,False,Maximum number of iterations has been exceeded.,2423948.1157844462
+76,EPG (Polygalacturonase),two_stage_exp_linear,caretaker_seeded,43,3560,40,False,Maximum number of iterations has been exceeded.,2425491.2730006278
+77,EPG (Polygalacturonase),two_stage_exp_exp,caretaker_fresh,42,3008,40,False,Maximum number of iterations has been exceeded.,2423950.077537227
+77,EPG (Polygalacturonase),two_stage_exp_exp,caretaker_seeded,43,2996,40,False,Maximum number of iterations has been exceeded.,2423953.3061568644
+78,EPG (Polygalacturonase),two_stage_linear_linear,caretaker_fresh,42,2990,40,False,Maximum number of iterations has been exceeded.,2425025.6522175856
+78,EPG (Polygalacturonase),two_stage_linear_linear,caretaker_seeded,43,2990,40,False,Maximum number of iterations has been exceeded.,2425025.8115425147
+79,Fab 3H6 (PGAP),two_stage_linear_exp,caretaker_fresh,42,3242,40,False,Maximum number of iterations has been exceeded.,76274.79443498823
+79,Fab 3H6 (PGAP),two_stage_linear_exp,caretaker_seeded,43,3140,40,False,Maximum number of iterations has been exceeded.,76564.8810585096
+80,Fab 3H6 (PGAP),two_stage_exp_linear,caretaker_fresh,42,3074,40,False,Maximum number of iterations has been exceeded.,76247.16919909664
+80,Fab 3H6 (PGAP),two_stage_exp_linear,caretaker_seeded,43,3146,40,False,Maximum number of iterations has been exceeded.,76262.67664410609
+81,Fab 3H6 (PGAP),two_stage_exp_exp,caretaker_fresh,42,3278,40,False,Maximum number of iterations has been exceeded.,76265.2434848205
+81,Fab 3H6 (PGAP),two_stage_exp_exp,caretaker_seeded,43,2996,40,False,Maximum number of iterations has been exceeded.,76465.06083713574
+82,Fab 3H6 (PGAP),two_stage_linear_linear,caretaker_fresh,42,3026,40,False,Maximum number of iterations has been exceeded.,75806.71647266769
+82,Fab 3H6 (PGAP),two_stage_linear_linear,caretaker_seeded,43,3104,40,False,Maximum number of iterations has been exceeded.,75942.74094044643
+83,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_linear_exp,caretaker_fresh,42,3380,40,False,Maximum number of iterations has been exceeded.,302678.2804886114
+83,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_linear_exp,caretaker_seeded,43,2930,40,False,Maximum number of iterations has been exceeded.,302678.28079765174
+84,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_exp_linear,caretaker_fresh,42,3134,40,False,Maximum number of iterations has been exceeded.,298953.21650789934
+84,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_exp_linear,caretaker_seeded,43,3158,40,False,Maximum number of iterations has been exceeded.,301453.6933452644
+85,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_exp_exp,caretaker_fresh,42,3320,40,False,Maximum number of iterations has been exceeded.,302518.7157338889
+85,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_exp_exp,caretaker_seeded,43,3254,40,False,Maximum number of iterations has been exceeded.,302723.9213094864
+86,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_linear_linear,caretaker_fresh,42,3722,40,False,Maximum number of iterations has been exceeded.,299814.80941262876
+86,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_linear_linear,caretaker_seeded,43,3668,40,False,Maximum number of iterations has been exceeded.,302040.73693521036
+87,"Crl1 Lipase (MCC, PGAP)",two_stage_linear_exp,caretaker_fresh,42,3074,40,False,Maximum number of iterations has been exceeded.,702527.2861047689
+87,"Crl1 Lipase (MCC, PGAP)",two_stage_linear_exp,caretaker_seeded,43,3266,40,False,Maximum number of iterations has been exceeded.,704893.2149746073
+88,"Crl1 Lipase (MCC, PGAP)",two_stage_exp_linear,caretaker_fresh,42,2996,40,False,Maximum number of iterations has been exceeded.,704130.7527470154
+88,"Crl1 Lipase (MCC, PGAP)",two_stage_exp_linear,caretaker_seeded,43,2936,40,False,Maximum number of iterations has been exceeded.,704221.0704725157
+89,"Crl1 Lipase (MCC, PGAP)",two_stage_exp_exp,caretaker_fresh,42,2996,40,False,Maximum number of iterations has been exceeded.,702767.0244252223
+89,"Crl1 Lipase (MCC, PGAP)",two_stage_exp_exp,caretaker_seeded,43,3284,40,False,Maximum number of iterations has been exceeded.,704050.992858113
+90,"Crl1 Lipase (MCC, PGAP)",two_stage_linear_linear,caretaker_fresh,42,4136,40,False,Maximum number of iterations has been exceeded.,704288.966745554
+90,"Crl1 Lipase (MCC, PGAP)",two_stage_linear_linear,caretaker_seeded,43,3188,40,False,Maximum number of iterations has been exceeded.,704927.184475057
+91,alpha-Galactosidase,two_stage_linear_exp,caretaker_fresh,42,3194,40,False,Maximum number of iterations has been exceeded.,203905.42993154086
+91,alpha-Galactosidase,two_stage_linear_exp,caretaker_seeded,43,3188,40,False,Maximum number of iterations has been exceeded.,203946.62058578435
+92,alpha-Galactosidase,two_stage_exp_linear,caretaker_fresh,42,3458,40,False,Maximum number of iterations has been exceeded.,203776.80632646568
+92,alpha-Galactosidase,two_stage_exp_linear,caretaker_seeded,43,3194,40,False,Maximum number of iterations has been exceeded.,203965.51401191062
+93,alpha-Galactosidase,two_stage_exp_exp,caretaker_fresh,42,3416,40,False,Maximum number of iterations has been exceeded.,203886.533805111
+93,alpha-Galactosidase,two_stage_exp_exp,caretaker_seeded,43,3302,40,False,Maximum number of iterations has been exceeded.,203923.11822482847
+94,alpha-Galactosidase,two_stage_linear_linear,caretaker_fresh,42,3314,40,False,Maximum number of iterations has been exceeded.,203765.7969293591
+94,alpha-Galactosidase,two_stage_linear_linear,caretaker_seeded,43,3260,40,False,Maximum number of iterations has been exceeded.,203947.1869285129
+95,HSA (Human Serum Albumin),two_stage_linear_exp,caretaker_fresh,42,3110,40,False,Maximum number of iterations has been exceeded.,44390.63669223479
+95,HSA (Human Serum Albumin),two_stage_linear_exp,caretaker_seeded,43,3068,40,False,Maximum number of iterations has been exceeded.,44400.695675770614
+96,HSA (Human Serum Albumin),two_stage_exp_linear,caretaker_fresh,42,2984,40,False,Maximum number of iterations has been exceeded.,44279.780590129
+96,HSA (Human Serum Albumin),two_stage_exp_linear,caretaker_seeded,43,3230,40,False,Maximum number of iterations has been exceeded.,44393.17484914082
+97,HSA (Human Serum Albumin),two_stage_exp_exp,caretaker_fresh,42,3230,40,False,Maximum number of iterations has been exceeded.,44342.34017708116
+97,HSA (Human Serum Albumin),two_stage_exp_exp,caretaker_seeded,43,3254,40,False,Maximum number of iterations has been exceeded.,44362.37387663524
+98,HSA (Human Serum Albumin),two_stage_linear_linear,caretaker_fresh,42,3344,40,False,Maximum number of iterations has been exceeded.,44386.08522381681
+98,HSA (Human Serum Albumin),two_stage_linear_linear,caretaker_seeded,43,3278,40,False,Maximum number of iterations has been exceeded.,44401.836239968725

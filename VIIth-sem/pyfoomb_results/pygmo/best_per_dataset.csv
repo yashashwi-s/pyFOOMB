@@ -1,0 +1,2 @@
+model_type,product,organism,reference,strategy,total_product,P_final,V_final,X_final,S_final,avg_mu,t_feed,qp_unit,param_F0,param_duty,param_F_pulse,param_T_cycle,param_Kp,param_mu_target
+linear,Resveratrol,S. cerevisiae,Vos et al. (2015),feedback_control,102.77885163741541,25.694712909353854,4.0,152.51304976893357,-3.553913026864093e-08,0.1031901291471982,11.57758915722162,mmol/(g*h),,,,,19.999799290358435,0.1857023717038593

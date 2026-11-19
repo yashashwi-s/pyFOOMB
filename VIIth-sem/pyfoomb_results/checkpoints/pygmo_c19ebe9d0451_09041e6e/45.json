@@ -1,0 +1,35 @@
+{
+  "row": {
+    "model_type": "hyperbolic",
+    "product": "Crl1 Lipase (MCC, PGAP)",
+    "organism": "P. pastoris",
+    "reference": "Nieto-Taype et al. (2020)",
+    "strategy": "exp_linear",
+    "total_product": 704175.1894313521,
+    "P_final": 176043.79735783802,
+    "V_final": 4.0,
+    "X_final": 137.27506226438695,
+    "S_final": 0.0016826010914613443,
+    "avg_mu": 0.10312390355145581,
+    "t_feed": 22.530151659276413,
+    "qp_unit": "AU/(g*h)",
+    "param_F0": 0.0248853315324541,
+    "param_k": 0.0022651592178946,
+    "param_mu_set": 0.0086014893696733
+  },
+  "diagnostics": {
+    "nfev": 1765,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 42,
+    "island_champion_products": [
+      697479.9101034694,
+      704175.1893156535
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 15.976185624998834,
+    "failed_simulations": 0
+  }
+}

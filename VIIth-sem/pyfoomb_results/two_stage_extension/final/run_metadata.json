@@ -1,0 +1,289 @@
+{
+  "date": "2026-10-05",
+  "baseline_directory": "/Users/yashashwisinghania/pyFOOMB/VIIth-sem/pyfoomb_results/final",
+  "baseline_csv_sha256": "05bdb6ec12d295fb6dcba96b695c6ef9283331248469f37a40609d2d4f0c7102",
+  "source_sha256": {
+    "extend_two_stage_study.py": "b21466d1bd86fce698261d2670aa599b91de4f4513a1bb2df30eb7f6d62c9f13",
+    "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+    "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+    "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+  },
+  "checkpoint_directory": "/Users/yashashwisinghania/pyFOOMB/VIIth-sem/pyfoomb_results/two_stage_extension/checkpoints/d7d0b47201aec3d4",
+  "elapsed_this_invocation_seconds": 41.01816570799565,
+  "cases": 99,
+  "retained_baseline_cases": 63,
+  "new_cases": 36,
+  "completed_new_searches": 72,
+  "solver": "pyFOOMB / Caretaker / Assimulo / SUNDIALS CVode",
+  "DE_settings": {
+    "seed": 42,
+    "tol": 1e-07,
+    "polish": true,
+    "maxiter": 40,
+    "popsize": 14,
+    "mutation": [
+      0.5,
+      1.2
+    ]
+  },
+  "new_searches": "fresh seed42 and adapted-population seed43 per case",
+  "final_rtol": 1e-08,
+  "final_atol": 1e-11,
+  "library_versions": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "pandas": "2.3.3",
+    "matplotlib": "3.10.9",
+    "assimulo": "3.7.3"
+  },
+  "new_candidate_evaluations": 972,
+  "reused_new_cases": 35,
+  "new_case_code_provenance": {
+    "63": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "64": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "65": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "66": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "67": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "68": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "69": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "70": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "71": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "72": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "73": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "74": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "75": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "76": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "77": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "78": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "79": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "80": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "81": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "82": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "83": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "84": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "85": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "86": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "87": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "88": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "89": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "90": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "91": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "92": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "93": {
+      "extend_two_stage_study.py": "b21466d1bd86fce698261d2670aa599b91de4f4513a1bb2df30eb7f6d62c9f13",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "94": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "95": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "96": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "97": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    },
+    "98": {
+      "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+      "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+      "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+      "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+    }
+  },
+  "output_sampling_note": "Avoid sampling exactly at a stage root; the replacement sample is 1e-6 h later. Validated completed cases from before this sampling-only change can be retained.",
+  "maximum_final_volume": 4.0,
+  "maximum_raw_new_volume": 4.000000000000227,
+  "maximum_relative_mass_balance_error": 1.5800749536746377e-07,
+  "maximum_new_solver_difference_percent": 3.227302225461415e-05,
+  "stage_definition": "Independent stage-start rates; stage two uses t-t_switch. Feed jumps allowed. Nonnegative slopes/growth rates; switch time in [1,39] h. Pump stops at 4 L.",
+  "retained_baseline_metadata": {
+    "cases": 63,
+    "candidate_evaluations": 184,
+    "solver": "pyFOOMB / Assimulo / SUNDIALS CVode",
+    "completed_searches": {
+      "caretaker_fresh": 60,
+      "pygmo_warm": 61
+    },
+    "final_rtol": 1e-08,
+    "final_atol": 1e-11,
+    "maximum_final_volume": 4.0,
+    "maximum_relative_mass_balance_error": 1.5800749536746377e-07,
+    "selection": "Every case has a completed native optimization. Best per case after tight CVode replay of available completed fresh Caretaker DE and warm pygmo searches, plus reference settings. Incomplete duplicate searches were stopped at the user's request to finish faster.",
+    "fitting": "Identical literature qp(mu) fits; kinetic parameters fixed during feed design",
+    "optimizer_note": "Fresh Caretaker.estimate uses original seed42/popsize14/maxiter40/polish settings. Pygmo uses two populations, 20 generations per island, seeds42/43, with one warm candidate. Native estimate_parallel_continued coordinates the archipelago. In-process UDI serializes islands; independent cases run in separate processes.",
+    "uncertainty": "Finite budgets and close strategy scores do not establish global optimality or experimental validity",
+    "source_sha256": {
+      "pyfoomb_feed_model.py": "ddc8693577e126c542c4a44ad4069468d4362fd1426bf083731d4adc022af7be",
+      "pyfoomb_feed_optimization.py": "3bef40aa513fee83875fed94f9449143acf28ab99c835c05af5031a3c7e19f33",
+      "finalize_pyfoomb_results.py": "ddce61374f96675af48e85fd9716892c9b909b65664ebf42cef341798db98e43"
+    }
+  },
+  "comparison_note": "Earlier cases retain their completed searches. New cases have two Caretaker searches and adapted baseline candidates. Search budgets differ; scores are best found values.",
+  "uncertainty": "Finite-budget synthetic-model study. Small margins are not evidence of statistical significance or proven global optimality. Zero stage growth is an allowed constant-feed limit."
+}

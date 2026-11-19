@@ -1,0 +1,30 @@
+{
+  "row": {
+    "model_type": "hyperbolic",
+    "product": "alpha-Galactosidase",
+    "organism": "S. cerevisiae",
+    "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+    "strategy": "pulsed",
+    "total_product": 199877.35461052146,
+    "P_final": 49970.84771629581,
+    "V_final": 3.9998792044774576,
+    "X_final": 152.52415453827402,
+    "S_final": 0.006873877290719063,
+    "avg_mu": 0.10319309376398153,
+    "t_feed": 11.57761234005486,
+    "qp_unit": "U/(g*h)",
+    "param_duty": 0.9496849542084316,
+    "param_F_pulse": 0.07847702304672666,
+    "param_T_cycle": 5.036237018712736
+  },
+  "diagnostics": {
+    "nfev": 2130,
+    "nit": 40,
+    "converged": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 466.566146666999,
+    "failed_simulations": 0
+  }
+}

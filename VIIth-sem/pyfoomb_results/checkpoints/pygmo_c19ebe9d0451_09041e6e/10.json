@@ -1,0 +1,35 @@
+{
+  "row": {
+    "model_type": "linear",
+    "product": "Heterologous Protein (HIP)",
+    "organism": "S. cerevisiae",
+    "reference": "Liu et al. (2013)",
+    "strategy": "exp_linear",
+    "total_product": 11584.269355257496,
+    "P_final": 2896.067338814374,
+    "V_final": 4.0,
+    "X_final": 152.52380714122563,
+    "S_final": -4.0331136308918007e-07,
+    "avg_mu": 0.10327705891095589,
+    "t_feed": 11.57759467882621,
+    "qp_unit": "mg/(g*h)",
+    "param_F0": 0.0173181398684963,
+    "param_k": 6.462688713340724e-05,
+    "param_mu_set": 0.3602635490251781
+  },
+  "diagnostics": {
+    "nfev": 1765,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 42,
+    "island_champion_products": [
+      11531.282340867365,
+      11584.289650926952
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 20.45445749999999,
+    "failed_simulations": 0
+  }
+}

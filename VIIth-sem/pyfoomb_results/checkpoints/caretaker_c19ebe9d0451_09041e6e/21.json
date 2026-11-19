@@ -1,0 +1,28 @@
+{
+  "row": {
+    "model_type": "bell_shaped",
+    "product": "EPG (Polygalacturonase)",
+    "organism": "S. cerevisiae",
+    "reference": "Glauche et al. (2017)",
+    "strategy": "constant",
+    "total_product": 2006453.4364382694,
+    "P_final": 501613.35910956736,
+    "V_final": 4.0,
+    "X_final": 152.5288075689868,
+    "S_final": -4.4539226066496685e-07,
+    "avg_mu": 0.10317605963953776,
+    "t_feed": 11.577608697124967,
+    "qp_unit": "U/(g*h)",
+    "param_F0": 0.1121002377945299
+  },
+  "diagnostics": {
+    "nfev": 614,
+    "nit": 37,
+    "converged": true,
+    "message": "Optimization terminated successfully.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 6.206841333001648,
+    "failed_simulations": 0
+  }
+}

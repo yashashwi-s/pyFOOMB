@@ -1,0 +1,17 @@
+{
+  "case_index": 20,
+  "model_type": "linear",
+  "product": "Crl1 Lipase (SCC, PGAP)",
+  "strategy": "feedback_control",
+  "scipy_total_product": 171691.75550778097,
+  "pyfoomb_total_product": 171686.4639165621,
+  "relative_difference_percent": -0.003082029887357951,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": -0.05245657087584732,
+  "runtime_seconds": 0.018665499999769963,
+  "params": {
+    "mu_target": 0.1800412063095975,
+    "Kp": 19.997299106060147
+  }
+}

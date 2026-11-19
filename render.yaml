@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: pyfoomb-backend
+    runtime: docker
+    dockerfilePath: web/backend/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: https://frontend-yashashwi-singhanias-projects.vercel.app

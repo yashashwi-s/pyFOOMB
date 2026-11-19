@@ -1,0 +1,105 @@
+product,strategy,search_solver,selected,source_hash,nfev,nit,converged,message
+Resveratrol,constant,volume_event,False,359c049c597d,602,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,constant,rhs_stop,True,,656,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,exponential,volume_event,True,359c049c597d,1313,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,exponential,rhs_stop,False,,1304,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,linear_ramp,volume_event,True,359c049c597d,1208,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,linear_ramp,rhs_stop,False,,1208,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,exp_linear,volume_event,False,359c049c597d,1818,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,exp_linear,rhs_stop,True,,1974,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,two_stage,volume_event,False,359c049c597d,1806,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,two_stage,rhs_stop,True,,1806,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,pulsed,rhs_stop,True,,1954,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,feedback_control,volume_event,True,359c049c597d,1244,40,False,Maximum number of iterations has been exceeded.
+Resveratrol,feedback_control,rhs_stop,False,,1280,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),constant,volume_event,True,359c049c597d,286,15,True,Optimization terminated successfully.
+Heterologous Protein (HIP),constant,rhs_stop,False,,550,33,True,Optimization terminated successfully.
+Heterologous Protein (HIP),exponential,volume_event,False,359c049c597d,1211,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),exponential,rhs_stop,True,,1280,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),linear_ramp,volume_event,True,359c049c597d,1205,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),linear_ramp,rhs_stop,False,,1259,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),exp_linear,volume_event,True,359c049c597d,2098,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),two_stage,volume_event,True,359c049c597d,1854,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),two_stage,rhs_stop,False,,1160,25,True,Optimization terminated successfully.
+Heterologous Protein (HIP),pulsed,rhs_stop,True,,1798,40,False,Maximum number of iterations has been exceeded.
+Heterologous Protein (HIP),feedback_control,volume_event,True,359c049c597d,1175,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",constant,volume_event,True,359c049c597d,246,16,True,Optimization terminated successfully.
+"Crl1 Lipase (SCC, PGAP)",constant,rhs_stop,False,,598,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",exponential,volume_event,True,359c049c597d,1274,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",exponential,rhs_stop,False,,1328,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",linear_ramp,volume_event,True,359c049c597d,1196,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",linear_ramp,rhs_stop,False,,1208,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",exp_linear,volume_event,True,359c049c597d,1850,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",exp_linear,rhs_stop,False,,2010,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",two_stage,volume_event,False,359c049c597d,1806,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",two_stage,rhs_stop,True,,1926,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",pulsed,rhs_stop,True,,1806,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",feedback_control,volume_event,True,359c049c597d,1193,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (SCC, PGAP)",feedback_control,rhs_stop,False,,1175,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),constant,volume_event,False,359c049c597d,260,17,True,Optimization terminated successfully.
+EPG (Polygalacturonase),constant,rhs_stop,True,,246,15,True,Optimization terminated successfully.
+EPG (Polygalacturonase),exponential,volume_event,True,359c049c597d,1172,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),exponential,rhs_stop,False,,1181,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),linear_ramp,volume_event,False,359c049c597d,1202,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),linear_ramp,rhs_stop,True,,1208,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),exp_linear,volume_event,True,359c049c597d,1766,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),exp_linear,rhs_stop,False,,1890,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),two_stage,volume_event,True,359c049c597d,1806,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),two_stage,rhs_stop,False,,1802,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),pulsed,volume_event,True,359c049c597d,1806,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),pulsed,rhs_stop,False,,2098,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),feedback_control,volume_event,False,359c049c597d,1175,40,False,Maximum number of iterations has been exceeded.
+EPG (Polygalacturonase),feedback_control,rhs_stop,True,,1259,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),constant,volume_event,True,359c049c597d,306,20,True,Optimization terminated successfully.
+Fab 3H6 (PGAP),constant,rhs_stop,False,,316,20,True,Optimization terminated successfully.
+Fab 3H6 (PGAP),exponential,volume_event,False,359c049c597d,1172,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),exponential,rhs_stop,True,,1217,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),linear_ramp,volume_event,True,359c049c597d,1205,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),linear_ramp,rhs_stop,False,,1211,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),exp_linear,volume_event,True,359c049c597d,1858,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),exp_linear,rhs_stop,False,,1850,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),two_stage,volume_event,True,359c049c597d,1914,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),two_stage,rhs_stop,False,,1806,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),pulsed,volume_event,False,359c049c597d,1806,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),pulsed,rhs_stop,True,,1958,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),feedback_control,volume_event,False,359c049c597d,1190,40,False,Maximum number of iterations has been exceeded.
+Fab 3H6 (PGAP),feedback_control,rhs_stop,True,,1289,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",constant,volume_event,True,359c049c597d,334,22,True,Optimization terminated successfully.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",constant,rhs_stop,False,,336,22,True,Optimization terminated successfully.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",exponential,volume_event,False,359c049c597d,1202,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",exponential,rhs_stop,True,,1190,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",linear_ramp,volume_event,True,359c049c597d,1244,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",linear_ramp,rhs_stop,False,,1172,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",exp_linear,volume_event,True,359c049c597d,1834,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",exp_linear,rhs_stop,False,,1830,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage,volume_event,True,359c049c597d,1806,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage,rhs_stop,False,,1794,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",pulsed,rhs_stop,True,,2050,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",feedback_control,volume_event,True,359c049c597d,1277,40,False,Maximum number of iterations has been exceeded.
+"ROL (Rhizopus oryzae Lipase, PAOX1)",feedback_control,rhs_stop,False,,1523,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",constant,volume_event,True,359c049c597d,614,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",constant,rhs_stop,False,,616,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",exponential,volume_event,False,359c049c597d,1196,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",exponential,rhs_stop,True,,1187,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",linear_ramp,volume_event,True,359c049c597d,1208,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",linear_ramp,rhs_stop,False,,1202,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",exp_linear,volume_event,True,359c049c597d,1754,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",exp_linear,rhs_stop,False,,1894,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",two_stage,volume_event,False,359c049c597d,2014,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",two_stage,rhs_stop,True,,1814,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",pulsed,rhs_stop,True,,1806,40,False,Maximum number of iterations has been exceeded.
+"Crl1 Lipase (MCC, PGAP)",feedback_control,rhs_stop,True,,1220,40,False,Maximum number of iterations has been exceeded.
+alpha-Galactosidase,constant,rhs_stop,True,,614,40,False,Maximum number of iterations has been exceeded.
+alpha-Galactosidase,exponential,rhs_stop,True,,1178,40,False,Maximum number of iterations has been exceeded.
+alpha-Galactosidase,linear_ramp,rhs_stop,True,,1208,40,False,Maximum number of iterations has been exceeded.
+alpha-Galactosidase,exp_linear,rhs_stop,True,,1782,40,False,Maximum number of iterations has been exceeded.
+alpha-Galactosidase,two_stage,rhs_stop,True,,2078,40,False,Maximum number of iterations has been exceeded.
+alpha-Galactosidase,pulsed,rhs_stop,True,,1790,40,False,Maximum number of iterations has been exceeded.
+alpha-Galactosidase,feedback_control,rhs_stop,True,,1214,40,False,Maximum number of iterations has been exceeded.
+HSA (Human Serum Albumin),constant,rhs_stop,True,,614,40,False,Maximum number of iterations has been exceeded.
+HSA (Human Serum Albumin),exponential,rhs_stop,True,,1286,40,False,Maximum number of iterations has been exceeded.
+HSA (Human Serum Albumin),linear_ramp,rhs_stop,True,,1361,40,False,Maximum number of iterations has been exceeded.
+HSA (Human Serum Albumin),exp_linear,rhs_stop,True,,1942,40,False,Maximum number of iterations has been exceeded.
+HSA (Human Serum Albumin),two_stage,rhs_stop,True,,1850,40,False,Maximum number of iterations has been exceeded.
+HSA (Human Serum Albumin),pulsed,rhs_stop,True,,1982,40,False,Maximum number of iterations has been exceeded.
+HSA (Human Serum Albumin),feedback_control,rhs_stop,True,,1313,40,False,Maximum number of iterations has been exceeded.

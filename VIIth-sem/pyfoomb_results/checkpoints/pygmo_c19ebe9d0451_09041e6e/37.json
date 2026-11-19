@@ -1,0 +1,34 @@
+{
+  "row": {
+    "model_type": "bell_shaped",
+    "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+    "organism": "P. pastoris",
+    "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+    "strategy": "linear_ramp",
+    "total_product": 294291.9557837556,
+    "P_final": 73572.9889459389,
+    "V_final": 4.0,
+    "X_final": 137.2742275161467,
+    "S_final": 0.0037400460925515787,
+    "avg_mu": 0.10312348232880404,
+    "t_feed": 22.530130862809386,
+    "qp_unit": "AU/(g*h)",
+    "param_F0": 0.0343693167005235,
+    "param_k": 0.0020316880278814
+  },
+  "diagnostics": {
+    "nfev": 1177,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 28,
+    "island_champion_products": [
+      287935.9091476753,
+      294291.95581051573
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 11.738999958999557,
+    "failed_simulations": 0
+  }
+}

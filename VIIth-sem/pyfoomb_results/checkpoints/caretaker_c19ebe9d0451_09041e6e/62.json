@@ -1,0 +1,29 @@
+{
+  "row": {
+    "model_type": "hyperbolic",
+    "product": "HSA (Human Serum Albumin)",
+    "organism": "P. pastoris",
+    "reference": "Rebnegger et al. (2014)",
+    "strategy": "feedback_control",
+    "total_product": 44356.27142037697,
+    "P_final": 11089.067855094243,
+    "V_final": 4.0,
+    "X_final": 137.2755283085674,
+    "S_final": 1.9478230007816926e-06,
+    "avg_mu": 0.10313110341733804,
+    "t_feed": 22.53017952315491,
+    "qp_unit": "mg/(g*h)",
+    "param_Kp": 0.21732223849739363,
+    "param_mu_target": 0.18098961759098764
+  },
+  "diagnostics": {
+    "nfev": 1310,
+    "nit": 40,
+    "converged": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 13.22520962499948,
+    "failed_simulations": 0
+  }
+}

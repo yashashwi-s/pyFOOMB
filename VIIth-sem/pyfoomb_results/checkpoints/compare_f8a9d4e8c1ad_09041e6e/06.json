@@ -1,0 +1,17 @@
+{
+  "case_index": 6,
+  "model_type": "linear",
+  "product": "Resveratrol",
+  "strategy": "feedback_control",
+  "scipy_total_product": 102.78704376580296,
+  "pyfoomb_total_product": 115.46857034849756,
+  "relative_difference_percent": 12.337670311434445,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": 174320.60276961388,
+  "runtime_seconds": 0.008788417000687332,
+  "params": {
+    "mu_target": 0.1857023717038593,
+    "Kp": 19.999799290358435
+  }
+}

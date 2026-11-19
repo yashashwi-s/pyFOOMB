@@ -1,0 +1,10 @@
+model_type,product,previous_best_strategy,previous_best_product,best_new_strategy,best_new_product,new_vs_previous_percent,overall_best_strategy,overall_best_product,overall_gain_percent,qp_unit
+bell_shaped,EPG (Polygalacturonase),exponential,2423928.2822533506,two_stage_linear_exp,2435724.9381265407,0.48667511986879575,two_stage_linear_exp,2435724.9381265407,0.48667511986879575,U/(g*h)
+bell_shaped,Fab 3H6 (PGAP),exponential,76257.59410545306,two_stage_linear_exp,76564.43075493953,0.4023686468027865,two_stage_linear_exp,76564.43075493953,0.4023686468027865,mg/(g*h)
+bell_shaped,"ROL (Rhizopus oryzae Lipase, PAOX1)",exponential,298896.08116856555,two_stage_exp_exp,302720.3301018081,1.2794577025872167,two_stage_exp_exp,302720.3301018081,1.2794577025872167,AU/(g*h)
+hyperbolic,"Crl1 Lipase (MCC, PGAP)",linear_ramp,704218.4119759252,two_stage_linear_linear,704927.2891236622,0.10066154699761576,two_stage_linear_linear,704927.2891236622,0.10066154699761576,AU/(g*h)
+hyperbolic,HSA (Human Serum Albumin),linear_ramp,44399.91965864052,two_stage_linear_linear,44401.67224338885,0.003947270089232902,two_stage_linear_linear,44401.67224338885,0.003947270089232902,mg/(g*h)
+hyperbolic,alpha-Galactosidase,linear_ramp,203946.36337149015,two_stage_exp_linear,203964.75508555857,0.009017917144671372,two_stage_exp_linear,203964.75508555857,0.009017917144671372,U/(g*h)
+linear,"Crl1 Lipase (SCC, PGAP)",exponential,171708.60734037936,two_stage_linear_exp,171710.2698483765,0.0009682147114942197,two_stage_linear_exp,171710.2698483765,0.0009682147114942197,AU/(g*h)
+linear,Heterologous Protein (HIP),exp_linear,11584.753870404127,two_stage_exp_exp,11584.827346815538,0.0006342509494272619,two_stage_exp_exp,11584.827346815538,0.0006342509494272619,mg/(g*h)
+linear,Resveratrol,exponential,104.10285217348174,two_stage_exp_exp,104.10332390174372,0.0004531367317373025,two_stage_exp_exp,104.10332390174372,0.0004531367317373025,mmol/(g*h)

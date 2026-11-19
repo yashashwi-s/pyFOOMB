@@ -1,0 +1,9 @@
+{
+  "source_sha256": {
+    "extend_two_stage_study.py": "e58bb774afa72b8406b186248943606ba8ec6d3614dbcb39dc0429ac4acfb67b",
+    "feed_flow_optimization.py": "fb15368c29290f7176cc25f6dea5ed9461424b9f1a525fc870cf7438511aade3",
+    "pyfoomb_feed_model.py": "ee6432e2b2505d9dca378aa68539eba94a8b0b51e3e1795b6c91db076cb53707",
+    "pyfoomb_feed_optimization.py": "ad48fbc6acbdc8280318b13b6e9e802d7163c94b23c07b18c8330dd037acd475"
+  },
+  "baseline_csv_sha256": "05bdb6ec12d295fb6dcba96b695c6ef9283331248469f37a40609d2d4f0c7102"
+}

@@ -1,0 +1,33 @@
+{
+  "row": {
+    "model_type": "bell_shaped",
+    "product": "Fab 3H6 (PGAP)",
+    "organism": "P. pastoris",
+    "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+    "strategy": "constant",
+    "total_product": 46986.389861899406,
+    "P_final": 11746.646811637114,
+    "V_final": 3.999983196511122,
+    "X_final": 137.27280048611036,
+    "S_final": 0.007008061237327523,
+    "avg_mu": 0.10309977837865705,
+    "t_feed": 22.530137661341797,
+    "qp_unit": "mg/(g*h)",
+    "param_F0": 0.07499957991277781
+  },
+  "diagnostics": {
+    "nfev": 589,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 14,
+    "island_champion_products": [
+      46986.38978313259,
+      46985.827515882534
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 6.055333583000902,
+    "failed_simulations": 0
+  }
+}

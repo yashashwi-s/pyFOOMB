@@ -1,0 +1,16 @@
+{
+  "case_index": 28,
+  "model_type": "bell_shaped",
+  "product": "Fab 3H6 (PGAP)",
+  "strategy": "constant",
+  "scipy_total_product": 46985.65973531182,
+  "pyfoomb_total_product": 46984.80356662561,
+  "relative_difference_percent": -0.0018221914750871093,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": -0.1803734639665322,
+  "runtime_seconds": 0.010786124999867752,
+  "params": {
+    "F0": 0.075001422283782
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "cases": 63,
+  "candidate_evaluations": 184,
+  "solver": "pyFOOMB / Assimulo / SUNDIALS CVode",
+  "completed_searches": {
+    "caretaker_fresh": 60,
+    "pygmo_warm": 61
+  },
+  "final_rtol": 1e-08,
+  "final_atol": 1e-11,
+  "maximum_final_volume": 4.0,
+  "maximum_relative_mass_balance_error": 1.5800749536746377e-07,
+  "selection": "Every case has a completed native optimization. Best per case after tight CVode replay of available completed fresh Caretaker DE and warm pygmo searches, plus reference settings. Incomplete duplicate searches were stopped at the user's request to finish faster.",
+  "fitting": "Identical literature qp(mu) fits; kinetic parameters fixed during feed design",
+  "optimizer_note": "Fresh Caretaker.estimate uses original seed42/popsize14/maxiter40/polish settings. Pygmo uses two populations, 20 generations per island, seeds42/43, with one warm candidate. Native estimate_parallel_continued coordinates the archipelago. In-process UDI serializes islands; independent cases run in separate processes.",
+  "uncertainty": "Finite budgets and close strategy scores do not establish global optimality or experimental validity",
+  "source_sha256": {
+    "pyfoomb_feed_model.py": "ddc8693577e126c542c4a44ad4069468d4362fd1426bf083731d4adc022af7be",
+    "pyfoomb_feed_optimization.py": "3bef40aa513fee83875fed94f9449143acf28ab99c835c05af5031a3c7e19f33",
+    "finalize_pyfoomb_results.py": "ddce61374f96675af48e85fd9716892c9b909b65664ebf42cef341798db98e43"
+  }
+}

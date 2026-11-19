@@ -4,6 +4,27 @@ Everything below is stuff this sandbox genuinely cannot finish end-to-end.
 Reasons are sandbox-specific (no conda, no persistent hosting, no email
 account, no ground-truth experimental data) — not scope I skipped.
 
+## Update (5 Oct 2026): four sequential two-stage families completed
+
+Added linear → exponential, exponential → linear, exponential → exponential,
+and linear → linear to both feed implementations, with explicit switch events
+and independent stage clocks. All 36 new cases have two completed native
+Caretaker searches and tight CVode candidate replays. The expanded comparison
+retains the earlier 63 cases and adds 12 figures, stage parameters and exact
+gain tables in `VIIth-sem/pyfoomb_results/two_stage_extension/`. All 99 final
+volumes respect 4 L; five scientific checks pass. Largest gain over the earlier
+best is ROL at 1.279% with exponential → exponential. Small differences remain
+near ties, and the finite search budgets differ. See that directory's README
+for methods, checks and the output-sampling fix at a stage event.
+
+## Update (30 Sep 2026): native pyFOOMB study completed
+
+All 63 feed-study cases now have completed native optimization through real BioprocessModel, Caretaker and Assimulo/CVode simulations. Saved checkpoints cover 60 fresh Caretaker DE searches and 61 pygmo searches. Seven duplicate searches were stopped once every case was covered. Tight CVode replay of 184 candidates produced the final results in `VIIth-sem/pyfoomb_results/final/`. The identical-settings solver comparison differs by at most 0.01094%. The open Beamer source is revised to 14 slides, with experimental validation as the main next step. See `VIIth-sem/pyfoomb_results/README.md` for the actual APIs and the pygmo island workaround.
+
+## Update (30 Sep 2026): visual deck and constrained results refreshed
+
+The VIIth-semester deck now has 11 visual slides and speaker notes. Supporting figures and the result CSVs have been refreshed. The volume stop now uses a terminal event followed by a no-feed coast phase. Completed corrected searches were reused and all candidates were replayed with that final model; all 63 cases respect the 4 L ceiling. See `VIIth-sem/optimization_run_metadata.json` and `optimization_run_diagnostics.csv` for provenance. The original pre-fix outputs are preserved in `VIIth-sem/archive/pre_volume_fix/`. Rankings remain exploratory, and repeat-seed/experimental validation is still needed.
+
 ## Update (28 Jul 2026): ran everything for real in the `bpdd` conda env
 
 You set up `bpdd` with the actual `assimulo`/`pygmo` stack (`environment.yml`

@@ -1,0 +1,16 @@
+{
+  "case_index": 21,
+  "model_type": "bell_shaped",
+  "product": "EPG (Polygalacturonase)",
+  "strategy": "constant",
+  "scipy_total_product": 2006324.3119005219,
+  "pyfoomb_total_product": 2006311.6186616246,
+  "relative_difference_percent": -0.0006326613709473072,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": -0.0127826874972925,
+  "runtime_seconds": 0.016200624999328284,
+  "params": {
+    "F0": 0.1123106778507805
+  }
+}

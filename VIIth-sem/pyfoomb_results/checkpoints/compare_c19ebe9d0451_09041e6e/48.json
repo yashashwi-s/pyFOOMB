@@ -1,0 +1,17 @@
+{
+  "case_index": 48,
+  "model_type": "hyperbolic",
+  "product": "Crl1 Lipase (MCC, PGAP)",
+  "strategy": "feedback_control",
+  "scipy_total_product": 702545.7203017372,
+  "pyfoomb_total_product": 702540.2443207192,
+  "relative_difference_percent": -0.0007794483490308757,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": -0.12269651802085946,
+  "runtime_seconds": 0.01781387500159326,
+  "params": {
+    "mu_target": 0.1834111039404614,
+    "Kp": 0.1836650356483196
+  }
+}

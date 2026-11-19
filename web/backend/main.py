@@ -44,9 +44,16 @@ app = FastAPI(
     description="REST API for pyFOOMB bioprocess modelling framework",
 )
 
+_default_origins = "http://localhost:3000"
+_allowed_origins = [
+    origin.strip()
+    for origin in os.environ.get("ALLOWED_ORIGINS", _default_origins).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

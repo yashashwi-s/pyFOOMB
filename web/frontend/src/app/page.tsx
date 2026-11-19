@@ -77,8 +77,10 @@ export default function Dashboard() {
 
       {backendOk === false && (
         <div className="hint-bar border-error-border bg-error-soft text-[#f5a3a3]">
-          Could not reach the backend API at <code className="font-mono">localhost:8000</code>. Start it with{" "}
-          <code className="font-mono">uvicorn main:app --reload</code> from <code className="font-mono">web/backend</code>, then reload this page.
+          Could not reach the backend API at{" "}
+          <code className="font-mono">{process.env.NEXT_PUBLIC_API_URL || "localhost:8000"}</code>. If you&apos;re running
+          locally, start it with <code className="font-mono">uvicorn main:app --reload</code> from{" "}
+          <code className="font-mono">web/backend</code>, then reload this page.
         </div>
       )}
 

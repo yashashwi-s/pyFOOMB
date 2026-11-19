@@ -1,0 +1,17 @@
+{
+  "case_index": 9,
+  "model_type": "linear",
+  "product": "Heterologous Protein (HIP)",
+  "strategy": "linear_ramp",
+  "scipy_total_product": 10487.091747927869,
+  "pyfoomb_total_product": 10486.878924198802,
+  "relative_difference_percent": -0.0020293875002019846,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": -0.04931918448036754,
+  "runtime_seconds": 0.012261416999535868,
+  "params": {
+    "F0": 0.0297562474832741,
+    "k": 0.0499998970776158
+  }
+}

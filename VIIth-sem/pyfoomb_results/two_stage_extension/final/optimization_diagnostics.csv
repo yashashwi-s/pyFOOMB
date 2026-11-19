@@ -1,0 +1,37 @@
+case_index,model_type,product,strategy,runtime_seconds,objective_calls,failed_simulations,relative_mass_balance_error,maximum_raw_volume,candidate_evaluations,selected_source
+63,linear,Resveratrol,two_stage_linear_exp,39.80659308299073,6232,0,1.0644849237235274e-08,4.000000000000191,27,caretaker_seeded
+64,linear,Resveratrol,two_stage_exp_linear,35.80255245801527,6388,0,3.8604830484676924e-08,4.000000000000119,27,caretaker_seeded
+65,linear,Resveratrol,two_stage_exp_exp,34.07943049998721,6154,0,2.7324462995178684e-08,4.000000000000154,27,caretaker_seeded
+66,linear,Resveratrol,two_stage_linear_linear,41.870697333011776,6112,0,1.2742188658559518e-08,4.0,27,caretaker_seeded
+67,linear,Heterologous Protein (HIP),two_stage_linear_exp,38.153679292008746,6532,0,2.5201419048175995e-08,4.000000000000143,27,caretaker_seeded
+68,linear,Heterologous Protein (HIP),two_stage_exp_linear,27.904210874985438,5974,0,1.5314292949282908e-08,4.0,27,caretaker_seeded
+69,linear,Heterologous Protein (HIP),two_stage_exp_exp,29.287708791991463,6184,0,2.0363651634131654e-08,4.0,27,caretaker_seeded
+70,linear,Heterologous Protein (HIP),two_stage_linear_linear,37.31261937500676,5992,0,1.6999987352149826e-09,4.000000000000001,27,caretaker_seeded
+71,linear,"Crl1 Lipase (SCC, PGAP)",two_stage_linear_exp,35.23264541698154,6310,0,9.770259144765963e-09,4.0,27,caretaker_seeded
+72,linear,"Crl1 Lipase (SCC, PGAP)",two_stage_exp_linear,30.185326750011882,6058,0,2.5363564367223112e-08,4.000000000000001,27,adapted_exponential_switch_30
+73,linear,"Crl1 Lipase (SCC, PGAP)",two_stage_exp_exp,31.49287266700412,6244,0,4.626718080257357e-09,4.000000000000227,27,adapted_exponential_switch_1
+74,linear,"Crl1 Lipase (SCC, PGAP)",two_stage_linear_linear,48.2739692920004,6460,0,2.3908524227141457e-09,4.000000000000134,27,caretaker_seeded
+75,bell_shaped,EPG (Polygalacturonase),two_stage_linear_exp,48.54138062498532,6376,0,2.9565487472503814e-08,4.000000000000088,27,caretaker_seeded
+76,bell_shaped,EPG (Polygalacturonase),two_stage_exp_linear,51.78533258399693,6556,0,8.169781077935213e-09,4.0,27,caretaker_seeded
+77,bell_shaped,EPG (Polygalacturonase),two_stage_exp_exp,45.88371345799533,6004,0,2.2843756846244208e-08,4.0,27,adapted_exponential_switch_1
+78,bell_shaped,EPG (Polygalacturonase),two_stage_linear_linear,48.1856745419791,5980,0,5.438394610269489e-09,4.0000000000000755,27,caretaker_seeded
+79,bell_shaped,Fab 3H6 (PGAP),two_stage_linear_exp,41.183563291997416,6382,0,2.2642836871889384e-08,4.0,27,caretaker_seeded
+80,bell_shaped,Fab 3H6 (PGAP),two_stage_exp_linear,43.842929750011535,6220,0,2.3648444400295575e-08,4.0,27,caretaker_seeded
+81,bell_shaped,Fab 3H6 (PGAP),two_stage_exp_exp,44.71701645900612,6274,0,2.0990909169001522e-08,4.000000000000094,27,caretaker_seeded
+82,bell_shaped,Fab 3H6 (PGAP),two_stage_linear_linear,42.72697975000483,6130,0,1.7754010681840328e-08,4.000000000000001,27,caretaker_seeded
+83,bell_shaped,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_linear_exp,34.874434875004226,6310,0,5.5650996380702896e-09,4.0,27,caretaker_seeded
+84,bell_shaped,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_exp_linear,42.555644874984864,6292,0,1.772154179656586e-08,4.0,27,caretaker_seeded
+85,bell_shaped,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_exp_exp,36.85015970902168,6574,0,1.1161782056959542e-08,4.0,27,caretaker_seeded
+86,bell_shaped,"ROL (Rhizopus oryzae Lipase, PAOX1)",two_stage_linear_linear,46.65985687499051,7390,0,1.5309362612663452e-08,4.0,27,caretaker_seeded
+87,hyperbolic,"Crl1 Lipase (MCC, PGAP)",two_stage_linear_exp,37.645569584012264,6340,0,1.7424128501402578e-08,4.0,27,caretaker_seeded
+88,hyperbolic,"Crl1 Lipase (MCC, PGAP)",two_stage_exp_linear,36.08284233300947,5932,0,5.135090296528408e-09,4.0,27,adapted_linear_ramp_switch_1
+89,hyperbolic,"Crl1 Lipase (MCC, PGAP)",two_stage_exp_exp,40.134957875008695,6280,0,4.959319268954016e-09,4.0,27,caretaker_seeded
+90,hyperbolic,"Crl1 Lipase (MCC, PGAP)",two_stage_linear_linear,47.10629600001266,7324,0,1.4825661800489782e-08,4.0,27,caretaker_seeded
+91,hyperbolic,alpha-Galactosidase,two_stage_linear_exp,42.6536557910149,6382,0,1.300223826289012e-08,4.0,27,adapted_linear_ramp_switch_38
+92,hyperbolic,alpha-Galactosidase,two_stage_exp_linear,46.79977974999929,6652,0,1.706722180355051e-08,4.0,27,caretaker_seeded
+93,hyperbolic,alpha-Galactosidase,two_stage_exp_exp,39.91123304099892,6718,0,1.0378242630017873e-08,4.0,27,adapted_exponential_switch_30
+94,hyperbolic,alpha-Galactosidase,two_stage_linear_linear,47.78563366699382,6574,0,1.5357628770325155e-08,4.0,27,adapted_linear_ramp_switch_5
+95,hyperbolic,HSA (Human Serum Albumin),two_stage_linear_exp,44.04123766598059,6178,0,1.1352217953623002e-08,4.0,27,caretaker_seeded
+96,hyperbolic,HSA (Human Serum Albumin),two_stage_exp_linear,42.94370454197633,6214,0,1.614526746646472e-08,4.0,27,caretaker_seeded
+97,hyperbolic,HSA (Human Serum Albumin),two_stage_exp_exp,43.02203950000694,6484,0,5.1861720270669936e-09,4.000000000000001,27,caretaker_seeded
+98,hyperbolic,HSA (Human Serum Albumin),two_stage_linear_linear,37.99435591700603,6622,0,8.262607499460314e-09,4.000000000000062,27,caretaker_seeded

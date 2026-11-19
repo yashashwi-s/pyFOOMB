@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api`;
 
 /** Loosely-typed JSON request body — payload shapes vary per endpoint and
  * are validated server-side by the FastAPI/pydantic layer. */

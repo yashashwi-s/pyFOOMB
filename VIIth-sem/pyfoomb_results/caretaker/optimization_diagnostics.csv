@@ -1,0 +1,61 @@
+case_index,nfev,nit,converged,message,API,initialization,runtime_seconds,failed_simulations
+0,236,14,True,Optimization terminated successfully.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,1.2792087079997145,0
+1,1235,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,12.064014958999906,0
+2,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,14.176404249999905,0
+3,1946,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,18.803441874999407,0
+4,1806,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,26.93377312499979,0
+6,1244,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,5.110544499999378,0
+7,256,15,True,Optimization terminated successfully.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,2.5723030410008505,0
+8,1235,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,9.893112959000064,0
+9,1163,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,9.6725084589998,0
+10,1978,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,14.478714208000383,0
+11,1858,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,14.344580832999782,0
+13,1394,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,10.053949582999849,0
+14,336,20,True,Optimization terminated successfully.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,2.3464074580006127,0
+15,1235,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,8.687947582999186,0
+16,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,12.421024541999941,0
+17,1806,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,13.86514120800166,0
+18,2058,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,22.92659149999963,0
+20,1355,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,9.294542292000187,0
+21,614,37,True,Optimization terminated successfully.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,6.206841333001648,0
+22,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,12.534830291999242,0
+23,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,12.282870708999326,0
+24,1798,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,17.627125874998455,0
+25,1806,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,24.887332291000348,0
+26,2338,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,364.14881395799966,0
+27,1211,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,9.645752291000463,0
+28,412,26,True,Optimization terminated successfully.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,3.5071224160001293,0
+29,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,10.785954375000074,0
+30,1199,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,10.78525179099961,0
+31,2286,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,23.51656954200007,0
+32,2002,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,30.376798416000383,0
+33,1858,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,361.21877441700053,0
+34,1211,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,10.197883250000814,0
+35,614,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,6.609291916000075,0
+36,1274,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,15.493064874999618,0
+37,1310,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,15.869729000000007,0
+38,2098,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,27.280016624999917,0
+39,1806,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,28.589545292001276,0
+40,1838,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,382.1595022500005,0
+41,1394,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,15.866284833999089,0
+42,614,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,5.974636417000511,0
+43,1202,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,13.626143542000136,0
+44,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,14.669067500000892,0
+45,1838,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,22.98153537500002,0
+46,1866,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,31.438527833999615,0
+47,2022,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,407.36202525000044,0
+48,1376,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,13.061832417000915,0
+49,614,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,7.2663345000000845,0
+50,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,18.028631291999773,0
+51,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,17.620941208999284,0
+52,1806,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,24.344925041999886,0
+53,1850,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,28.346016250001412,0
+54,2130,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,466.566146666999,0
+55,1355,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,15.136747250000553,0
+56,518,33,True,Optimization terminated successfully.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,5.282324709000022,0
+57,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,14.893474708000213,0
+58,1208,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,15.045167416999902,0
+59,1986,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,27.788726749999114,0
+60,1882,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,32.203203749999375,0
+61,1938,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,307.9381312909991,0
+62,1310,40,False,Maximum number of iterations has been exceeded.,Caretaker.estimate (SciPy differential evolution),fresh seeded population; no warm start,13.22520962499948,0

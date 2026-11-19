@@ -1,0 +1,35 @@
+{
+  "row": {
+    "model_type": "linear",
+    "product": "Resveratrol",
+    "organism": "S. cerevisiae",
+    "reference": "Vos et al. (2015)",
+    "strategy": "two_stage",
+    "total_product": 87.79233525407072,
+    "P_final": 21.94808381351768,
+    "V_final": 4.0,
+    "X_final": 152.52451076273368,
+    "S_final": -4.922178047369037e-07,
+    "avg_mu": 0.10308484967035836,
+    "t_feed": 11.57758915722162,
+    "qp_unit": "mmol/(g*h)",
+    "param_F1": 0.0500352713273458,
+    "param_F2": 0.2541303161005526,
+    "param_t_switch": 17.001526035856138
+  },
+  "diagnostics": {
+    "nfev": 1765,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 42,
+    "island_champion_products": [
+      87.77052634369448,
+      87.79232491077539
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 31.73342733299978,
+    "failed_simulations": 0
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "row": {
+    "model_type": "bell_shaped",
+    "product": "Fab 3H6 (PGAP)",
+    "organism": "P. pastoris",
+    "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+    "strategy": "two_stage",
+    "total_product": 65938.47501432551,
+    "P_final": 16484.891750237715,
+    "V_final": 3.9999337583381256,
+    "X_final": 137.2683476226859,
+    "S_final": 0.012605179848510601,
+    "avg_mu": 0.10310724609281677,
+    "t_feed": 22.530137661341797,
+    "qp_unit": "mg/(g*h)",
+    "param_F1": 0.04095237543333077,
+    "param_F2": 0.12283175085663328,
+    "param_t_switch": 23.367743904195407
+  },
+  "diagnostics": {
+    "nfev": 2002,
+    "nit": 40,
+    "converged": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 30.376798416000383,
+    "failed_simulations": 0
+  }
+}

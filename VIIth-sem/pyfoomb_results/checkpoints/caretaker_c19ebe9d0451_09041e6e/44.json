@@ -1,0 +1,29 @@
+{
+  "row": {
+    "model_type": "hyperbolic",
+    "product": "Crl1 Lipase (MCC, PGAP)",
+    "organism": "P. pastoris",
+    "reference": "Nieto-Taype et al. (2020)",
+    "strategy": "linear_ramp",
+    "total_product": 704222.6419104076,
+    "P_final": 176055.6604776019,
+    "V_final": 4.0,
+    "X_final": 137.27519938955967,
+    "S_final": 0.001057396853129644,
+    "avg_mu": 0.10312681197893481,
+    "t_feed": 22.530151659276413,
+    "qp_unit": "AU/(g*h)",
+    "param_F0": 0.023815288079010455,
+    "param_k": 0.0025595913455452243
+  },
+  "diagnostics": {
+    "nfev": 1208,
+    "nit": 40,
+    "converged": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 14.669067500000892,
+    "failed_simulations": 0
+  }
+}

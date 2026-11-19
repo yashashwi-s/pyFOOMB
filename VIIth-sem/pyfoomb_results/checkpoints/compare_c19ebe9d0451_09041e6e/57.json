@@ -1,0 +1,17 @@
+{
+  "case_index": 57,
+  "model_type": "hyperbolic",
+  "product": "HSA (Human Serum Albumin)",
+  "strategy": "exponential",
+  "scipy_total_product": 44159.74154194956,
+  "pyfoomb_total_product": 44159.796444997686,
+  "relative_difference_percent": 0.00012432828229158588,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": -0.03331431091311288,
+  "runtime_seconds": 0.01575195899931714,
+  "params": {
+    "F0": 0.0240767654054845,
+    "mu_set": 0.0490447489384197
+  }
+}

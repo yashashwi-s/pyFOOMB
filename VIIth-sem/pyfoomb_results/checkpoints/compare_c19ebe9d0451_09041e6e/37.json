@@ -1,0 +1,17 @@
+{
+  "case_index": 37,
+  "model_type": "bell_shaped",
+  "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+  "strategy": "linear_ramp",
+  "scipy_total_product": 294296.67290717625,
+  "pyfoomb_total_product": 294291.9557875403,
+  "relative_difference_percent": -0.0016028450438687614,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": -0.2035544445703863,
+  "runtime_seconds": 0.010135583001101622,
+  "params": {
+    "F0": 0.0343693167005235,
+    "k": 0.0020316880278814
+  }
+}

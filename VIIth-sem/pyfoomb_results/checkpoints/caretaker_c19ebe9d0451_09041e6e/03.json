@@ -1,0 +1,30 @@
+{
+  "row": {
+    "model_type": "linear",
+    "product": "Resveratrol",
+    "organism": "S. cerevisiae",
+    "reference": "Vos et al. (2015)",
+    "strategy": "exp_linear",
+    "total_product": 104.10146981995392,
+    "P_final": 26.02536745498848,
+    "V_final": 4.0,
+    "X_final": 152.52371847053462,
+    "S_final": -2.0314614892621702e-07,
+    "avg_mu": 0.10321273579043708,
+    "t_feed": 11.57758915722162,
+    "qp_unit": "mmol/(g*h)",
+    "param_F0": 0.009033690650035488,
+    "param_k": 4.6989960216137254e-06,
+    "param_mu_set": 0.18004531727734302
+  },
+  "diagnostics": {
+    "nfev": 1946,
+    "nit": 40,
+    "converged": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "API": "Caretaker.estimate (SciPy differential evolution)",
+    "initialization": "fresh seeded population; no warm start",
+    "runtime_seconds": 18.803441874999407,
+    "failed_simulations": 0
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "row": {
+    "model_type": "hyperbolic",
+    "product": "HSA (Human Serum Albumin)",
+    "organism": "P. pastoris",
+    "reference": "Rebnegger et al. (2014)",
+    "strategy": "exponential",
+    "total_product": 44158.9185608129,
+    "P_final": 11039.729640203224,
+    "V_final": 4.0,
+    "X_final": 137.27244999741382,
+    "S_final": 0.00034366979779338404,
+    "avg_mu": 0.10312490198748274,
+    "t_feed": 22.53017952315491,
+    "qp_unit": "mg/(g*h)",
+    "param_F0": 0.0240767654054845,
+    "param_mu_set": 0.0490447489384197
+  },
+  "diagnostics": {
+    "nfev": 1177,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 28,
+    "island_champion_products": [
+      44094.335453776584,
+      44159.759810819996
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 9.332620417000726,
+    "failed_simulations": 0
+  }
+}

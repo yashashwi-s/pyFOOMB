@@ -1,0 +1,18 @@
+{
+  "case_index": 52,
+  "model_type": "hyperbolic",
+  "product": "alpha-Galactosidase",
+  "strategy": "exp_linear",
+  "scipy_total_product": 203946.2374777164,
+  "pyfoomb_total_product": 203946.26599228158,
+  "relative_difference_percent": 1.3981412716468355e-05,
+  "scipy_volume": 4.0,
+  "pyfoomb_volume": 4.0,
+  "batch_switch_difference_seconds": 0.004033173033946014,
+  "runtime_seconds": 0.015953125001033186,
+  "params": {
+    "F0": 0.0510307981360718,
+    "mu_set": 0.0030401578188436,
+    "k": 0.0010370281395569
+  }
+}

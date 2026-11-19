@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-30",
+  "cases": 63,
+  "candidates_replayed": 104,
+  "seed": 42,
+  "DE_settings": {
+    "seed": 42,
+    "tol": 1e-07,
+    "polish": true,
+    "maxiter": 40,
+    "popsize": 14,
+    "mutation": [
+      0.5,
+      1.2
+    ]
+  },
+  "maximum_volume": 4.0,
+  "maximum_relative_mass_balance_error": 2.6152309556570355e-05,
+  "final_solver": "LSODA with terminal volume event and feed-off coast phase",
+  "optimizer_sha256": "a81371e7d66231d2341986471ec3ab6cd6d096c08736ed929f02be71465db428",
+  "search_note": "Completed volume-constrained searches were reused; duplicate candidates from RHS-stop and event-based searches were all replayed with the final event model, and the highest product retained per case. All runs use seed 42 and the same DE budget. Rankings remain exploratory.",
+  "pulse_note": "Pulsed candidates were replayed with max step <=0.01 h and <=one eighth of the shortest on/off interval. Halving that step changed totals by less than 0.15%. Pulsed parameter searches used the earlier coarser integration; repeated optimization on the refined integration is still needed.",
+  "maximum_pulse_refinement_change_percent": 0.002856103540915811,
+  "candidate_pool_file": "optimization_candidates.json"
+}

@@ -1,0 +1,35 @@
+{
+  "row": {
+    "model_type": "hyperbolic",
+    "product": "alpha-Galactosidase",
+    "organism": "S. cerevisiae",
+    "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+    "strategy": "two_stage",
+    "total_product": 203474.56287146875,
+    "P_final": 50868.64071786719,
+    "V_final": 4.0,
+    "X_final": 152.5243163646424,
+    "S_final": 6.253881330963942e-05,
+    "avg_mu": 0.10314523314750726,
+    "t_feed": 11.57761234005486,
+    "qp_unit": "U/(g*h)",
+    "param_F1": 0.0613794268395417,
+    "param_F2": 0.0841695048393694,
+    "param_t_switch": 16.079175024246204
+  },
+  "diagnostics": {
+    "nfev": 1765,
+    "islands": 2,
+    "generations_per_island": 20,
+    "population_size_per_island": 42,
+    "island_champion_products": [
+      202660.67213812665,
+      203475.55833600953
+    ],
+    "initialization": "one cold population; one includes the CVode-replayed SciPy candidate",
+    "API": "Caretaker.estimate_parallel_continued / PyfoombArchipelago / LossCalculator",
+    "backend": "in-process locked evolution; independent cases in separate processes",
+    "runtime_seconds": 19.691614667000977,
+    "failed_simulations": 0
+  }
+}

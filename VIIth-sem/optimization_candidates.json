@@ -1,0 +1,2775 @@
+[
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "feedback_control",
+      "total_product": 171691.7555076727,
+      "P_final": 42922.938876918175,
+      "V_final": 4.0,
+      "X_final": 137.27859006239368,
+      "S_final": -9.109521279811208e-09,
+      "avg_mu": 0.10312562372893859,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_mu_target": 0.18004120630959755,
+      "param_Kp": 19.997299106060147
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1193,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "exponential",
+      "total_product": 298900.35873604706,
+      "P_final": 74725.08968401176,
+      "V_final": 4.0,
+      "X_final": 137.2730242514136,
+      "S_final": 0.003775353017713495,
+      "avg_mu": 0.10312575600320026,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.037283136621715035,
+      "param_mu_set": 0.03165362509617558
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1202,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "feedback_control",
+      "total_product": 261581.95947981864,
+      "P_final": 65395.48986995466,
+      "V_final": 4.0,
+      "X_final": 137.2722043717598,
+      "S_final": 0.0035041327861695146,
+      "avg_mu": 0.10312649839667284,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_mu_target": 0.18988029957641098,
+      "param_Kp": 0.10320910079588692
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1277,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "linear_ramp",
+      "total_product": 159970.665793959,
+      "P_final": 39992.66644848975,
+      "V_final": 4.0,
+      "X_final": 137.27524448073197,
+      "S_final": -1.5550403543395134e-08,
+      "avg_mu": 0.10312366219784427,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.0010135537831429534,
+      "param_k": 0.006692626399731854
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1196,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "constant",
+      "total_product": 65.33847114222688,
+      "P_final": 16.33461778555672,
+      "V_final": 4.0,
+      "X_final": 152.525213810914,
+      "S_final": -1.5771959883777618e-08,
+      "avg_mu": 0.10315298826735735,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.1459191881125123
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 602,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "exponential",
+      "total_product": 104.1011440452678,
+      "P_final": 26.02528601131695,
+      "V_final": 4.0,
+      "X_final": 152.5224736450632,
+      "S_final": 7.839927161407436e-10,
+      "avg_mu": 0.10315242585325597,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.009055580193056377,
+      "param_mu_set": 0.18000064613261865
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1313,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exp_linear",
+      "total_product": 171704.65477501103,
+      "P_final": 42926.16369375276,
+      "V_final": 4.0,
+      "X_final": 137.27362951253605,
+      "S_final": -1.0068329925692955e-08,
+      "avg_mu": 0.10312543167359549,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.008838959590276488,
+      "param_mu_set": 0.18004519274777198,
+      "param_k": 8.944765985764713e-06
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1850,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "linear_ramp",
+      "total_product": 294296.6729082358,
+      "P_final": 73574.16822705895,
+      "V_final": 4.0,
+      "X_final": 137.27304202658948,
+      "S_final": 0.003740570519893493,
+      "avg_mu": 0.10312577895184094,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.03436931670052357,
+      "param_k": 0.0020316880278814513
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1244,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "constant",
+      "total_product": 2006324.3093514862,
+      "P_final": 501581.07733787154,
+      "V_final": 4.0,
+      "X_final": 152.52515522422507,
+      "S_final": 7.975819434964791e-10,
+      "avg_mu": 0.1031554780607771,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.11231143535573349
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 260,
+      "nit": 17,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "exp_linear",
+      "total_product": 11584.279441837589,
+      "P_final": 2896.069860459397,
+      "V_final": 4.0,
+      "X_final": 152.52355589012515,
+      "S_final": -9.955872590440213e-09,
+      "avg_mu": 0.1031519021983512,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.01731813986849637,
+      "param_mu_set": 0.36026354902517815,
+      "param_k": 6.462688713340724e-05
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 2098,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "feedback_control",
+      "total_product": 102.78704376581003,
+      "P_final": 25.696760941452506,
+      "V_final": 4.0,
+      "X_final": 152.52508008759793,
+      "S_final": -1.1823510572470468e-08,
+      "avg_mu": 0.10315119039860483,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_mu_target": 0.18570237170385934,
+      "param_Kp": 19.999799290358435
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1244,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "pulsed",
+      "total_product": 2094987.5079629093,
+      "P_final": 523746.8769907273,
+      "V_final": 4.0,
+      "X_final": 152.52484265141965,
+      "S_final": -2.3464031747104635e-10,
+      "avg_mu": 0.10315362075121393,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F_pulse": 0.1620977471380992,
+      "param_T_cycle": 6.994684441433416,
+      "param_duty": 0.6614797178551228
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "linear_ramp",
+      "total_product": 71446.12581414892,
+      "P_final": 17861.53145353723,
+      "V_final": 4.0,
+      "X_final": 137.2750057939421,
+      "S_final": 0.0011196875304504061,
+      "avg_mu": 0.1031260466614347,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.010681256383804322,
+      "param_k": 0.0032163446670504595
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1205,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "exp_linear",
+      "total_product": 76248.5913982976,
+      "P_final": 19062.1478495744,
+      "V_final": 4.0,
+      "X_final": 137.27446524514286,
+      "S_final": -8.492955345790162e-10,
+      "avg_mu": 0.103125737757473,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.016850234910508674,
+      "param_mu_set": 0.06239316104058742,
+      "param_k": 0.0
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1858,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "feedback_control",
+      "total_product": 2337234.5371604306,
+      "P_final": 584308.6342901076,
+      "V_final": 4.0,
+      "X_final": 152.52616711416837,
+      "S_final": -1.4852024081912233e-10,
+      "avg_mu": 0.103151579441728,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_mu_target": 0.18014238863465576,
+      "param_Kp": 5.0947857163436705
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1175,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "constant",
+      "total_product": 10473.74002677269,
+      "P_final": 2618.4350066931725,
+      "V_final": 4.0,
+      "X_final": 152.52454962613652,
+      "S_final": -9.143408662532923e-09,
+      "avg_mu": 0.10315208597223353,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.2903236946826461
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 286,
+      "nit": 15,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "two_stage",
+      "total_product": 10481.196060864848,
+      "P_final": 2620.299015216212,
+      "V_final": 4.0,
+      "X_final": 152.52476106511583,
+      "S_final": -1.1835299040994086e-08,
+      "avg_mu": 0.1031528847480931,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F1": 0.2574987866936171,
+      "param_F2": 0.49996310036288316,
+      "param_t_switch": 8.943413805396956
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1854,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "two_stage",
+      "total_product": 703856.8268502308,
+      "P_final": 175964.2067125577,
+      "V_final": 4.0,
+      "X_final": 137.27508811760168,
+      "S_final": 8.420599554848906e-10,
+      "avg_mu": 0.10312688950883411,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F1": 0.03638597328309076,
+      "param_F2": 0.09017828170206404,
+      "param_t_switch": 11.23693323636832
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 2014,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "constant",
+      "total_product": 46985.65973524866,
+      "P_final": 11746.414933812164,
+      "V_final": 4.0,
+      "X_final": 137.27351329400236,
+      "S_final": 0.003008735254234333,
+      "avg_mu": 0.10312637092765123,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.07500142228378201
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 306,
+      "nit": 20,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "two_stage",
+      "total_product": 87.7933390715963,
+      "P_final": 21.948334767899073,
+      "V_final": 4.0,
+      "X_final": 152.52517888781978,
+      "S_final": -1.7138455947511612e-08,
+      "avg_mu": 0.10315576102521477,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F1": 0.05023174830822352,
+      "param_F2": 0.2543129540008269,
+      "param_t_switch": 16.97692837824869
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exp_linear",
+      "total_product": 704172.5017733822,
+      "P_final": 176043.12544334555,
+      "V_final": 4.0,
+      "X_final": 137.27430950369572,
+      "S_final": 0.001695320409816539,
+      "avg_mu": 0.10312671084421324,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.024885331532454102,
+      "param_mu_set": 0.008601489369673379,
+      "param_k": 0.0022651592178946156
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1754,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "two_stage",
+      "total_product": 65944.4020286987,
+      "P_final": 16486.100507174677,
+      "V_final": 4.0,
+      "X_final": 137.2736497179962,
+      "S_final": 0.0028302703995553165,
+      "avg_mu": 0.10312713690123258,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F1": 0.04126815323520858,
+      "param_F2": 0.12185513865387146,
+      "param_t_switch": 23.254848006288164
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1914,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "exp_linear",
+      "total_product": 2423932.1002815487,
+      "P_final": 605983.0250703872,
+      "V_final": 4.0,
+      "X_final": 152.52432897467767,
+      "S_final": -1.5996794697101864e-10,
+      "avg_mu": 0.10315311184779827,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.034086015685993405,
+      "param_mu_set": 0.09579998132727632,
+      "param_k": 1.599557360741672e-06
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1766,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "exponential",
+      "total_product": 11584.667923395144,
+      "P_final": 2896.166980848786,
+      "V_final": 4.0,
+      "X_final": 152.52435837630927,
+      "S_final": -9.947528691129687e-09,
+      "avg_mu": 0.10315141052367609,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.017384013662843076,
+      "param_mu_set": 0.36001629726858647
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1211,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "linear_ramp",
+      "total_product": 10487.091747927898,
+      "P_final": 2621.7729369819745,
+      "V_final": 4.0,
+      "X_final": 152.52474187333073,
+      "S_final": -9.143819467662424e-09,
+      "avg_mu": 0.10315157815714131,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.02975624748327412,
+      "param_k": 0.049999897077615804
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1205,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "two_stage",
+      "total_product": 2283582.7254203954,
+      "P_final": 570895.6813550988,
+      "V_final": 4.0,
+      "X_final": 152.52500166145535,
+      "S_final": -2.0401878418170512e-10,
+      "avg_mu": 0.10315448986894227,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F1": 0.07355421780712196,
+      "param_F2": 0.19356948754020895,
+      "param_t_switch": 13.084577883345682
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "pulsed",
+      "total_product": 54314.88823270233,
+      "P_final": 13586.902971682766,
+      "V_final": 3.997591529571019,
+      "X_final": 137.2432099751631,
+      "S_final": 0.013013694631825867,
+      "avg_mu": 0.10310512453756857,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F_pulse": 0.12589346707949006,
+      "param_T_cycle": 5.292265798290262,
+      "param_duty": 0.5629882587696329
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "linear_ramp",
+      "total_product": 704222.6628711426,
+      "P_final": 176055.66571778565,
+      "V_final": 4.0,
+      "X_final": 137.2746888965767,
+      "S_final": 0.0023335716984104835,
+      "avg_mu": 0.10312582066262481,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.024192130418724644,
+      "param_k": 0.0025406422268780884
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1208,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "feedback_control",
+      "total_product": 11581.660317502956,
+      "P_final": 2895.415079375739,
+      "V_final": 4.0,
+      "X_final": 152.52727102991045,
+      "S_final": -2.482223986212195e-09,
+      "avg_mu": 0.1031525811962356,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_mu_target": 0.36020698207261703,
+      "param_Kp": 19.998937126408357
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1175,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "exponential",
+      "total_product": 76258.00213301684,
+      "P_final": 19064.50053325421,
+      "V_final": 4.0,
+      "X_final": 137.27346655618229,
+      "S_final": 0.0023655851355547214,
+      "avg_mu": 0.10312529248930657,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.0167687191581018,
+      "param_mu_set": 0.06250185755313147
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1172,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "feedback_control",
+      "total_product": 69639.48241961145,
+      "P_final": 17409.870604902862,
+      "V_final": 4.0,
+      "X_final": 137.27207357876017,
+      "S_final": 0.006427392016594597,
+      "avg_mu": 0.10312422120291016,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_mu_target": 0.1257839181639006,
+      "param_Kp": 2.753639877634868
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1190,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "exponential",
+      "total_product": 2423942.9340220653,
+      "P_final": 605985.7335055163,
+      "V_final": 4.0,
+      "X_final": 152.52428203849752,
+      "S_final": -1.5993257769795966e-10,
+      "avg_mu": 0.1031530142001303,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.034171894680416315,
+      "param_mu_set": 0.09573716019096294
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1172,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "two_stage",
+      "total_product": 161766.5892026648,
+      "P_final": 40441.6473006662,
+      "V_final": 4.0,
+      "X_final": 137.27499398091922,
+      "S_final": 9.077622634641029e-10,
+      "avg_mu": 0.10312522002799915,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F1": 0.076597919298481,
+      "param_F2": 0.2625383728290092,
+      "param_t_switch": 16.436274349784863
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "exp_linear",
+      "total_product": 298870.0870112484,
+      "P_final": 74717.5217528121,
+      "V_final": 4.0,
+      "X_final": 137.27295479408772,
+      "S_final": 0.00384054659894477,
+      "avg_mu": 0.10312632903775705,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.03665032761432162,
+      "param_mu_set": 0.032362307346816985,
+      "param_k": 0.0
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1834,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "linear_ramp",
+      "total_product": 91.27177640379614,
+      "P_final": 22.817944100949035,
+      "V_final": 4.0,
+      "X_final": 152.52545936439955,
+      "S_final": 9.542583080275701e-10,
+      "avg_mu": 0.10315155509808518,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.0010464354625361327,
+      "param_k": 0.013525293131640612
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1208,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "constant",
+      "total_product": 155039.96127571093,
+      "P_final": 38759.99031892773,
+      "V_final": 4.0,
+      "X_final": 137.2746845777789,
+      "S_final": -9.284380647128582e-09,
+      "avg_mu": 0.1031251396711286,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.14530674093288629
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 246,
+      "nit": 16,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exponential",
+      "total_product": 702061.2915756719,
+      "P_final": 175515.32289391797,
+      "V_final": 4.0,
+      "X_final": 137.27404886096434,
+      "S_final": 0.0017084075212836125,
+      "avg_mu": 0.10312612218251635,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.03597560051973274,
+      "param_mu_set": 0.033130009182787946
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1196,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "constant",
+      "total_product": 675588.5449053305,
+      "P_final": 168897.13622633263,
+      "V_final": 4.0,
+      "X_final": 137.27464060440312,
+      "S_final": 0.0014699138473726508,
+      "avg_mu": 0.1031258300956484,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.07500257035513844
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 614,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exponential",
+      "total_product": 171708.14575226206,
+      "P_final": 42927.036438065516,
+      "V_final": 4.0,
+      "X_final": 137.27477757511863,
+      "S_final": -1.6191376314825202e-08,
+      "avg_mu": 0.10312534321721674,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.008852408148954164,
+      "param_mu_set": 0.18001906252514133
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1274,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "exp_linear",
+      "total_product": 104.09627158701235,
+      "P_final": 26.02406789675309,
+      "V_final": 4.0,
+      "X_final": 152.52131885624777,
+      "S_final": 7.84451009561315e-10,
+      "avg_mu": 0.10315192750213611,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.008984562519785846,
+      "param_mu_set": 0.1801660466346572,
+      "param_k": 1.9602567335679432e-05
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1818,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "two_stage",
+      "total_product": 288970.55890776543,
+      "P_final": 72242.63972694136,
+      "V_final": 4.0,
+      "X_final": 137.27259830788222,
+      "S_final": 0.005353197816597371,
+      "avg_mu": 0.10312617149424648,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F1": 0.05614716161745578,
+      "param_F2": 0.10509867444601576,
+      "param_t_switch": 24.593336330154337
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "linear_ramp",
+      "total_product": 2357213.381947829,
+      "P_final": 589303.3454869572,
+      "V_final": 4.0,
+      "X_final": 152.52556085460918,
+      "S_final": -7.636912482710582e-10,
+      "avg_mu": 0.10315324145394926,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.030913308022947204,
+      "param_k": 0.009086168232439617
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 1202,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "constant",
+      "total_product": 252881.29251198284,
+      "P_final": 63220.32312799571,
+      "V_final": 4.0,
+      "X_final": 137.27336571672416,
+      "S_final": 0.003169587285520976,
+      "avg_mu": 0.10312664717156057,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.07500133730658465
+    },
+    "diagnostics": {
+      "source_hash": "359c049c597d",
+      "nfev": 334,
+      "nit": 22,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "volume_event"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "feedback_control",
+      "total_product": 171691.77790074787,
+      "P_final": 42922.94442676911,
+      "V_final": 4.0000000045120725,
+      "X_final": 137.27860499355359,
+      "S_final": -2.466813082087341e-09,
+      "avg_mu": 0.10312558962764298,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_mu_target": 0.18004127689385813,
+      "param_Kp": 19.998195039093766
+    },
+    "diagnostics": {
+      "nfev": 1175,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "HSA (Human Serum Albumin)",
+      "organism": "P. pastoris",
+      "reference": "Rebnegger et al. (2014)",
+      "strategy": "pulsed",
+      "total_product": 42128.8540064853,
+      "P_final": 10532.213501369484,
+      "V_final": 4.000000000095646,
+      "X_final": 137.27407150695447,
+      "S_final": -6.92363452921582e-09,
+      "avg_mu": 0.10312447011329615,
+      "t_feed": 22.530188777130164,
+      "qp_unit": "mg/(g*h)",
+      "param_F_pulse": 0.07903771597821552,
+      "param_T_cycle": 0.9068720567506148,
+      "param_duty": 0.911403995554798
+    },
+    "diagnostics": {
+      "nfev": 1982,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "exponential",
+      "total_product": 298900.3682484865,
+      "P_final": 74725.09205683439,
+      "V_final": 4.000000000283023,
+      "X_final": 137.2730449231731,
+      "S_final": 0.0037261696913845977,
+      "avg_mu": 0.10312576170563637,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.03727686779663155,
+      "param_mu_set": 0.031660619901698626
+    },
+    "diagnostics": {
+      "nfev": 1190,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "feedback_control",
+      "total_product": 261430.19596894225,
+      "P_final": 65357.548991848416,
+      "V_final": 4.000000000023694,
+      "X_final": 137.27384434104792,
+      "S_final": -7.58772797532817e-10,
+      "avg_mu": 0.10312673009865143,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_mu_target": 0.1898971348556495,
+      "param_Kp": 0.1031881254949969
+    },
+    "diagnostics": {
+      "nfev": 1523,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "linear_ramp",
+      "total_product": 159970.63007259512,
+      "P_final": 39992.65751288534,
+      "V_final": 4.000000000526441,
+      "X_final": 137.2751759640262,
+      "S_final": -9.056563964508884e-09,
+      "avg_mu": 0.10312382302779995,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.0010062310535109698,
+      "param_k": 0.0067059021361250935
+    },
+    "diagnostics": {
+      "nfev": 1208,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "constant",
+      "total_product": 65.3387475931094,
+      "P_final": 16.33468689733765,
+      "V_final": 4.000000000230112,
+      "X_final": 152.52552461801503,
+      "S_final": -9.202242834140184e-09,
+      "avg_mu": 0.10315245388182245,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.146002424933235
+    },
+    "diagnostics": {
+      "nfev": 656,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "HSA (Human Serum Albumin)",
+      "organism": "P. pastoris",
+      "reference": "Rebnegger et al. (2014)",
+      "strategy": "exponential",
+      "total_product": 44159.74242781414,
+      "P_final": 11039.935606422609,
+      "V_final": 4.000000000192366,
+      "X_final": 137.27456398584465,
+      "S_final": 0.0008384119212462821,
+      "avg_mu": 0.10312633340685928,
+      "t_feed": 22.530188777130164,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.024076765405484552,
+      "param_mu_set": 0.04904474893841977
+    },
+    "diagnostics": {
+      "nfev": 1286,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "HSA (Human Serum Albumin)",
+      "organism": "P. pastoris",
+      "reference": "Rebnegger et al. (2014)",
+      "strategy": "constant",
+      "total_product": 42184.90117383212,
+      "P_final": 10546.225293142594,
+      "V_final": 4.000000000119639,
+      "X_final": 137.27479339917898,
+      "S_final": 0.0006308880589913309,
+      "avg_mu": 0.1031266697620032,
+      "t_feed": 22.530188777130164,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.07500389608081084
+    },
+    "diagnostics": {
+      "nfev": 614,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "exponential",
+      "total_product": 104.10108587957619,
+      "P_final": 26.025271464061117,
+      "V_final": 4.000000000896502,
+      "X_final": 152.52250781081702,
+      "S_final": 8.014619935978234e-10,
+      "avg_mu": 0.10315250541326675,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.009055890477919007,
+      "param_mu_set": 0.1799998367478077
+    },
+    "diagnostics": {
+      "nfev": 1304,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exp_linear",
+      "total_product": 171697.2624250763,
+      "P_final": 42924.31552933032,
+      "V_final": 4.000000007169713,
+      "X_final": 137.27023531105868,
+      "S_final": -1.0702313599523204e-08,
+      "avg_mu": 0.10312463138885417,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.008766818174625948,
+      "param_mu_set": 0.18015339493137292,
+      "param_k": 2.28985005872491e-05
+    },
+    "diagnostics": {
+      "nfev": 2010,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "pulsed",
+      "total_product": 254206.44780487948,
+      "P_final": 63551.61194897939,
+      "V_final": 4.000000000141018,
+      "X_final": 137.2747878843675,
+      "S_final": -6.568751248156083e-11,
+      "avg_mu": 0.10312525896046636,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F_pulse": 0.08192155205920575,
+      "param_T_cycle": 4.049588062813151,
+      "param_duty": 0.9078138159916965
+    },
+    "diagnostics": {
+      "nfev": 2050,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "linear_ramp",
+      "total_product": 294294.3595649579,
+      "P_final": 73573.58988735225,
+      "V_final": 4.000000000211338,
+      "X_final": 137.27330927367,
+      "S_final": 0.0034007730556029877,
+      "avg_mu": 0.10312618196435816,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.03453232191235041,
+      "param_k": 0.0020235493625439084
+    },
+    "diagnostics": {
+      "nfev": 1172,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "HSA (Human Serum Albumin)",
+      "organism": "P. pastoris",
+      "reference": "Rebnegger et al. (2014)",
+      "strategy": "two_stage",
+      "total_product": 44005.98672839721,
+      "P_final": 11001.496681727192,
+      "V_final": 4.000000000135294,
+      "X_final": 137.27419196272075,
+      "S_final": 0.0019612491676691407,
+      "avg_mu": 0.10312640349333488,
+      "t_feed": 22.530188777130164,
+      "qp_unit": "mg/(g*h)",
+      "param_F1": 0.034310298812873265,
+      "param_F2": 0.0932636753920477,
+      "param_t_switch": 12.389783429811496
+    },
+    "diagnostics": {
+      "nfev": 1850,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "constant",
+      "total_product": 2006324.9480997946,
+      "P_final": 501581.2369903485,
+      "V_final": 4.000000000275929,
+      "X_final": 152.52517416677745,
+      "S_final": -7.498664815407911e-10,
+      "avg_mu": 0.10315546932185934,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.11231067785078057
+    },
+    "diagnostics": {
+      "nfev": 246,
+      "nit": 15,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "pulsed",
+      "total_product": 674683.4045661573,
+      "P_final": 168670.851140261,
+      "V_final": 4.000000000030315,
+      "X_final": 137.2743613320707,
+      "S_final": -4.6523962717464064e-10,
+      "avg_mu": 0.10312531362517952,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F_pulse": 0.07671561624650786,
+      "param_T_cycle": 1.0281789662932592,
+      "param_duty": 0.9477022591277107
+    },
+    "diagnostics": {
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "feedback_control",
+      "total_product": 102.78799816387945,
+      "P_final": 25.696999530711853,
+      "V_final": 4.000000001596764,
+      "X_final": 152.5265214945298,
+      "S_final": -9.659559278406581e-09,
+      "avg_mu": 0.10315170484456712,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_mu_target": 0.18569344344947636,
+      "param_Kp": 19.998870298579355
+    },
+    "diagnostics": {
+      "nfev": 1280,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "alpha-Galactosidase",
+      "organism": "S. cerevisiae",
+      "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+      "strategy": "linear_ramp",
+      "total_product": 203947.074246988,
+      "P_final": 50986.76855923623,
+      "V_final": 4.000000000196974,
+      "X_final": 152.52423047037888,
+      "S_final": 0.0021991927381301017,
+      "avg_mu": 0.10315387069512434,
+      "t_feed": 11.577611219729016,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.05097068908143533,
+      "param_k": 0.001201613029199182
+    },
+    "diagnostics": {
+      "nfev": 1208,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "pulsed",
+      "total_product": 2094938.2926714257,
+      "P_final": 523734.5731009463,
+      "V_final": 4.000000000511023,
+      "X_final": 152.5248732486715,
+      "S_final": -5.401825499753111e-10,
+      "avg_mu": 0.10315355612325035,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F_pulse": 0.1617493428934946,
+      "param_T_cycle": 6.99785212839834,
+      "param_duty": 0.6629156612717821
+    },
+    "diagnostics": {
+      "nfev": 2098,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "linear_ramp",
+      "total_product": 71445.60274376422,
+      "P_final": 17861.400684280427,
+      "V_final": 4.000000000371892,
+      "X_final": 137.2751419734393,
+      "S_final": 2.3964333820676755e-05,
+      "avg_mu": 0.10312657955220425,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.010660795759440872,
+      "param_k": 0.0032179198378917626
+    },
+    "diagnostics": {
+      "nfev": 1211,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "exp_linear",
+      "total_product": 76214.61035762647,
+      "P_final": 19053.652587651435,
+      "V_final": 4.0000000003684715,
+      "X_final": 137.2744261279122,
+      "S_final": 9.363378693259493e-10,
+      "avg_mu": 0.10312544070388727,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.01616106438699943,
+      "param_mu_set": 0.06386666646056618,
+      "param_k": 9.620021335790227e-06
+    },
+    "diagnostics": {
+      "nfev": 1850,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "feedback_control",
+      "total_product": 2337258.650826903,
+      "P_final": 584314.6626742148,
+      "V_final": 4.000000000222558,
+      "X_final": 152.52685762640456,
+      "S_final": -1.619989028592317e-10,
+      "avg_mu": 0.10315148821238976,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_mu_target": 0.1794595949806181,
+      "param_Kp": 5.186796042260186
+    },
+    "diagnostics": {
+      "nfev": 1259,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "alpha-Galactosidase",
+      "organism": "S. cerevisiae",
+      "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+      "strategy": "exponential",
+      "total_product": 203923.22700559936,
+      "P_final": 50980.80675082092,
+      "V_final": 4.000000000045422,
+      "X_final": 152.52464300791436,
+      "S_final": 0.001414110747012731,
+      "avg_mu": 0.10315520195572465,
+      "t_feed": 11.577611219729016,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.053155931757886334,
+      "param_mu_set": 0.016329742963414013
+    },
+    "diagnostics": {
+      "nfev": 1178,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "constant",
+      "total_product": 10473.74105847587,
+      "P_final": 2618.4352642116537,
+      "V_final": 4.000000000622225,
+      "X_final": 152.5245496281295,
+      "S_final": -2.4262783690526445e-09,
+      "avg_mu": 0.10315208527723194,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.29032235708286336
+    },
+    "diagnostics": {
+      "nfev": 550,
+      "nit": 33,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "two_stage",
+      "total_product": 10473.761140068635,
+      "P_final": 2618.4402840542816,
+      "V_final": 4.000000001470917,
+      "X_final": 152.52463103553876,
+      "S_final": -1.5571193446728376e-08,
+      "avg_mu": 0.10315179627092319,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F1": 0.2903269604240158,
+      "param_F2": 0.09363235141589096,
+      "param_t_switch": 30.997532782401464
+    },
+    "diagnostics": {
+      "nfev": 1160,
+      "nit": 25,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "two_stage",
+      "total_product": 704027.6251775956,
+      "P_final": 176006.90628601165,
+      "V_final": 4.000000000190612,
+      "X_final": 137.27496601777412,
+      "S_final": 3.747434908333646e-07,
+      "avg_mu": 0.10312675625037657,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F1": 0.036203361409087254,
+      "param_F2": 0.09002735865695728,
+      "param_t_switch": 11.153765451568836
+    },
+    "diagnostics": {
+      "nfev": 1814,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "constant",
+      "total_product": 46985.68010763484,
+      "P_final": 11746.42002644021,
+      "V_final": 4.000000000159538,
+      "X_final": 137.27354924990303,
+      "S_final": 0.002954633941575712,
+      "avg_mu": 0.1031263494901816,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.07500145184091944
+    },
+    "diagnostics": {
+      "nfev": 316,
+      "nit": 20,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "alpha-Galactosidase",
+      "organism": "S. cerevisiae",
+      "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+      "strategy": "two_stage",
+      "total_product": 203474.5903188914,
+      "P_final": 50868.647578861586,
+      "V_final": 4.0000000000677245,
+      "X_final": 152.52467534016168,
+      "S_final": 6.244326290516193e-05,
+      "avg_mu": 0.10315540370122744,
+      "t_feed": 11.577611219729016,
+      "qp_unit": "U/(g*h)",
+      "param_F1": 0.0613794268395417,
+      "param_F2": 0.08416950483936947,
+      "param_t_switch": 16.079175024246204
+    },
+    "diagnostics": {
+      "nfev": 2078,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "two_stage",
+      "total_product": 87.79349184051215,
+      "P_final": 21.94837295811408,
+      "V_final": 4.000000000367035,
+      "X_final": 152.52513582649334,
+      "S_final": -1.3064282192876027e-08,
+      "avg_mu": 0.10315542359993876,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F1": 0.05003527132734589,
+      "param_F2": 0.2541303161005526,
+      "param_t_switch": 17.001526035856138
+    },
+    "diagnostics": {
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "pulsed",
+      "total_product": 11003.451277433427,
+      "P_final": 2750.8627909378365,
+      "V_final": 4.000000041325973,
+      "X_final": 152.52484801586797,
+      "S_final": -7.611026701538064e-10,
+      "avg_mu": 0.10314478937661231,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F_pulse": 0.8365651183191388,
+      "param_T_cycle": 0.5741706090471768,
+      "param_duty": 0.13070069089517833
+    },
+    "diagnostics": {
+      "nfev": 1798,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exp_linear",
+      "total_product": 703898.2332363577,
+      "P_final": 175974.84174233297,
+      "V_final": 3.999993557414441,
+      "X_final": 137.2689710638673,
+      "S_final": 0.01324141529384515,
+      "avg_mu": 0.10312582182784072,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.026131068615417058,
+      "param_mu_set": 0.01929042715771183,
+      "param_k": 0.0017802798524341745
+    },
+    "diagnostics": {
+      "nfev": 1894,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "two_stage",
+      "total_product": 65943.10826961626,
+      "P_final": 16485.777065766168,
+      "V_final": 4.000000000397408,
+      "X_final": 137.27485341839142,
+      "S_final": 7.740018421379153e-06,
+      "avg_mu": 0.10312730623982183,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F1": 0.041273258445330585,
+      "param_F2": 0.12155081717683805,
+      "param_t_switch": 23.185465308305737
+    },
+    "diagnostics": {
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "exp_linear",
+      "total_product": 2423921.433480607,
+      "P_final": 605980.3582964457,
+      "V_final": 4.000000000486525,
+      "X_final": 152.52432879749009,
+      "S_final": 8.952138933435217e-10,
+      "avg_mu": 0.10315331248959439,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.034005054160288525,
+      "param_mu_set": 0.09576650759498423,
+      "param_k": 3.2725909191629043e-06
+    },
+    "diagnostics": {
+      "nfev": 1890,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "exponential",
+      "total_product": 11584.6747502862,
+      "P_final": 2896.16868349373,
+      "V_final": 4.00000000563202,
+      "X_final": 152.52442084719326,
+      "S_final": -1.0664886843366544e-08,
+      "avg_mu": 0.10315151847760226,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.017383922128989274,
+      "param_mu_set": 0.360016817375412
+    },
+    "diagnostics": {
+      "nfev": 1280,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "alpha-Galactosidase",
+      "organism": "S. cerevisiae",
+      "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+      "strategy": "constant",
+      "total_product": 202237.54564424392,
+      "P_final": 50559.38641023426,
+      "V_final": 4.0000000000654055,
+      "X_final": 152.5246531142077,
+      "S_final": 0.0017339312142469366,
+      "avg_mu": 0.10315478379509532,
+      "t_feed": 11.577611219729016,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.07500211621490926
+    },
+    "diagnostics": {
+      "nfev": 614,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "feedback_control",
+      "total_product": 702545.7201839769,
+      "P_final": 175636.43003915393,
+      "V_final": 4.000000000155783,
+      "X_final": 137.27331762751368,
+      "S_final": 0.001720094593019035,
+      "avg_mu": 0.10312678536568573,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_mu_target": 0.18341110394046148,
+      "param_Kp": 0.18366503564831965
+    },
+    "diagnostics": {
+      "nfev": 1220,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Heterologous Protein (HIP)",
+      "organism": "S. cerevisiae",
+      "reference": "Liu et al. (2013)",
+      "strategy": "linear_ramp",
+      "total_product": 10487.085744970833,
+      "P_final": 2621.771436123416,
+      "V_final": 4.000000000182002,
+      "X_final": 152.5247397181778,
+      "S_final": -9.09247174288874e-09,
+      "avg_mu": 0.10315157719481609,
+      "t_feed": 11.577608378599678,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.029762215291089356,
+      "param_k": 0.04999572765946473
+    },
+    "diagnostics": {
+      "nfev": 1259,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "two_stage",
+      "total_product": 2283581.470682081,
+      "P_final": 570895.3676110451,
+      "V_final": 4.000000000416715,
+      "X_final": 152.52517589791313,
+      "S_final": -7.617559424379614e-10,
+      "avg_mu": 0.10315408928288287,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F1": 0.07375057734581408,
+      "param_F2": 0.19333271067886804,
+      "param_t_switch": 13.05904849664861
+    },
+    "diagnostics": {
+      "nfev": 1802,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "pulsed",
+      "total_product": 54340.37028191806,
+      "P_final": 13585.092569294167,
+      "V_final": 4.000000000349014,
+      "X_final": 137.2746775832884,
+      "S_final": 5.346644672427192e-06,
+      "avg_mu": 0.1031259275643894,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F_pulse": 0.1263748576734708,
+      "param_T_cycle": 5.2951169868769545,
+      "param_duty": 0.5614753689581591
+    },
+    "diagnostics": {
+      "nfev": 1958,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "linear_ramp",
+      "total_product": 704221.0666498626,
+      "P_final": 176055.26665301993,
+      "V_final": 4.000000000214608,
+      "X_final": 137.2740655287169,
+      "S_final": 0.0017890368688836132,
+      "avg_mu": 0.10312644478855364,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.024138956899590197,
+      "param_k": 0.0025433367612692145
+    },
+    "diagnostics": {
+      "nfev": 1202,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "pulsed",
+      "total_product": 81.04581731900655,
+      "P_final": 20.261454329050583,
+      "V_final": 4.000000000138401,
+      "X_final": 152.52053102276085,
+      "S_final": 2.260707248924675e-12,
+      "avg_mu": 0.10314964853294457,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F_pulse": 0.236373143605295,
+      "param_T_cycle": 0.5239058821081315,
+      "param_duty": 0.3148872500783174
+    },
+    "diagnostics": {
+      "nfev": 1954,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "alpha-Galactosidase",
+      "organism": "S. cerevisiae",
+      "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+      "strategy": "exp_linear",
+      "total_product": 203946.23775030352,
+      "P_final": 50986.55943533232,
+      "V_final": 4.000000000176012,
+      "X_final": 152.5243220237144,
+      "S_final": 0.0014036176321994005,
+      "avg_mu": 0.10315488756260623,
+      "t_feed": 11.577611219729016,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.05103079813607181,
+      "param_mu_set": 0.0030401578188436356,
+      "param_k": 0.0010370281395569215
+    },
+    "diagnostics": {
+      "nfev": 1782,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "exponential",
+      "total_product": 76258.14283844648,
+      "P_final": 19064.53570838198,
+      "V_final": 4.000000000257995,
+      "X_final": 137.2732919927363,
+      "S_final": 0.0025146185381487154,
+      "avg_mu": 0.10312513465418527,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.01675738581683543,
+      "param_mu_set": 0.06252597093230051
+    },
+    "diagnostics": {
+      "nfev": 1217,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "Fab 3H6 (PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Maurer et al. (2006) / Garcia-Ortega et al. (2019)",
+      "strategy": "feedback_control",
+      "total_product": 69639.48336235096,
+      "P_final": 17409.87083786054,
+      "V_final": 4.000000000626587,
+      "X_final": 137.2721080190518,
+      "S_final": 0.0063505192405452155,
+      "avg_mu": 0.10312422515151669,
+      "t_feed": 22.530187765081788,
+      "qp_unit": "mg/(g*h)",
+      "param_mu_target": 0.1257787702418095,
+      "param_Kp": 2.754408459379454
+    },
+    "diagnostics": {
+      "nfev": 1289,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "exponential",
+      "total_product": 2423941.8068757555,
+      "P_final": 605985.4517154234,
+      "V_final": 4.000000000023205,
+      "X_final": 152.5243944115656,
+      "S_final": 8.481853625002768e-10,
+      "avg_mu": 0.10315311127677074,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.03409375198139385,
+      "param_mu_set": 0.09574941853635174
+    },
+    "diagnostics": {
+      "nfev": 1181,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "HSA (Human Serum Albumin)",
+      "organism": "P. pastoris",
+      "reference": "Rebnegger et al. (2014)",
+      "strategy": "exp_linear",
+      "total_product": 44392.8162262874,
+      "P_final": 11098.204056430812,
+      "V_final": 4.000000000050833,
+      "X_final": 137.27462755884267,
+      "S_final": 0.0013064486577844278,
+      "avg_mu": 0.10312532047382392,
+      "t_feed": 22.530188777130164,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.008641720135117175,
+      "param_mu_set": 0.029292140211578277,
+      "param_k": 0.0029289936717902536
+    },
+    "diagnostics": {
+      "nfev": 1942,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "two_stage",
+      "total_product": 161766.9755896077,
+      "P_final": 40441.7438971569,
+      "V_final": 4.000000000024235,
+      "X_final": 137.27498840088066,
+      "S_final": -8.914513630685972e-09,
+      "avg_mu": 0.10312487876319947,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F1": 0.07561246773381322,
+      "param_F2": 0.25817081575984113,
+      "param_t_switch": 16.33915282257594
+    },
+    "diagnostics": {
+      "nfev": 1926,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "exp_linear",
+      "total_product": 298862.42105983023,
+      "P_final": 74715.60525952208,
+      "V_final": 4.000000000290996,
+      "X_final": 137.27323437416618,
+      "S_final": 0.0037091605591445063,
+      "avg_mu": 0.103125789017591,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.03797144321532706,
+      "param_mu_set": 0.030893465733578103,
+      "param_k": 0.0
+    },
+    "diagnostics": {
+      "nfev": 1830,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "alpha-Galactosidase",
+      "organism": "S. cerevisiae",
+      "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+      "strategy": "feedback_control",
+      "total_product": 201360.41230006382,
+      "P_final": 50340.103073299106,
+      "V_final": 4.00000000013642,
+      "X_final": 152.52504802058232,
+      "S_final": 4.767944185137246e-11,
+      "avg_mu": 0.10315515630875756,
+      "t_feed": 11.577611219729016,
+      "qp_unit": "U/(g*h)",
+      "param_mu_target": 0.27436954168368555,
+      "param_Kp": 0.43918373405721245
+    },
+    "diagnostics": {
+      "nfev": 1214,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "linear_ramp",
+      "total_product": 91.27176311328466,
+      "P_final": 22.81794077732715,
+      "V_final": 4.000000000174252,
+      "X_final": 152.52560264291398,
+      "S_final": -1.0097688604074605e-08,
+      "avg_mu": 0.1031524387988407,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.0010266775146147988,
+      "param_k": 0.013539596540774267
+    },
+    "diagnostics": {
+      "nfev": 1208,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "constant",
+      "total_product": 155016.64468782232,
+      "P_final": 38748.330268308586,
+      "V_final": 4.00060192566819,
+      "X_final": 137.28063233571473,
+      "S_final": 8.679140983976168e-10,
+      "avg_mu": 0.10312926549089818,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.40346081127001115
+    },
+    "diagnostics": {
+      "nfev": 598,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exponential",
+      "total_product": 702061.312676281,
+      "P_final": 175515.32816514955,
+      "V_final": 4.0000000000893525,
+      "X_final": 137.27399816431415,
+      "S_final": 0.0017732147456121687,
+      "avg_mu": 0.1031260618250696,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.036054617329792454,
+      "param_mu_set": 0.033039669492356295
+    },
+    "diagnostics": {
+      "nfev": 1187,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "Crl1 Lipase (MCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "constant",
+      "total_product": 675588.5423726712,
+      "P_final": 168897.13558584507,
+      "V_final": 4.000000000173425,
+      "X_final": 137.27464019629804,
+      "S_final": 0.0014699618583790567,
+      "avg_mu": 0.10312582983549556,
+      "t_feed": 22.53018574164253,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.07500257035513844
+    },
+    "diagnostics": {
+      "nfev": 616,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "exponential",
+      "total_product": 171708.15880809067,
+      "P_final": 42927.03959640251,
+      "V_final": 4.0000000098418305,
+      "X_final": 137.27465365186734,
+      "S_final": -1.0729034385670038e-08,
+      "avg_mu": 0.1031253143299502,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.008861064101434071,
+      "param_mu_set": 0.18001693759620888
+    },
+    "diagnostics": {
+      "nfev": 1328,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Resveratrol",
+      "organism": "S. cerevisiae",
+      "reference": "Vos et al. (2015)",
+      "strategy": "exp_linear",
+      "total_product": 104.0978724910778,
+      "P_final": 26.02446810872618,
+      "V_final": 4.000000002158472,
+      "X_final": 152.5213905647119,
+      "S_final": -1.9039105054779113e-08,
+      "avg_mu": 0.10315226086921972,
+      "t_feed": 11.577610341773923,
+      "qp_unit": "mmol/(g*h)",
+      "param_F0": 0.009008267195952935,
+      "param_mu_set": 0.18008043205510066,
+      "param_k": 8.327194751731049e-06
+    },
+    "diagnostics": {
+      "nfev": 1974,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "alpha-Galactosidase",
+      "organism": "S. cerevisiae",
+      "reference": "Giuseppin et al. (1993) / Hensing et al. (1995)",
+      "strategy": "pulsed",
+      "total_product": 202143.32082436213,
+      "P_final": 50535.83020424048,
+      "V_final": 4.000000000146435,
+      "X_final": 152.5250463150772,
+      "S_final": 2.3211439807522808e-10,
+      "avg_mu": 0.10315319994035747,
+      "t_feed": 11.577611219729016,
+      "qp_unit": "U/(g*h)",
+      "param_F_pulse": 0.0754568734358459,
+      "param_T_cycle": 0.8994973094171863,
+      "param_duty": 0.9371718880123729
+    },
+    "diagnostics": {
+      "nfev": 1790,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "two_stage",
+      "total_product": 288968.1735387567,
+      "P_final": 72242.04337928386,
+      "V_final": 4.000000000299289,
+      "X_final": 137.2748588418879,
+      "S_final": 0.0007052515833069522,
+      "avg_mu": 0.10312653840065222,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F1": 0.05617598384172093,
+      "param_F2": 0.1047720315161701,
+      "param_t_switch": 24.500632016998345
+    },
+    "diagnostics": {
+      "nfev": 1794,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "linear",
+      "product": "Crl1 Lipase (SCC, PGAP)",
+      "organism": "P. pastoris",
+      "reference": "Nieto-Taype et al. (2020)",
+      "strategy": "pulsed",
+      "total_product": 162616.9515881863,
+      "P_final": 40654.23789539543,
+      "V_final": 4.000000000162457,
+      "X_final": 137.27345627095616,
+      "S_final": 9.973813673164257e-10,
+      "avg_mu": 0.10312272160395242,
+      "t_feed": 22.530183465001603,
+      "qp_unit": "AU/(g*h)",
+      "param_F_pulse": 0.31103708194624735,
+      "param_T_cycle": 0.5728904286472098,
+      "param_duty": 0.24893529546681087
+    },
+    "diagnostics": {
+      "nfev": 1806,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "HSA (Human Serum Albumin)",
+      "organism": "P. pastoris",
+      "reference": "Rebnegger et al. (2014)",
+      "strategy": "linear_ramp",
+      "total_product": 44400.02076920212,
+      "P_final": 11100.005191869484,
+      "V_final": 4.000000000155332,
+      "X_final": 137.27471125076485,
+      "S_final": 0.0010012659487315992,
+      "avg_mu": 0.10312481036692629,
+      "t_feed": 22.530188777130164,
+      "qp_unit": "mg/(g*h)",
+      "param_F0": 0.00799613010375766,
+      "param_k": 0.003350630140471534
+    },
+    "diagnostics": {
+      "nfev": 1361,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "EPG (Polygalacturonase)",
+      "organism": "S. cerevisiae",
+      "reference": "Glauche et al. (2017)",
+      "strategy": "linear_ramp",
+      "total_product": 2357211.3663986432,
+      "P_final": 589302.8414949946,
+      "V_final": 4.000000000710441,
+      "X_final": 152.52548818641867,
+      "S_final": -7.794034290390378e-10,
+      "avg_mu": 0.1031532366814218,
+      "t_feed": 11.577612247871494,
+      "qp_unit": "U/(g*h)",
+      "param_F0": 0.03091474964980132,
+      "param_k": 0.009083919391718516
+    },
+    "diagnostics": {
+      "nfev": 1208,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "hyperbolic",
+      "product": "HSA (Human Serum Albumin)",
+      "organism": "P. pastoris",
+      "reference": "Rebnegger et al. (2014)",
+      "strategy": "feedback_control",
+      "total_product": 44295.68557171296,
+      "P_final": 11073.921392834207,
+      "V_final": 4.000000000033966,
+      "X_final": 137.27476980676062,
+      "S_final": -2.3919071082218115e-09,
+      "avg_mu": 0.10312430588581352,
+      "t_feed": 22.530188777130164,
+      "qp_unit": "mg/(g*h)",
+      "param_mu_target": 0.16814980814904873,
+      "param_Kp": 0.4373691819332013
+    },
+    "diagnostics": {
+      "nfev": 1313,
+      "nit": 40,
+      "converged": false,
+      "message": "Maximum number of iterations has been exceeded."
+    },
+    "search_solver": "rhs_stop"
+  },
+  {
+    "row": {
+      "model_type": "bell_shaped",
+      "product": "ROL (Rhizopus oryzae Lipase, PAOX1)",
+      "organism": "P. pastoris",
+      "reference": "Garcia-Ortega et al. (2016) / Canales et al. (2015)",
+      "strategy": "constant",
+      "total_product": 252881.29241089392,
+      "P_final": 63220.32309944737,
+      "V_final": 4.000000000207282,
+      "X_final": 137.27335237677363,
+      "S_final": 0.0031992431076174046,
+      "avg_mu": 0.1031266446880634,
+      "t_feed": 22.530187405710656,
+      "qp_unit": "AU/(g*h)",
+      "param_F0": 0.07500132206757928
+    },
+    "diagnostics": {
+      "nfev": 336,
+      "nit": 22,
+      "converged": true,
+      "message": "Optimization terminated successfully."
+    },
+    "search_solver": "rhs_stop"
+  }
+]
